@@ -5,6 +5,7 @@
 package kindergarten.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -38,22 +39,22 @@ public class Kindergartentyp implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "IDENT")
-    private BigInteger ident;
+    private BigDecimal ident;
     @Column(name = "KINDERGARTENTYP")
     private String kindergartentyp;
 
     public Kindergartentyp() {
     }
 
-    public Kindergartentyp(BigInteger ident) {
+    public Kindergartentyp(BigDecimal ident) {
         this.ident = ident;
     }
 
-    public BigInteger getIdent() {
+    public BigDecimal getIdent() {
         return ident;
     }
 
-    public void setIdent(BigInteger ident) {
+    public void setIdent(BigDecimal ident) {
         this.ident = ident;
     }
 

@@ -46,7 +46,7 @@ public class Kind implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "IDENT")
-    private BigInteger ident;
+    private BigDecimal ident;
     @Basic(optional = false)
     @Column(name = "VORNAME")
     private String vorname;
@@ -71,11 +71,11 @@ public class Kind implements Serializable {
     public Kind() {
     }
 
-    public Kind(BigInteger ident) {
+    public Kind(BigDecimal ident) {
         this.ident = ident;
     }
 
-    public Kind(BigInteger ident, String vorname, String nachname, Date geburtsdatum, BigInteger hashvalue) {
+    public Kind(BigDecimal ident, String vorname, String nachname, Date geburtsdatum, BigInteger hashvalue) {
         this.ident = ident;
         this.vorname = vorname;
         this.nachname = nachname;
@@ -83,11 +83,11 @@ public class Kind implements Serializable {
         this.hashvalue = hashvalue;
     }
 
-    public BigInteger getIdent() {
+    public BigDecimal getIdent() {
         return ident;
     }
 
-    public void setIdent(BigInteger ident) {
+    public void setIdent(BigDecimal ident) {
         this.ident = ident;
     }
 
