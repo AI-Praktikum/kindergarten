@@ -80,7 +80,9 @@ Foreign Key(kind_id) references Kind);
 
 create table kind_warteliste
 (kind_id number not null references kind,
-warteliste_id number not null);
+warteliste_id number not null,
+Primary Key (kind_id),
+Foreign Key (warteliste_id) references warteliste);
 
 /*=======================*/
 -- !!!! NOCH NICHT FERTIG !!!!!
@@ -102,5 +104,5 @@ insert into warteliste values(1, 'frueh');
 insert into gruppe values(1, 20, 1, 1);
 
 insert into kind_warteliste values(1,1);
-insert into kind_warteliste values(1,2);
-insert into kind_warteliste values(1,3);
+insert into kind_warteliste values(2,1);
+insert into kind_warteliste values(3,1);
