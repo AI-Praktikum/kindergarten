@@ -2,6 +2,9 @@ require 'rubygems'
 require 'oci8'
 require 'cgi'
 
+username="username"
+password="password"
+
 title="Kindergarten Wartelistenüberblick"
 
 cgi = CGI.new("xhtml10")
@@ -11,7 +14,7 @@ if(not(params.has_key?("hash")))
 	error_message="No hash specified"
 else
 	hashvalue=params["hash"].first
-	o = OCI8.new('aba219', 'bah3Eik1od!', '//oracle.informatik.haw-hamburg.de:1521/inf09')
+	o = OCI8.new(username, password, '//oracle.informatik.haw-hamburg.de:1521/inf09')
 	sql = "select * from kind where hashvalue=:1"
 	cursor = o.parse(sql)
 	cursor.bind_param(1,hashvalue)
