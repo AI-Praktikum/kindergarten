@@ -2,8 +2,7 @@ require 'rubygems'
 require 'oci8'
 require 'cgi'
 
-username="username"
-password="password"
+require 'config.rbx'
 
 title="Kindergarten Wartelistenüberblick"
 
