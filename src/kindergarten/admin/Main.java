@@ -1,5 +1,7 @@
 package kindergarten.admin;
 
+//test
+
 public class Main {
 
 	/**
