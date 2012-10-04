@@ -1,10 +1,10 @@
-drop skripte
-create skripte
-insert dummy data skripte
+-- drop skripte
+-- create skripte
+-- insert dummy data skripte
 
 /*=======================*/
 
-drop table preis cascade constraints;
+drop table preisliste cascade constraints;
 drop table kindergartentyp cascade constraints;
 drop table kindergarten cascade constraints;
 drop table elternteil cascade constraints;
@@ -48,6 +48,10 @@ maxplaetze number not null,
 kontonummer number not null,
 blz number not null);
 
+create table warteliste
+(ident number not null primary key,
+wartelistentyp varchar2(50) not null unique);
+
 create Table gruppe
 (ident number not null primary key,
 gruppengroesse number not null,
@@ -59,10 +63,6 @@ create table preisliste
 familiengroesse number not null,
 nettoeinkommen number not null,
 preis number not null);
-
-create table warteliste
-(ident number not null primary key,
-wartelistentyp varchar2(50) not null unique);
 
 -- relationen
 
