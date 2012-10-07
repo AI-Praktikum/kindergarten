@@ -117,5 +117,3 @@ insert into kind_warteliste (kind_id,warteliste_id) values(1,2);
 
 commit;
 
-select k.vorname,k.nachname,w.ident,w.wartelistentyp,kw.datum_registrierung from (((Select * from kind where hashvalue=12546) k join kind_warteliste kw on k.ident = kw.kind_id) join warteliste w on kw.warteliste_id=w.ident);
-select (count (*)) from kind_warteliste where warteliste_id=1 and datum_registrierung<= to_timestamp('07.10.12 16:44:42,932806000');
