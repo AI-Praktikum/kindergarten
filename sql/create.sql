@@ -10,7 +10,6 @@ drop table kindergarten cascade constraints;
 drop table elternteil cascade constraints;
 drop table kind cascade constraints;
 drop table gruppe cascade constraints;
-drop table wartelistentyp cascade constraints;
 drop table warteliste cascade constraints;
 
 -- relationen
@@ -81,6 +80,7 @@ Foreign Key(kind_id) references Kind);
 create table kind_warteliste
 (kind_id number not null references kind,
 warteliste_id number not null,
+datum_registrierung TIMESTAMP default sysTIMESTAMP, 
 Primary Key (kind_id),
 Foreign Key (warteliste_id) references warteliste);
 
@@ -100,9 +100,22 @@ insert into kind values(3,'Friz','Fritzchen','30.04.2007',12546,3);
 insert into kindergarten values(1, 'Kindergarten', 'Musterstrasse',20,12345,6789);
 
 insert into warteliste values(1, 'frueh');
+insert into warteliste values(2, 'vormittags');
+insert into warteliste values(3, 'nachmittags');
+insert into warteliste values(4, 'spaet');
+insert into warteliste values(5, 'ganztags');
 
 insert into gruppe values(1, 20, 1, 1);
 
-insert into kind_warteliste values(1,1);
-insert into kind_warteliste values(2,1);
-insert into kind_warteliste values(3,1);
+insert into kind_warteliste (kind_id,warteliste_id) values(1,1);
+insert into kind_warteliste (kind_id,warteliste_id) values(2,1);
+insert into kind_warteliste (kind_id,warteliste_id) values(3,1);
+
+insert into kind_warteliste (kind_id,warteliste_id) values(3,2);
+insert into kind_warteliste (kind_id,warteliste_id) values(2,2);
+insert into kind_warteliste (kind_id,warteliste_id) values(1,2);
+
+commit;
+
+select k.vorname,k.nachname,w.ident,w.wartelistentyp,kw.datum_registrierung from (((Select * from kind where hashvalue=12546) k join kind_warteliste kw on k.ident = kw.kind_id) join warteliste w on kw.warteliste_id=w.ident);
+select (count (*)) from kind_warteliste where warteliste_id=1 and datum_registrierung<= to_timestamp('07.10.12 16:44:42,932806000');
