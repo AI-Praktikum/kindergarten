@@ -4,25 +4,30 @@
  */
 package kindergarten.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author egon
+ * @author klaus
  */
 @Entity
 @Table(name = "GRUPPE")
@@ -32,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Gruppe.findByIdent", query = "SELECT g FROM Gruppe g WHERE g.ident = :ident"),
     @NamedQuery(name = "Gruppe.findByGruppengroesse", query = "SELECT g FROM Gruppe g WHERE g.gruppengroesse = :gruppengroesse")})
 public class Gruppe implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -41,14 +48,17 @@ public class Gruppe implements Serializable {
     @Basic(optional = false)
     @Column(name = "GRUPPENGROESSE")
     private BigInteger gruppengroesse;
+    @JoinTable(name = "KIND_GRUPPE", joinColumns = {
+        @JoinColumn(name = "GRUPPE_ID", referencedColumnName = "IDENT")}, inverseJoinColumns = {
+        @JoinColumn(name = "KIND_ID", referencedColumnName = "IDENT")})
+    @ManyToMany
+    private Collection<Kind> kindCollection;
     @JoinColumn(name = "WARTELISTE_ID", referencedColumnName = "IDENT")
     @ManyToOne(optional = false)
     private Warteliste wartelisteId;
     @JoinColumn(name = "KINDERGARTEN_ID", referencedColumnName = "IDENT")
     @ManyToOne(optional = false)
     private Kindergarten kindergartenId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "gruppe")
-    private KindGruppe kindGruppe;
 
     public Gruppe() {
     }
@@ -67,7 +77,9 @@ public class Gruppe implements Serializable {
     }
 
     public void setIdent(BigDecimal ident) {
+        BigDecimal oldIdent = this.ident;
         this.ident = ident;
+        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public BigInteger getGruppengroesse() {
@@ -75,7 +87,18 @@ public class Gruppe implements Serializable {
     }
 
     public void setGruppengroesse(BigInteger gruppengroesse) {
+        BigInteger oldGruppengroesse = this.gruppengroesse;
         this.gruppengroesse = gruppengroesse;
+        changeSupport.firePropertyChange("gruppengroesse", oldGruppengroesse, gruppengroesse);
+    }
+
+    @XmlTransient
+    public Collection<Kind> getKindCollection() {
+        return kindCollection;
+    }
+
+    public void setKindCollection(Collection<Kind> kindCollection) {
+        this.kindCollection = kindCollection;
     }
 
     public Warteliste getWartelisteId() {
@@ -83,7 +106,9 @@ public class Gruppe implements Serializable {
     }
 
     public void setWartelisteId(Warteliste wartelisteId) {
+        Warteliste oldWartelisteId = this.wartelisteId;
         this.wartelisteId = wartelisteId;
+        changeSupport.firePropertyChange("wartelisteId", oldWartelisteId, wartelisteId);
     }
 
     public Kindergarten getKindergartenId() {
@@ -91,15 +116,9 @@ public class Gruppe implements Serializable {
     }
 
     public void setKindergartenId(Kindergarten kindergartenId) {
+        Kindergarten oldKindergartenId = this.kindergartenId;
         this.kindergartenId = kindergartenId;
-    }
-
-    public KindGruppe getKindGruppe() {
-        return kindGruppe;
-    }
-
-    public void setKindGruppe(KindGruppe kindGruppe) {
-        this.kindGruppe = kindGruppe;
+        changeSupport.firePropertyChange("kindergartenId", oldKindergartenId, kindergartenId);
     }
 
     @Override
@@ -125,6 +144,14 @@ public class Gruppe implements Serializable {
     @Override
     public String toString() {
         return "kindergarten.model.Gruppe[ ident=" + ident + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

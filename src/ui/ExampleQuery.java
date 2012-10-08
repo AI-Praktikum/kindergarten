@@ -17,11 +17,14 @@ import kindergarten.model.Kind;
 public class ExampleQuery {
 
     public static void main(String[] args){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("kindergartenPU");
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
         // die namedQueries stehen in den einzelnen Klassen
         TypedQuery<Kind> query = em.createNamedQuery("Kind.findAll", Kind.class);
         List<Kind> results = query.getResultList();
+        for(Kind kind: results){
+            System.out.println(kind.getElternteilId());
+        }
         System.out.println(results.toString());
     }
 }

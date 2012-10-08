@@ -145,7 +145,11 @@
                           <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+<<<<<<< HEAD
+                          <EmptySpace pref="409" max="32767" attributes="0"/>
+=======
                           <EmptySpace pref="412" max="32767" attributes="0"/>
+>>>>>>> db7b7b7d67a2eea6b0ea76e36211135089600dcf
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -220,7 +224,11 @@
                               <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+<<<<<<< HEAD
                           <EmptySpace pref="40" max="32767" attributes="0"/>
+=======
+                          <EmptySpace pref="38" max="32767" attributes="0"/>
+>>>>>>> db7b7b7d67a2eea6b0ea76e36211135089600dcf
                       </Group>
                   </Group>
                 </DimensionLayout>

@@ -97,7 +97,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
+<<<<<<< HEAD
+                .addContainerGap(409, Short.MAX_VALUE))
+=======
                 .addContainerGap(412, Short.MAX_VALUE))
+>>>>>>> db7b7b7d67a2eea6b0ea76e36211135089600dcf
         );
 
         jTabbedPane2.addTab("Kinder", jPanel1);
@@ -233,7 +237,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton6))
+<<<<<<< HEAD
                 .addContainerGap(40, Short.MAX_VALUE))
+=======
+                .addContainerGap(38, Short.MAX_VALUE))
+>>>>>>> db7b7b7d67a2eea6b0ea76e36211135089600dcf
         );
 
         jTabbedPane2.addTab("Gruppen", jPanel2);
