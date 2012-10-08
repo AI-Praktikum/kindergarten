@@ -13,17 +13,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author egon
+ * @author klaus
  */
 @Entity
 @Table(name = "KINDERGARTEN")
@@ -58,10 +60,13 @@ public class Kindergarten implements Serializable {
     @Basic(optional = false)
     @Column(name = "BLZ")
     private BigInteger blz;
+    @JoinTable(name = "KINDERGARTEN_PREISMODELL", joinColumns = {
+        @JoinColumn(name = "KINDERGARTEN_ID", referencedColumnName = "IDENT")}, inverseJoinColumns = {
+        @JoinColumn(name = "PREISMODELL_ID", referencedColumnName = "IDENT")})
+    @ManyToMany
+    private Collection<Preismodell> preismodellCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kindergartenId")
     private Collection<Gruppe> gruppeCollection;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "kindergarten")
-    private KindergartenKindergartentyp kindergartenKindergartentyp;
 
     public Kindergarten() {
     }
@@ -128,20 +133,21 @@ public class Kindergarten implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Preismodell> getPreismodellCollection() {
+        return preismodellCollection;
+    }
+
+    public void setPreismodellCollection(Collection<Preismodell> preismodellCollection) {
+        this.preismodellCollection = preismodellCollection;
+    }
+
+    @XmlTransient
     public Collection<Gruppe> getGruppeCollection() {
         return gruppeCollection;
     }
 
     public void setGruppeCollection(Collection<Gruppe> gruppeCollection) {
         this.gruppeCollection = gruppeCollection;
-    }
-
-    public KindergartenKindergartentyp getKindergartenKindergartentyp() {
-        return kindergartenKindergartentyp;
-    }
-
-    public void setKindergartenKindergartentyp(KindergartenKindergartentyp kindergartenKindergartentyp) {
-        this.kindergartenKindergartentyp = kindergartenKindergartentyp;
     }
 
     @Override

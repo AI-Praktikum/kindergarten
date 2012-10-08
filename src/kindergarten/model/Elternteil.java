@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author egon
+ * @author klaus
  */
 @Entity
 @Table(name = "ELTERNTEIL")
@@ -52,7 +52,7 @@ public class Elternteil implements Serializable {
     @Basic(optional = false)
     @Column(name = "NETTOEINKOMMEN")
     private BigInteger nettoeinkommen;
-    @OneToMany(mappedBy = "elternteilid")
+    @OneToMany(mappedBy = "elternteilId")
     private Collection<Kind> kindCollection;
 
     public Elternteil() {
