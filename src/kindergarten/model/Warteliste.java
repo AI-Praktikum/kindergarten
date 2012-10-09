@@ -6,18 +6,22 @@ package kindergarten.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author klaus
+ * @author andy
  */
 @Entity
 @Table(name = "WARTELISTE")
@@ -36,6 +40,10 @@ public class Warteliste implements Serializable {
     @Basic(optional = false)
     @Column(name = "WARTELISTENTYP")
     private String wartelistentyp;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wartelisteId")
+    private Collection<Gruppe> gruppeCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "warteliste")
+    private Collection<Registrierung> registrierungCollection;
 
     public Warteliste() {
     }
@@ -63,6 +71,24 @@ public class Warteliste implements Serializable {
 
     public void setWartelistentyp(String wartelistentyp) {
         this.wartelistentyp = wartelistentyp;
+    }
+
+    @XmlTransient
+    public Collection<Gruppe> getGruppeCollection() {
+        return gruppeCollection;
+    }
+
+    public void setGruppeCollection(Collection<Gruppe> gruppeCollection) {
+        this.gruppeCollection = gruppeCollection;
+    }
+
+    @XmlTransient
+    public Collection<Registrierung> getRegistrierungCollection() {
+        return registrierungCollection;
+    }
+
+    public void setRegistrierungCollection(Collection<Registrierung> registrierungCollection) {
+        this.registrierungCollection = registrierungCollection;
     }
 
     @Override

@@ -1,7 +1,8 @@
+/*
 -- drop skripte
 -- create skripte
 -- insert dummy data skripte
-
+*/
 /*=======================*/
 
 drop table preisliste cascade constraints;
@@ -12,7 +13,9 @@ drop table kind cascade constraints;
 drop table gruppe cascade constraints;
 drop table warteliste cascade constraints;
 
+/*
 -- relationen
+*/
 
 drop table kindergarten_preismodell cascade constraints;
 drop table kind_gruppe cascade constraints;
@@ -56,6 +59,7 @@ wartelistentyp varchar2(50) not null unique);
 create Table gruppe
 (ident number not null primary key,
 gruppengroesse number not null,
+bezeichnung varchar2(50) not null,
 kindergarten_id number not null references kindergarten(ident),
 warteliste_id number not null references warteliste(ident));
 
@@ -69,7 +73,9 @@ preis4pers number not null,
 preis5pers number not null,
 preis6pers number not null);
 
+/*
 -- relationen
+*/
 
 create table kindergarten_preismodell
 (kindergarten_id number not null references kindergarten(ident),
@@ -131,7 +137,7 @@ insert into warteliste values(3, 'nachmittags');
 insert into warteliste values(4, 'spaet');
 insert into warteliste values(5, 'ganztags');
 
-insert into gruppe values(1, 20, 1, 1);
+insert into gruppe values(1, 20, 'Hasengruppe', 1, 1);
 
 insert into registrierung (kind_id,warteliste_id) values(1,1);
 insert into registrierung (kind_id,warteliste_id) values(2,1);
@@ -142,8 +148,9 @@ insert into registrierung (kind_id,warteliste_id) values(2,2);
 insert into registrierung (kind_id,warteliste_id) values(1,2);
 
 /*====================*/
-
+/*
 -- Insert into PREISLISTE  values (1,1,1111,112,113,114,115,116);
+*/
 Insert into PREISLISTE  values (2,1,0,49,49,49,49,49);
 Insert into PREISLISTE  values (3,1,1023,49,49,49,49,49);
 Insert into PREISLISTE  values (4,1,1074,51,49,49,49,49);

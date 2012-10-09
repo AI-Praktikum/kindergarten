@@ -4,29 +4,31 @@
  */
 package kindergarten.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author klaus
+ * @author andy
  */
 @Entity
 @Table(name = "KIND")
@@ -39,8 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kind.findByGeburtsdatum", query = "SELECT k FROM Kind k WHERE k.geburtsdatum = :geburtsdatum"),
     @NamedQuery(name = "Kind.findByHashvalue", query = "SELECT k FROM Kind k WHERE k.hashvalue = :hashvalue")})
 public class Kind implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -60,6 +60,10 @@ public class Kind implements Serializable {
     @Basic(optional = false)
     @Column(name = "HASHVALUE")
     private BigInteger hashvalue;
+    @ManyToMany(mappedBy = "kindCollection")
+    private Collection<Gruppe> gruppeCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kind")
+    private Collection<Registrierung> registrierungCollection;
     @JoinColumn(name = "PREISMODELL_ID", referencedColumnName = "IDENT")
     @ManyToOne
     private Preismodell preismodellId;
@@ -87,9 +91,7 @@ public class Kind implements Serializable {
     }
 
     public void setIdent(BigDecimal ident) {
-        BigDecimal oldIdent = this.ident;
         this.ident = ident;
-        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public String getVorname() {
@@ -97,9 +99,7 @@ public class Kind implements Serializable {
     }
 
     public void setVorname(String vorname) {
-        String oldVorname = this.vorname;
         this.vorname = vorname;
-        changeSupport.firePropertyChange("vorname", oldVorname, vorname);
     }
 
     public String getNachname() {
@@ -107,9 +107,7 @@ public class Kind implements Serializable {
     }
 
     public void setNachname(String nachname) {
-        String oldNachname = this.nachname;
         this.nachname = nachname;
-        changeSupport.firePropertyChange("nachname", oldNachname, nachname);
     }
 
     public Date getGeburtsdatum() {
@@ -117,9 +115,7 @@ public class Kind implements Serializable {
     }
 
     public void setGeburtsdatum(Date geburtsdatum) {
-        Date oldGeburtsdatum = this.geburtsdatum;
         this.geburtsdatum = geburtsdatum;
-        changeSupport.firePropertyChange("geburtsdatum", oldGeburtsdatum, geburtsdatum);
     }
 
     public BigInteger getHashvalue() {
@@ -127,9 +123,25 @@ public class Kind implements Serializable {
     }
 
     public void setHashvalue(BigInteger hashvalue) {
-        BigInteger oldHashvalue = this.hashvalue;
         this.hashvalue = hashvalue;
-        changeSupport.firePropertyChange("hashvalue", oldHashvalue, hashvalue);
+    }
+
+    @XmlTransient
+    public Collection<Gruppe> getGruppeCollection() {
+        return gruppeCollection;
+    }
+
+    public void setGruppeCollection(Collection<Gruppe> gruppeCollection) {
+        this.gruppeCollection = gruppeCollection;
+    }
+
+    @XmlTransient
+    public Collection<Registrierung> getRegistrierungCollection() {
+        return registrierungCollection;
+    }
+
+    public void setRegistrierungCollection(Collection<Registrierung> registrierungCollection) {
+        this.registrierungCollection = registrierungCollection;
     }
 
     public Preismodell getPreismodellId() {
@@ -137,9 +149,7 @@ public class Kind implements Serializable {
     }
 
     public void setPreismodellId(Preismodell preismodellId) {
-        Preismodell oldPreismodellId = this.preismodellId;
         this.preismodellId = preismodellId;
-        changeSupport.firePropertyChange("preismodellId", oldPreismodellId, preismodellId);
     }
 
     public Elternteil getElternteilId() {
@@ -147,9 +157,7 @@ public class Kind implements Serializable {
     }
 
     public void setElternteilId(Elternteil elternteilId) {
-        Elternteil oldElternteilId = this.elternteilId;
         this.elternteilId = elternteilId;
-        changeSupport.firePropertyChange("elternteilId", oldElternteilId, elternteilId);
     }
 
     @Override
@@ -175,14 +183,6 @@ public class Kind implements Serializable {
     @Override
     public String toString() {
         return "kindergarten.model.Kind[ ident=" + ident + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
