@@ -7,17 +7,14 @@ package kindergarten.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Elternteil.findAll", query = "SELECT e FROM Elternteil e"),
     @NamedQuery(name = "Elternteil.findByIdent", query = "SELECT e FROM Elternteil e WHERE e.ident = :ident"),
-    @NamedQuery(name = "Elternteil.findByNachname", query = "SELECT e FROM Elternteil e WHERE e.nachname = :nachname"),
+    @NamedQuery(name = "Elternteil.findByName", query = "SELECT e FROM Elternteil e WHERE e.name = :name"),
     @NamedQuery(name = "Elternteil.findByFamiliengroesse", query = "SELECT e FROM Elternteil e WHERE e.familiengroesse = :familiengroesse"),
     @NamedQuery(name = "Elternteil.findByAdresse", query = "SELECT e FROM Elternteil e WHERE e.adresse = :adresse"),
     @NamedQuery(name = "Elternteil.findByNettoeinkommen", query = "SELECT e FROM Elternteil e WHERE e.nettoeinkommen = :nettoeinkommen")})
@@ -41,8 +38,8 @@ public class Elternteil implements Serializable {
     @Column(name = "IDENT")
     private BigDecimal ident;
     @Basic(optional = false)
-    @Column(name = "NACHNAME")
-    private String nachname;
+    @Column(name = "NAME")
+    private String name;
     @Basic(optional = false)
     @Column(name = "FAMILIENGROESSE")
     private BigInteger familiengroesse;
@@ -52,8 +49,6 @@ public class Elternteil implements Serializable {
     @Basic(optional = false)
     @Column(name = "NETTOEINKOMMEN")
     private BigInteger nettoeinkommen;
-    @OneToMany(mappedBy = "elternteilId")
-    private Collection<Kind> kindCollection;
 
     public Elternteil() {
     }
@@ -62,9 +57,9 @@ public class Elternteil implements Serializable {
         this.ident = ident;
     }
 
-    public Elternteil(BigDecimal ident, String nachname, BigInteger familiengroesse, String adresse, BigInteger nettoeinkommen) {
+    public Elternteil(BigDecimal ident, String name, BigInteger familiengroesse, String adresse, BigInteger nettoeinkommen) {
         this.ident = ident;
-        this.nachname = nachname;
+        this.name = name;
         this.familiengroesse = familiengroesse;
         this.adresse = adresse;
         this.nettoeinkommen = nettoeinkommen;
@@ -78,12 +73,12 @@ public class Elternteil implements Serializable {
         this.ident = ident;
     }
 
-    public String getNachname() {
-        return nachname;
+    public String getName() {
+        return name;
     }
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigInteger getFamiliengroesse() {
@@ -108,15 +103,6 @@ public class Elternteil implements Serializable {
 
     public void setNettoeinkommen(BigInteger nettoeinkommen) {
         this.nettoeinkommen = nettoeinkommen;
-    }
-
-    @XmlTransient
-    public Collection<Kind> getKindCollection() {
-        return kindCollection;
-    }
-
-    public void setKindCollection(Collection<Kind> kindCollection) {
-        this.kindCollection = kindCollection;
     }
 
     @Override

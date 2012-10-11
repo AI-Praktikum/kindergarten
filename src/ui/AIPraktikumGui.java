@@ -44,6 +44,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jSeparator3 = new javax.swing.JSeparator();
         jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jComboBoxGruppe = new javax.swing.JComboBox();
@@ -74,6 +75,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jButton5.setText("Kind loeschen");
 
+        jButton7.setText("Kind hinzufuegen...");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -88,7 +96,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(jComboBox2, 0, 429, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton5)
-                        .addGap(0, 374, Short.MAX_VALUE)))
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton7)
+                        .addGap(0, 205, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -100,9 +110,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addContainerGap(418, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 427, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton5))
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Kinder", jPanel1);
@@ -253,7 +265,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton6))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Gruppen", jPanel2);
@@ -302,6 +314,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         dia.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -346,6 +362,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBoxGruppe;
     private javax.swing.JInternalFrame jInternalFrame1;
