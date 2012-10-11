@@ -93,12 +93,12 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, 0, 429, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 442, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(20, 20, 20)
                         .addComponent(jButton7)
-                        .addGap(0, 205, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -315,7 +315,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        NewKindDialog dia = new NewKindDialog(this, true);
+        dia.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
