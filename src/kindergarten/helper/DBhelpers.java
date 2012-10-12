@@ -6,10 +6,14 @@ package kindergarten.helper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -44,6 +48,15 @@ public class DBhelpers {
         Date d = sf.parse(geb);
         
         return d;
+    }
+   
+    
+    public static void main(String args[]){
+        try {
+            System.out.println(stringToDate("03.06.1991"));
+        } catch (ParseException ex) {
+            Logger.getLogger(DBhelpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 //    private boolean checkDate(String s){

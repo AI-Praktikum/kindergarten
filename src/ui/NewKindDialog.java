@@ -7,13 +7,18 @@ package ui;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import kindergarten.helper.DBElternteil;
+import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
 import kindergarten.model.Elternteil;
+import kindergarten.model.Gruppe;
+import kindergarten.model.Preismodell;
 
 /**
  *
@@ -28,6 +33,19 @@ public class NewKindDialog extends javax.swing.JDialog {
     public NewKindDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        DefaultListModel lm = new DefaultListModel();
+        
+        List<Gruppe> free = DBGruppe.getFreeGroups();
+        
+        for(Gruppe g : free){
+            lm.addElement(g.getBezeichnung());
+        }
+        lm.addElement("Warteliste Frueh");
+        lm.addElement("Warteliste Vormittag");
+        lm.addElement("Warteliste Nachmittag");
+        lm.addElement("Warteliste Spaet");
+        lm.addElement("Warteliste Ganztag");
+        jList1.setModel(lm);
     }
 
     /**
@@ -43,6 +61,10 @@ public class NewKindDialog extends javax.swing.JDialog {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU").createEntityManager();
         elternteilQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Elternteil e");
         elternteilList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : elternteilQuery.getResultList();
+        elternteilQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Elternteil e");
+        elternteilList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : elternteilQuery1.getResultList();
+        preismodellQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT p FROM Preismodell p");
+        preismodellList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : preismodellQuery.getResultList();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -63,6 +85,11 @@ public class NewKindDialog extends javax.swing.JDialog {
         jTextField4 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jLabel10 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -200,6 +227,41 @@ public class NewKindDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel9.setText("Preismodell:");
+
+        jComboBox2.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Preismodell) {
+                    Preismodell mec = (Preismodell)value;
+                    setText(mec.getBezeichnung());
+                }
+                return this;
+            }
+        });
+
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, preismodellList, jComboBox2);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, preismodellList, org.jdesktop.beansbinding.ObjectProperty.create(), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jLabel10.setText("Gruppen:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -216,9 +278,16 @@ public class NewKindDialog extends javax.swing.JDialog {
                             .addComponent(jTextField4)
                             .addComponent(jTextField3)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -234,7 +303,16 @@ public class NewKindDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setText("Hinzufuegen");
@@ -262,7 +340,7 @@ public class NewKindDialog extends javax.swing.JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -272,13 +350,13 @@ public class NewKindDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         bindingGroup.bind();
@@ -299,11 +377,20 @@ public class NewKindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        jTextField1.setEditable(true);
-        jTextField2.setEditable(true);
-        jSpinner1.setEnabled(true);
-        jComboBox1.setEnabled(false);
-        newElternteil = true;
+        if(jRadioButton1.isSelected()){
+            jTextField1.setEditable(true);
+            jTextField2.setEditable(true);
+            jSpinner1.setEnabled(true);
+            jComboBox1.setEnabled(false);
+            newElternteil = true;
+        }
+        if(!jRadioButton1.isSelected()){
+            jTextField1.setEditable(false);
+            jTextField2.setEditable(false);
+            jSpinner1.setEnabled(false);
+            jComboBox1.setEnabled(true);
+            newElternteil = false;
+        }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -317,7 +404,7 @@ public class NewKindDialog extends javax.swing.JDialog {
                 e = (Elternteil)jComboBox1.getSelectedItem();
             }
             
-            DBKind.newKind(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e);
+            DBKind.newKind(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
         } catch (ParseException ex) {
             Logger.getLogger(NewKindDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -327,6 +414,10 @@ public class NewKindDialog extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,12 +462,16 @@ public class NewKindDialog extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.util.List<kindergarten.model.Elternteil> elternteilList;
+    private java.util.List<kindergarten.model.Elternteil> elternteilList1;
     private javax.persistence.Query elternteilQuery;
+    private javax.persistence.Query elternteilQuery1;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -384,9 +479,12 @@ public class NewKindDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
@@ -395,6 +493,8 @@ public class NewKindDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private java.util.List<kindergarten.model.Preismodell> preismodellList;
+    private javax.persistence.Query preismodellQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

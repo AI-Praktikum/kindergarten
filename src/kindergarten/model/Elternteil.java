@@ -4,6 +4,8 @@
  */
 package kindergarten.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,6 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Elternteil.findByAdresse", query = "SELECT e FROM Elternteil e WHERE e.adresse = :adresse"),
     @NamedQuery(name = "Elternteil.findByNettoeinkommen", query = "SELECT e FROM Elternteil e WHERE e.nettoeinkommen = :nettoeinkommen")})
 public class Elternteil implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -70,7 +75,9 @@ public class Elternteil implements Serializable {
     }
 
     public void setIdent(BigDecimal ident) {
+        BigDecimal oldIdent = this.ident;
         this.ident = ident;
+        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public String getName() {
@@ -78,7 +85,9 @@ public class Elternteil implements Serializable {
     }
 
     public void setName(String name) {
+        String oldName = this.name;
         this.name = name;
+        changeSupport.firePropertyChange("name", oldName, name);
     }
 
     public BigInteger getFamiliengroesse() {
@@ -86,7 +95,9 @@ public class Elternteil implements Serializable {
     }
 
     public void setFamiliengroesse(BigInteger familiengroesse) {
+        BigInteger oldFamiliengroesse = this.familiengroesse;
         this.familiengroesse = familiengroesse;
+        changeSupport.firePropertyChange("familiengroesse", oldFamiliengroesse, familiengroesse);
     }
 
     public String getAdresse() {
@@ -94,7 +105,9 @@ public class Elternteil implements Serializable {
     }
 
     public void setAdresse(String adresse) {
+        String oldAdresse = this.adresse;
         this.adresse = adresse;
+        changeSupport.firePropertyChange("adresse", oldAdresse, adresse);
     }
 
     public BigInteger getNettoeinkommen() {
@@ -102,7 +115,9 @@ public class Elternteil implements Serializable {
     }
 
     public void setNettoeinkommen(BigInteger nettoeinkommen) {
+        BigInteger oldNettoeinkommen = this.nettoeinkommen;
         this.nettoeinkommen = nettoeinkommen;
+        changeSupport.firePropertyChange("nettoeinkommen", oldNettoeinkommen, nettoeinkommen);
     }
 
     @Override
@@ -128,6 +143,14 @@ public class Elternteil implements Serializable {
     @Override
     public String toString() {
         return "kindergarten.model.Elternteil[ ident=" + ident + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

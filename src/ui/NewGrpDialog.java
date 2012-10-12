@@ -4,6 +4,7 @@
  */
 package ui;
 
+import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBQuery;
 /**
  *
@@ -126,7 +127,7 @@ public class NewGrpDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DBQuery.insertNewGrp(jSpinner1.getValue(), jComboBox1.getSelectedItem(), jTextField1.getText());
+        DBGruppe.insertNewGrp(jSpinner1.getValue(), jComboBox1.getSelectedItem(), jTextField1.getText());
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
