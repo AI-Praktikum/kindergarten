@@ -13,7 +13,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
@@ -46,6 +45,9 @@ public class DBKind {
         Date now = new Date();
         for(Object o : groups){
             String s = (String)o;
+            
+            // String an Datenbank anpassen!
+            
             if(s.equals("Warteliste Frueh")){
                 reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
             }else if(s.equals("Warteliste Vormittag")){
