@@ -1,1 +1,4 @@
 src/META-INF/persistence.xml
+/nbproject/private/
+/build/
+/dist/
