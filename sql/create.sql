@@ -128,6 +128,9 @@ insert into preismodell_preisliste values(3,1);
 insert into kind values(1,'Kai','Bielenberg','31.03.2006',12345,1,1);
 insert into kind values(2,'Olli','Behncke','30.03.2006',12346,2,2);
 insert into kind values(3,'Friz','Fritzchen','30.04.2007',12546,3,3);
+insert into kind values(4,'Bernd', 'Kahlbrandt','01.01.1930' 12347,3,3);
+insert into kind values(5,'Moritz','Moritzson','05.07.2008',12348,2,2);
+
 
 insert into kindergarten values(1, 'Kindergarten', 'Musterstrasse',20,12345,6789);
 
@@ -138,6 +141,10 @@ insert into warteliste values(4, 'spaet');
 insert into warteliste values(5, 'ganztags');
 
 insert into gruppe values(1, 20, 'Hasengruppe', 1, 1);
+insert into gruppe values(2, 20, 'Die Baeren', 1,2);
+
+insert into kind_gruppe values(1,4);
+insert into kind_gruppe values(2,5);
 
 insert into registrierung (kind_id,warteliste_id) values(1,1);
 insert into registrierung (kind_id,warteliste_id) values(2,1);
