@@ -128,7 +128,7 @@ insert into preismodell_preisliste values(3,1);
 insert into kind values(1,'Kai','Bielenberg','31.03.2006',12345,1,1);
 insert into kind values(2,'Olli','Behncke','30.03.2006',12346,2,2);
 insert into kind values(3,'Friz','Fritzchen','30.04.2007',12546,3,3);
-insert into kind values(4,'Bernd', 'Kahlbrandt','01.01.1930' 12347,3,3);
+insert into kind values(4,'Bernd', 'Kahlbrandt','01.01.1930', 12347,3,3);
 insert into kind values(5,'Moritz','Moritzson','05.07.2008',12348,2,2);
 
 

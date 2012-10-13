@@ -13,6 +13,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
@@ -46,18 +47,18 @@ public class DBKind {
         for(Object o : groups){
             String s = (String)o;
             
-            // String an Datenbank anpassen!
+            
             
             if(s.equals("Warteliste Frueh")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("frueh"), now));
             }else if(s.equals("Warteliste Vormittag")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("vormittags"), now));
             }else if(s.equals("Warteliste Nachmittag")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("nachmittags"), now));
             }else if(s.equals("Warteliste Spaet")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("spaet"), now));
             }else if(s.equals("Warteliste Ganztag")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("ganztags"), now));
             }else{
                 gl.add(DBGruppe.getGroupByName(s));
             }
@@ -88,5 +89,23 @@ public class DBKind {
         hash = hash * 17 + g.hashCode();
         hash = hash * 31 + id.hashCode();
         return hash;
+    }
+    
+    public static Kind getByVorNachname(String nachname, String vorname){
+        List<Kind> kl;
+        
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findByNachname", Kind.class);
+        
+        queryk.setParameter("nachname", nachname);
+        
+        kl = queryk.getResultList();
+        
+        for(Kind k : kl){
+            if(k.getVorname().equals(vorname)) return k;
+        }
+        return null;
+        
     }
 }
