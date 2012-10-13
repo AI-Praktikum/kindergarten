@@ -19,7 +19,7 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
-import javax.swing.text.AttributeSet;
+import kindergarten.model.Kind;
 
 /**
  *
@@ -40,13 +40,17 @@ public class Preisinfo {
         String dir = "Preisinfo"; // bei änderung hier auch gitignore ändern!
         String file = "preisinfo.txt";
         // String file = createFileName(info); // namen aus kindinfo erzeugen (zb id, vor und nachmame)
-        String dirAndFile = dir + "/" + file;
+        String dirAndFile = dir + "/" + file; //TODO: andere dateisysteme nicht "/" sonern "\" -> besser mit Path arbeiten und vom system erzeugen lassen
         
         boolean success = false;
         
         // ordner erstellen
         try {
-            success = (new File(dir)).mkdir();
+            File f = new File(dir);
+            success = f.exists();
+            if (!success){
+                success = f.mkdir();
+            }
         }
         catch (Exception ex) {
             success = false;
@@ -55,8 +59,13 @@ public class Preisinfo {
         }
         
         // in datei schreiben
+        //TODO: wenn datei existiert wird sie noch nicht überschrieben!
         if (success){
             try {
+//                File myFile = new File(dirAndFile);
+//                Writer output = new BufferedWriter(new FileWriter(myFile));
+//                output.write(info);
+//                output.close();
                 PrintWriter out = new PrintWriter(new FileWriter(dirAndFile));
                 out.println(info);
                 out.close();
@@ -125,5 +134,10 @@ public class Preisinfo {
         }
         
         return success;
+    }
+    
+    public static int getPrice(Kind k){
+        // über k an alle daten kommen und berechnen
+        return 500;
     }
 }

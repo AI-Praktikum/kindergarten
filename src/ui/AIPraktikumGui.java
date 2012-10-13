@@ -11,7 +11,7 @@ import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import kindergarten.helper.DBGruppe;
+import kindergarten.admin.Preisinfo;
 import kindergarten.helper.DBKind;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
@@ -395,7 +395,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             String vun = (String)jList1.getSelectedValue();
             String[] s = vun.split(",");
             Kind k = DBKind.getByVorNachname(s[0], s[1]);
-            kid.setTextFields(s[0], s[1], k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse());
+            // preis berechnen
+            int preis = Preisinfo.getPrice(k);
+            kid.setTextFields(s[0], s[1], k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
             kid.setVisible(true);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
