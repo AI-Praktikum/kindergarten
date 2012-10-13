@@ -12,7 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import javax.swing.DefaultListModel;
 import kindergarten.model.Gruppe;
+import kindergarten.model.Kind;
 import kindergarten.model.Kindergarten;
 import kindergarten.model.Warteliste;
 
@@ -26,6 +28,8 @@ public class DBGruppe {
     public static BigInteger nachmittags = new BigInteger("3");
     public static BigInteger spaet = new BigInteger("4");
     public static BigInteger ganztags = new BigInteger("5");
+    
+    private static String kindergartensize = "20";
     
     public static void insertNewGrp(Object groesse, Object inserttyp, String bezeichnung){
         
@@ -49,34 +53,39 @@ public class DBGruppe {
             bigtyp = ganztags;
         }
         
+        
+        
         System.out.println("Typ: "+ bigtyp);
         
         BigInteger biggroesse = new BigInteger(String.valueOf(gr));
         
-        System.out.println("Groesse: "+ biggroesse);
-        
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Kindergarten> queryk = em.createNamedQuery("Kindergarten.findByIdent", Kindergarten.class);
-        TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
-        TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
-        
-        queryw.setParameter("ident", bigtyp);
-        queryk.setParameter("ident", new BigInteger("1"));
-        Kindergarten kresult = queryk.getSingleResult();
-        Warteliste wresult = queryw.getSingleResult();
-        
-        EntityTransaction entr = em.getTransaction();
-        entr.begin();
-        
-        Gruppe g = new Gruppe();
-        g.setGruppengroesse(biggroesse);
-        g.setIdent(DBhelpers.nextIdent("Gruppe", Gruppe.class));
-        g.setKindergartenId(kresult);
-        g.setWartelisteId(wresult);
-        g.setBezeichnung(bezeichnung);
-        em.persist(g);
-        entr.commit();
+        //if(checkGroupSize(bigtyp, biggroesse)){
+
+            System.out.println("Groesse: "+ biggroesse);
+
+            EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+            EntityManager em = emf.createEntityManager();
+            TypedQuery<Kindergarten> queryk = em.createNamedQuery("Kindergarten.findByIdent", Kindergarten.class);
+            TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
+
+
+            queryw.setParameter("ident", bigtyp);
+            queryk.setParameter("ident", new BigInteger("1"));
+            Kindergarten kresult = queryk.getSingleResult();
+            Warteliste wresult = queryw.getSingleResult();
+
+            EntityTransaction entr = em.getTransaction();
+            entr.begin();
+
+            Gruppe g = new Gruppe();
+            g.setGruppengroesse(biggroesse);
+            g.setIdent(DBhelpers.nextIdent("Gruppe", Gruppe.class));
+            g.setKindergartenId(kresult);
+            g.setWartelisteId(wresult);
+            g.setBezeichnung(bezeichnung);
+            em.persist(g);
+            entr.commit();
+        //}
     }
     
     public static List<Gruppe> getAllGroups(){
@@ -114,6 +123,45 @@ public class DBGruppe {
         Gruppe result = queryg.getSingleResult();
         
         return result;
+    }
+    
+    public static List<Gruppe> getGroupByType(BigInteger type){
+        List<Gruppe> gl = getAllGroups();
+        List<Gruppe> result = new ArrayList<Gruppe>();
+        
+        for(Gruppe g : gl){
+            if(g.getWartelisteId().getIdent().toBigInteger().equals(type)){
+                result.add(g);
+            }
+        }
+        return result;
+        
+    }
+    
+    public static List<Kind> getKindCollectionByBezeichnung(String bez){
+        Gruppe g = getGroupByName(bez);
+        List<Kind> result = new ArrayList<Kind>();
+        result.addAll(g.getKindCollection());
+        return result;
+    }
+    
+//    private boolean checkGroupSize(BigInteger typ, BigInteger gr){
+//        BigInteger cnt = new BigInteger("0");
+//        BigInteger kindergarten = new BigInteger(kindergartensize);
+//        if(typ.equals(DBGruppe.frueh)){
+//            List<Gruppe> fg = getGroupByType(DBGruppe.frueh);
+//            for(Gruppe g : fg){
+//                cnt = cnt.add(g.getGruppengroesse());
+//            }
+//            if()
+//        }
+//        
+//    }
+    
+    public static void main(String args[]){
+        List<Gruppe> gl = getGroupByType(new BigInteger("1"));
+        System.out.println(gl);
+        System.out.println(getGroupByType(new BigInteger("4")));
     }
     
     
