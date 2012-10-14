@@ -9,6 +9,13 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -19,7 +26,10 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import kindergarten.model.Elternteil;
 import kindergarten.model.Kind;
+import kindergarten.model.Preisliste;
+import kindergarten.model.Preismodell;
 
 /**
  *
@@ -138,6 +148,28 @@ public class Preisinfo {
     
     public static int getPrice(Kind k){
         // über k an alle daten kommen und berechnen
-        return 500;
+        int preis = 0;
+        List<Integer> einkommen = new ArrayList<Integer>();
+        Map<Integer, Preisliste> map = new HashMap<>();
+        
+        Elternteil eltern = k.getElternteilId();
+        BigInteger fg = eltern.getFamiliengroesse();
+        Integer netto = eltern.getNettoeinkommen().intValue();
+        Preismodell preismodell = k.getPreismodellId();
+        Collection<Preisliste> preisColl = preismodell.getPreislisteCollection();
+        for(Preisliste p : preisColl){
+            if (p.getNettoeinkommen().intValue() >= netto){
+                 map.put(p.getNettoeinkommen().intValue(), p);
+            }
+        }
+        Preisliste preisliste = map.get(Collections.min(map.keySet()));
+
+        if(fg.intValue() >= 6){preis = preisliste.getPreis6pers().intValue();}
+        else if(fg.intValue() >= 5){preis = preisliste.getPreis5pers().intValue();}
+        else if(fg.intValue() >= 4){preis = preisliste.getPreis4pers().intValue();}
+        else if(fg.intValue() >= 3){preis = preisliste.getPreis3pers().intValue();}
+        else if(fg.intValue() <= 2){preis = preisliste.getPreis2pers().intValue();}
+        
+        return preis;
     }
 }
