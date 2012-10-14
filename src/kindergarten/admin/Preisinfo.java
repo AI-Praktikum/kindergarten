@@ -158,11 +158,11 @@ public class Preisinfo {
         Preismodell preismodell = k.getPreismodellId();
         Collection<Preisliste> preisColl = preismodell.getPreislisteCollection();
         for(Preisliste p : preisColl){
-            if (p.getNettoeinkommen().intValue() >= netto){
+            if (p.getNettoeinkommen().intValue() <= netto){
                  map.put(p.getNettoeinkommen().intValue(), p);
             }
         }
-        Preisliste preisliste = map.get(Collections.min(map.keySet()));
+        Preisliste preisliste = map.get(Collections.max(map.keySet()));
 
         if(fg.intValue() >= 6){preis = preisliste.getPreis6pers().intValue();}
         else if(fg.intValue() >= 5){preis = preisliste.getPreis5pers().intValue();}
