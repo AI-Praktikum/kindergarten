@@ -231,10 +231,10 @@ public class KindInfoDialog extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String result = "";
         result += jTextField4.getText();
-        result += "\n" + jTextField5.getText();
-        result += "\n\n" + jTextField1.getText() + ", " + jTextField2.getText();
-        result += "\n" + jTextField3.getText();
-        result += "\n\n" + jTextField6.getText();
+        result += "\n\r" + jTextField5.getText();
+        result += "\n\n\r" + jTextField1.getText() + ", " + jTextField2.getText();
+        result += "\n\r" + jTextField3.getText();
+        result += "\n\n\r" + jTextField6.getText();
         Preisinfo.print(result);
     }//GEN-LAST:event_jButton2ActionPerformed
 
