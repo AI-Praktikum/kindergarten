@@ -4,6 +4,8 @@
  */
 package kindergarten.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,6 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Preismodell.findByBezeichnung", query = "SELECT p FROM Preismodell p WHERE p.bezeichnung = :bezeichnung"),
     @NamedQuery(name = "Preismodell.findByDauer", query = "SELECT p FROM Preismodell p WHERE p.dauer = :dauer")})
 public class Preismodell implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -69,7 +74,9 @@ public class Preismodell implements Serializable {
     }
 
     public void setIdent(BigDecimal ident) {
+        BigDecimal oldIdent = this.ident;
         this.ident = ident;
+        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public String getBezeichnung() {
@@ -77,7 +84,9 @@ public class Preismodell implements Serializable {
     }
 
     public void setBezeichnung(String bezeichnung) {
+        String oldBezeichnung = this.bezeichnung;
         this.bezeichnung = bezeichnung;
+        changeSupport.firePropertyChange("bezeichnung", oldBezeichnung, bezeichnung);
     }
 
     public BigInteger getDauer() {
@@ -85,7 +94,9 @@ public class Preismodell implements Serializable {
     }
 
     public void setDauer(BigInteger dauer) {
+        BigInteger oldDauer = this.dauer;
         this.dauer = dauer;
+        changeSupport.firePropertyChange("dauer", oldDauer, dauer);
     }
 
     @XmlTransient
@@ -138,6 +149,14 @@ public class Preismodell implements Serializable {
     @Override
     public String toString() {
         return "kindergarten.model.Preismodell[ ident=" + ident + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

@@ -5,9 +5,16 @@
 package ui;
 
 import java.awt.Component;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import kindergarten.admin.Preisinfo;
+import kindergarten.helper.DBKind;
 import kindergarten.model.Gruppe;
+import kindergarten.model.Kind;
 
 /**
  *
@@ -20,6 +27,18 @@ public class AIPraktikumGui extends javax.swing.JFrame {
      */
     public AIPraktikumGui() {
         initComponents();
+        Gruppe gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
+
+        DefaultListModel lm = new DefaultListModel();
+        
+        List<Kind> kind = new ArrayList<Kind>();
+        kind.addAll(gr.getKindCollection());
+        System.out.println(kind.size());
+        
+        for(Kind k : kind){
+            lm.addElement(k.getNachname()+","+k.getVorname());
+        }
+        jList1.setModel(lm);
     }
 
     /**
@@ -44,6 +63,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jSeparator3 = new javax.swing.JSeparator();
         jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jComboBoxGruppe = new javax.swing.JComboBox();
@@ -59,6 +79,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -67,12 +88,20 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
 
         jInternalFrame1.setVisible(true);
 
         jLabel2.setText("Kind:");
 
         jButton5.setText("Kind loeschen");
+
+        jButton7.setText("Kind hinzufuegen...");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,10 +114,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, 0, 429, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 430, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(0, 374, Short.MAX_VALUE)))
+                        .addComponent(jButton7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -100,9 +130,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addContainerGap(418, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 436, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton5))
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Kinder", jPanel1);
@@ -126,6 +158,22 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         bindingGroup.addBinding(jComboBoxBinding);
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, gruppeList, org.jdesktop.beansbinding.ObjectProperty.create(), jComboBoxGruppe, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
+
+        jComboBoxGruppe.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxGruppeItemStateChanged(evt);
+            }
+        });
+        jComboBoxGruppe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGruppeActionPerformed(evt);
+            }
+        });
+        jComboBoxGruppe.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jComboBoxGruppePropertyChange(evt);
+            }
+        });
 
         jLabel1.setText("Kind:");
 
@@ -156,6 +204,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jLabel7.setText("FREI");
 
+        jButton8.setText("Kind Details...");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -178,7 +233,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel7))
-                            .addComponent(jLabel6))))
+                            .addComponent(jLabel6)
+                            .addComponent(jButton8))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -187,14 +243,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -202,7 +251,15 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addGap(13, 13, 13)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -253,7 +310,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton6))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Gruppen", jPanel2);
@@ -270,26 +327,22 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1)
+            .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jInternalFrame1)
-                .addContainerGap())
+            .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         bindingGroup.bind();
@@ -301,6 +354,53 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         NewGrpDialog dia = new NewGrpDialog(this, true);
         dia.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        NewKindDialog dia = new NewKindDialog(this, true);
+        dia.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jComboBoxGruppeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGruppeActionPerformed
+        
+    }//GEN-LAST:event_jComboBoxGruppeActionPerformed
+
+    private void jComboBoxGruppePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxGruppePropertyChange
+        
+    }//GEN-LAST:event_jComboBoxGruppePropertyChange
+
+    private void jComboBoxGruppeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxGruppeItemStateChanged
+        if (evt.getStateChange() == evt.SELECTED){
+            Gruppe gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
+
+            DefaultListModel lm = new DefaultListModel();
+        
+            List<Kind> kind = new ArrayList<Kind>();
+            kind.addAll(gr.getKindCollection());
+            System.out.println(kind.size());
+        
+            for(Kind k : kind){
+                lm.addElement(k.getNachname()+","+k.getVorname());
+            }
+            jList1.setModel(lm);
+            
+            
+            jLabel5.setText(gr.getGruppengroesse().toString());
+            jLabel7.setText(gr.getGruppengroesse().subtract(new BigInteger(String.valueOf(kind.size()))).toString());
+        }
+    }//GEN-LAST:event_jComboBoxGruppeItemStateChanged
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if(jList1.getSelectedValue() != null){
+            KindInfoDialog kid = new KindInfoDialog(this, true);
+            String vun = (String)jList1.getSelectedValue();
+            String[] s = vun.split(",");
+            Kind k = DBKind.getByVorNachname(s[0], s[1]);
+            // preis berechnen
+            int preis = Preisinfo.getPrice(k);
+            kid.setTextFields(s[0], s[1], k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
+            kid.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,6 +446,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBoxGruppe;
     private javax.swing.JInternalFrame jInternalFrame1;
