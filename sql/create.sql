@@ -134,11 +134,11 @@ insert into kind values(5,'Moritz','Moritzson','05.07.2008',12348,2,2);
 
 insert into kindergarten values(1, 'Kindergarten', 'Musterstrasse',20,12345,6789);
 
-insert into warteliste values(1, 'frueh');
-insert into warteliste values(2, 'vormittags');
-insert into warteliste values(3, 'nachmittags');
-insert into warteliste values(4, 'spaet');
-insert into warteliste values(5, 'ganztags');
+insert into warteliste values(1, 'Warteliste Frueh');
+insert into warteliste values(2, 'Warteliste Vormittag');
+insert into warteliste values(3, 'Warteliste Nachmittag');
+insert into warteliste values(4, 'Warteliste Spaet');
+insert into warteliste values(5, 'Warteliste Ganztag');
 
 insert into gruppe values(1, 20, 'Hasengruppe', 1, 1);
 insert into gruppe values(2, 20, 'Die Baeren', 1,2);

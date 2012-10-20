@@ -32,7 +32,7 @@ public class DBElternteil {
         EntityTransaction entr = em.getTransaction();
         entr.begin();
         
-        BigDecimal nextId = DBhelpers.nextIdent("Elternteil", Elternteil.class);
+        BigDecimal nextId = DBhelpers.nextElternteilIdent();
         Elternteil e = new Elternteil();
         e.setIdent(nextId);
         e.setAdresse(adr);

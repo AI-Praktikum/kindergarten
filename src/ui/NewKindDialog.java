@@ -16,6 +16,7 @@ import javax.swing.JList;
 import kindergarten.helper.DBElternteil;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.Sec;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Preismodell;
@@ -378,23 +379,25 @@ public class NewKindDialog extends javax.swing.JDialog {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         if(jRadioButton1.isSelected()){
-            jTextField1.setEditable(true);
-            jTextField2.setEditable(true);
+            jTextField1.setEnabled(true);
+            jTextField2.setEnabled(true);
             jSpinner1.setEnabled(true);
+            jSpinner2.setEnabled(true);
             jComboBox1.setEnabled(false);
             newElternteil = true;
         }
         if(!jRadioButton1.isSelected()){
-            jTextField1.setEditable(false);
-            jTextField2.setEditable(false);
+            jTextField1.setEnabled(false);
+            jTextField2.setEnabled(false);
             jSpinner1.setEnabled(false);
+            jSpinner2.setEnabled(false);
             jComboBox1.setEnabled(true);
             newElternteil = false;
         }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
+        
             Elternteil e;
             
             if(newElternteil){
@@ -404,10 +407,8 @@ public class NewKindDialog extends javax.swing.JDialog {
                 e = (Elternteil)jComboBox1.getSelectedItem();
             }
             
-            DBKind.newKind(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
-        } catch (ParseException ex) {
-            Logger.getLogger(NewKindDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Sec.insertNewChild(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
+        
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 

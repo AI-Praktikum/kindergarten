@@ -4,6 +4,7 @@
  */
 package kindergarten.helper;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -17,7 +18,10 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import kindergarten.model.Elternteil;
+import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
+import kindergarten.model.Warteliste;
 
 /**
  *
@@ -25,16 +29,61 @@ import kindergarten.model.Kind;
  */
 public class DBhelpers {
     
-    public static BigDecimal nextIdent(String modelName, Class klasse){
+    public static BigDecimal nextKindIdent(){
         
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
         
-        TypedQuery<Kind> queryk = em.createNamedQuery(modelName+".findAll", klasse);
+        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findAll", Kind.class);
         
         List<Kind> kinder = queryk.getResultList();
         BigDecimal maxID = new BigDecimal("0");
         for(Kind elem : kinder){
+            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
+        }
+        
+        return maxID.add(new BigDecimal("1"));
+    }
+    public static BigDecimal nextGruppeIdent(){
+        
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        
+        TypedQuery<Gruppe> queryk = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
+        
+        List<Gruppe> kinder = queryk.getResultList();
+        BigDecimal maxID = new BigDecimal("0");
+        for(Gruppe elem : kinder){
+            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
+        }
+        
+        return maxID.add(new BigDecimal("1"));
+    }
+    public static BigDecimal nextWartelisteIdent(){
+        
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        
+        TypedQuery<Warteliste> queryk = em.createNamedQuery("Warteliste.findAll", Warteliste.class);
+        
+        List<Warteliste> kinder = queryk.getResultList();
+        BigDecimal maxID = new BigDecimal("0");
+        for(Warteliste elem : kinder){
+            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
+        }
+        
+        return maxID.add(new BigDecimal("1"));
+    }
+    public static BigDecimal nextElternteilIdent(){
+        
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        
+        TypedQuery<Elternteil> queryk = em.createNamedQuery("Elternteil.findAll", Elternteil.class);
+        
+        List<Elternteil> kinder = queryk.getResultList();
+        BigDecimal maxID = new BigDecimal("0");
+        for(Elternteil elem : kinder){
             if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
         }
         

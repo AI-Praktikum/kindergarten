@@ -79,7 +79,7 @@ public class DBGruppe {
 
             Gruppe g = new Gruppe();
             g.setGruppengroesse(biggroesse);
-            g.setIdent(DBhelpers.nextIdent("Gruppe", Gruppe.class));
+            g.setIdent(DBhelpers.nextGruppeIdent());
             g.setKindergartenId(kresult);
             g.setWartelisteId(wresult);
             g.setBezeichnung(bezeichnung);
@@ -107,6 +107,9 @@ public class DBGruppe {
         
         for(Gruppe g : all){
             int size = ((Number)g.getGruppengroesse()).intValue();
+            System.out.println("Size: " + size);
+            System.out.println("Size KindCollection: " + g.getKindCollection().size());
+            
             if(size > g.getKindCollection().size()){
                 result.add(g);
             }
@@ -120,9 +123,13 @@ public class DBGruppe {
         TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findByBezeichnung", Gruppe.class);
         
         queryg.setParameter("bezeichnung", name);
-        Gruppe result = queryg.getSingleResult();
-        
-        return result;
+        try{
+            Gruppe result = queryg.getSingleResult();
+
+            return result;
+        }catch(Exception e){
+            return null;
+        }
     }
     
     public static List<Gruppe> getGroupByType(BigInteger type){
@@ -159,7 +166,7 @@ public class DBGruppe {
 //    }
     
     public static void main(String args[]){
-        List<Gruppe> gl = getGroupByType(new BigInteger("1"));
+        Gruppe gl = getGroupByName("die duennen dinos");
         System.out.println(gl);
         System.out.println(getGroupByType(new BigInteger("4")));
     }

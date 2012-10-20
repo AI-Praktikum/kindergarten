@@ -4,6 +4,8 @@
  */
 package kindergarten.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -16,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -31,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Warteliste.findByIdent", query = "SELECT w FROM Warteliste w WHERE w.ident = :ident"),
     @NamedQuery(name = "Warteliste.findByWartelistentyp", query = "SELECT w FROM Warteliste w WHERE w.wartelistentyp = :wartelistentyp")})
 public class Warteliste implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -62,7 +67,9 @@ public class Warteliste implements Serializable {
     }
 
     public void setIdent(BigDecimal ident) {
+        BigDecimal oldIdent = this.ident;
         this.ident = ident;
+        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public String getWartelistentyp() {
@@ -70,7 +77,9 @@ public class Warteliste implements Serializable {
     }
 
     public void setWartelistentyp(String wartelistentyp) {
+        String oldWartelistentyp = this.wartelistentyp;
         this.wartelistentyp = wartelistentyp;
+        changeSupport.firePropertyChange("wartelistentyp", oldWartelistentyp, wartelistentyp);
     }
 
     @XmlTransient
@@ -113,7 +122,15 @@ public class Warteliste implements Serializable {
 
     @Override
     public String toString() {
-        return "kindergarten.model.Warteliste[ ident=" + ident + " ]";
+        return this.getWartelistentyp()+"gruppen";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

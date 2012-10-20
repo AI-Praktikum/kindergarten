@@ -6,10 +6,13 @@ package kindergarten.helper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -28,12 +31,14 @@ import kindergarten.model.Warteliste;
 public class DBKind {
     public static void newKind(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups) throws ParseException{
         
+        
+        
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
         
         Date geb = DBhelpers.stringToDate(gebDat);
         
-        BigDecimal nextId = DBhelpers.nextIdent("Kind", Kind.class);
+        BigDecimal nextId = DBhelpers.nextKindIdent();
         
         EntityTransaction entr = em.getTransaction();
         entr.begin();
@@ -44,26 +49,7 @@ public class DBKind {
         List<Registrierung> reg = new ArrayList<Registrierung>();
         Warteliste wl;
         Date now = new Date();
-        for(Object o : groups){
-            String s = (String)o;
-            
-            
-            
-            if(s.equals("Warteliste Frueh")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("frueh"), now));
-            }else if(s.equals("Warteliste Vormittag")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("vormittags"), now));
-            }else if(s.equals("Warteliste Nachmittag")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("nachmittags"), now));
-            }else if(s.equals("Warteliste Spaet")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("spaet"), now));
-            }else if(s.equals("Warteliste Ganztag")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName("ganztags"), now));
-            }else{
-                gl.add(DBGruppe.getGroupByName(s));
-            }
-            
-        }
+        
         
         
         k.setElternteilId(eltern);
@@ -72,13 +58,40 @@ public class DBKind {
         k.setGeburtsdatum(geb);
         k.setIdent(nextId);
         k.setPreismodellId((Preismodell)p);
-        k.setGruppeCollection(gl);
-        k.setRegistrierungCollection(reg);
         int hashv = hashV(eltern, nachname, vorname, geb, nextId);
         BigInteger hash = new BigInteger(String.valueOf(hashv));
         k.setHashvalue(hash);
         em.persist(k);
         entr.commit();
+        
+        for(Object o : groups){
+            String s = (String)o;
+            
+            if(s.startsWith("Warteliste")){
+                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+            }else{
+                gl.add(DBGruppe.getGroupByName(s));
+            }
+            
+        }
+        
+        String[] logIn = Files.readAll("/home/andy/workspace/studium/semester5/ai/pw.txt").split(" ");
+        DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
+        
+        for(Gruppe g: gl){
+            String gruppe = g.getIdent().toString();
+            String kind = nextId.toString();
+            System.out.println(gruppe);
+            System.out.println(kind);
+            String s = "Insert into kind_gruppe values("+gruppe+","+kind+")";
+            System.out.println(s);
+            try {
+                db.update(s);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBKind.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
     
     private static int hashV(Elternteil e, String n, String v, Date g, BigDecimal id){

@@ -18,11 +18,15 @@ public class DBWarteliste {
     public static Warteliste getWartelisteByName(String typ){
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByWartelistenTyp", Warteliste.class);
+        TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByWartelistentyp", Warteliste.class);
         
         queryw.setParameter("wartelistentyp", typ);
-        Warteliste result = queryw.getSingleResult();
-        
+        Warteliste result;
+        try{
+            result = queryw.getSingleResult();
+        }catch(Exception e){
+            result = null;
+        }
         return result;
     }
 }
