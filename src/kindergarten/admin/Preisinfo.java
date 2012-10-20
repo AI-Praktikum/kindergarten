@@ -150,7 +150,7 @@ public class Preisinfo {
         // über k an alle daten kommen und berechnen
         int preis = 0;
         List<Integer> einkommen = new ArrayList<Integer>();
-        Map<Integer, Preisliste> map = new HashMap<>();
+        Map<Integer, Preisliste> map = new HashMap<Integer, Preisliste>();
         
         Elternteil eltern = k.getElternteilId();
         BigInteger fg = eltern.getFamiliengroesse();
