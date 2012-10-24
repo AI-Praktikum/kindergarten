@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,11 +48,13 @@ public class Preisinfo {
      * @param info 
      * @return when successfull: directory and file name of the written file, otherwise null
      */
-    public static String write(String info){
+    public static String write(String info, String childName){
         String dir = "Preisinfo"; // bei änderung hier auch gitignore ändern!
-        String file = "preisinfo.txt";
+        String file = childName+".txt";
+        String fileSeparator = System.getProperty("file.separator");
         // String file = createFileName(info); // namen aus kindinfo erzeugen (zb id, vor und nachmame)
-        String dirAndFile = dir + "/" + file; //TODO: andere dateisysteme nicht "/" sonern "\" -> besser mit Path arbeiten und vom system erzeugen lassen
+        String dirAndFile = dir + fileSeparator + file;
+        System.out.println(dirAndFile);//test
         
         boolean success = false;
         
@@ -94,16 +98,33 @@ public class Preisinfo {
         }
     }
     
+    public static String buildBill(String contactPerson, String address, String child, String birthdate, String fee){
+        String result = "";
+        String lineSeparator = System.getProperty("line.separator");
+        result += "An:\tFrau/Herr " + contactPerson;
+        result += lineSeparator + "\t"+address;
+        result += lineSeparator+lineSeparator+lineSeparator+"Sehr geehrte/r Frau/Herr " + contactPerson + ",";
+        result += lineSeparator+lineSeparator + "dies ist die Rechnung ueber die Gebuehr fuer die Kindergartenbetreuung" + lineSeparator + "Ihres Kindes:";
+        result += lineSeparator+lineSeparator + "\t" + child +",";
+        result += lineSeparator + "\t" + "Geboren am: " + birthdate;
+        result += lineSeparator+lineSeparator+"Die Gebuehr betraegt " + fee + " Euro.";
+        result += lineSeparator+"Bitte begleichen Sie unverzueglich diese Rechnung.";
+        result += lineSeparator+lineSeparator+"Mit freundlichen Gruessen,";
+        result += lineSeparator+"Ihr Team vom SuperKiGaV :-)";
+        System.out.println(result);//test
+        return result;
+    }
+    
     /**
      * prints the info AND creates a file
      * 
      * @param info
      * @return true if successfull, false if not
      */
-    public static boolean print(String info){
+    public static boolean print(String info, String childName){
         boolean success = false;
         
-        String dirAndFile = write(info);
+        String dirAndFile = write(info, childName);
         
         // printService AttributeSet
         HashAttributeSet psaSet = new HashAttributeSet();
