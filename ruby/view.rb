@@ -12,7 +12,7 @@ class View
 	def displayChildren(children)
 		puts "<h1>Die Wartelistenplatzierungen Ihres Kindes</h1>"
 		children.each{|x|
-			puts "<h2>Warteliste</h2>"
+			puts "<h2>Warteliste:</h2>"
 			puts "<p class=\"queue\">" + x.queue + "</p>"
 			puts "<h3>Name:</h3>"
 			puts "<p class=\"fullname\">" + x.surname + ", " + x.name + "</p>"
@@ -25,7 +25,7 @@ class View
 		puts "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\""
 		puts "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 		puts "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
-		puts "<head><title>"+@title+"</title></head>"
+		puts "<head><title>"+@title+"</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/style.css\" /></head>"
 		puts "<body>"
 	end	
 
