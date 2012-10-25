@@ -42,5 +42,9 @@ public class DBJdbc {
 	public int update(String sql) throws SQLException {
 		return s.executeUpdate(sql);
 	}
+        
+        public boolean delete(String sql) throws SQLException {
+            return s.execute(sql);
+        }
     
 }

@@ -123,4 +123,13 @@ public class DBKind {
         return null;
         
     }
+    
+    public static void shift(String child, Gruppe oldGroup, Gruppe newGroup){
+        String[] nameParts = child.split(",");
+        System.out.println(nameParts);
+        Kind k = getByVorNachname(nameParts[0], nameParts[1]);
+        System.out.println("Kind: "+k);
+        DBGruppe.deleteFromGroup(k, oldGroup);
+        
+    }
 }

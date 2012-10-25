@@ -12,7 +12,9 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import kindergarten.admin.Preisinfo;
+import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.DBWarteliste;
 import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
@@ -240,6 +242,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         BTverschieben.setText("Verschieben");
         BTverschieben.setEnabled(false);
+        BTverschieben.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTverschiebenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -526,10 +533,14 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(RBverschieben.isSelected()){
             jCverschieben.removeAllItems();
-            List<String> free = DBhelpers.freeGroupsAndWartelisten_String();
-            for(String s : free){
-                jCverschieben.addItem(s);
-            }        
+            List<Gruppe> free = DBGruppe.getFreeGroups();
+            List<Warteliste> wl = DBWarteliste.getAll();
+            for(Gruppe g : free){
+                jCverschieben.addItem(g);
+            }  
+            for(Warteliste w : wl){
+                jCverschieben.addItem(w);
+            }
             jCverschieben.setEnabled(true);
             BTverschieben.setEnabled(true);
         }else{
@@ -537,6 +548,19 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             BTverschieben.setEnabled(false);
         }
     }//GEN-LAST:event_RBverschiebenActionPerformed
+
+    private void BTverschiebenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTverschiebenActionPerformed
+        // TODO add your handling code here:
+        String kind = (String)jList1.getSelectedValue();
+        Gruppe oldGroup = (Gruppe)jComboBoxGruppe.getSelectedItem();
+        if(jCverschieben.getSelectedItem() instanceof Gruppe){
+            Gruppe newGroup = (Gruppe)jCverschieben.getSelectedItem(); 
+            DBKind.shift(kind,oldGroup,newGroup);
+        }else{
+          //  DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
+        }
+      
+    }//GEN-LAST:event_BTverschiebenActionPerformed
 
     /**
      * @param args the command line arguments
