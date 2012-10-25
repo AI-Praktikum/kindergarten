@@ -102,6 +102,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
+        RBverschieben = new javax.swing.JRadioButton();
+        jCverschieben = new javax.swing.JComboBox();
+        BTverschieben = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -144,10 +147,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, 0, 525, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 573, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton7)
-                        .addGap(0, 440, Short.MAX_VALUE)))
+                        .addGap(0, 488, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -226,6 +229,18 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
         });
 
+        RBverschieben.setText("Kind verschieben in ...");
+        RBverschieben.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RBverschiebenActionPerformed(evt);
+            }
+        });
+
+        jCverschieben.setEnabled(false);
+
+        BTverschieben.setText("Verschieben");
+        BTverschieben.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -234,19 +249,20 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel7))
-                                .addComponent(jLabel6))
-                            .addGap(87, 87, 87))))
-                .addContainerGap(100, Short.MAX_VALUE))
+                    .addComponent(jButton8)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel7))
+                            .addComponent(jLabel6)
+                            .addComponent(RBverschieben, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCverschieben, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BTverschieben, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +278,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addGap(13, 13, 13)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
+                        .addComponent(jLabel7)
+                        .addGap(76, 76, 76)
+                        .addComponent(RBverschieben)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCverschieben, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BTverschieben))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton8)
@@ -354,7 +376,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -500,6 +522,22 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void RBverschiebenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RBverschiebenActionPerformed
+        // TODO add your handling code here:
+        if(RBverschieben.isSelected()){
+            jCverschieben.removeAllItems();
+            List<String> free = DBhelpers.freeGroupsAndWartelisten_String();
+            for(String s : free){
+                jCverschieben.addItem(s);
+            }        
+            jCverschieben.setEnabled(true);
+            BTverschieben.setEnabled(true);
+        }else{
+            jCverschieben.setEnabled(false);
+            BTverschieben.setEnabled(false);
+        }
+    }//GEN-LAST:event_RBverschiebenActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -535,6 +573,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTverschieben;
+    private javax.swing.JRadioButton RBverschieben;
     private javax.persistence.EntityManager entityManager;
     private java.util.List<kindergarten.model.Gruppe> gruppeList;
     private javax.persistence.Query gruppeQuery;
@@ -545,6 +585,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBoxGruppe;
+    private javax.swing.JComboBox jCverschieben;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
