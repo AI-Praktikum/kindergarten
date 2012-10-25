@@ -12,9 +12,9 @@
     <class>kindergarten.model.Kind</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09"/>
-      <property name="javax.persistence.jdbc.password" value="bla"/>
+      <property name="javax.persistence.jdbc.password" value="blubb"/>
       <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-      <property name="javax.persistence.jdbc.user" value="blubb"/>
+      <property name="javax.persistence.jdbc.user" value="bla"/>
     </properties>
   </persistence-unit>
 </persistence>

@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.swing.DefaultListModel;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
@@ -58,6 +60,33 @@ public class DBhelpers {
         }
         
         return maxID.add(new BigDecimal("1"));
+    }
+    
+    public static DefaultListModel lmFreeGroupsAndWartelisten(){
+        DefaultListModel lm = new DefaultListModel();
+        List<String> free = freeGroupsAndWartelisten_String();
+        
+        for(String s : free){
+            lm.addElement(s);
+        }
+        
+        return lm;
+    }
+    
+    public static List<String> freeGroupsAndWartelisten_String(){
+        List<String> result = new ArrayList<String>();
+        List<Gruppe> free = DBGruppe.getFreeGroups();
+        
+        for(Gruppe g : free){
+            result.add(g.toString());
+        }
+        result.add("Warteliste Frueh");
+        result.add("Warteliste Vormittag");
+        result.add("Warteliste Nachmittag");
+        result.add("Warteliste Spaet");
+        result.add("Warteliste Ganztag");
+        
+        return result;
     }
     public static BigDecimal nextWartelisteIdent(){
         

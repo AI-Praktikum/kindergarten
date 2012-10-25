@@ -29,6 +29,8 @@ import kindergarten.model.Warteliste;
  * @author andy
  */
 public class DBKind {
+   
+    
     public static void newKind(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups) throws ParseException{
         
         
@@ -75,7 +77,7 @@ public class DBKind {
             
         }
         
-        String[] logIn = Files.readAll("/home/andy/workspace/studium/semester5/ai/pw.txt").split(" ");
+        String[] logIn = Files.readAll("C:\\Users\\sebastian\\Desktop\\pwd.txt").split(" ");
         DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
         
         for(Gruppe g: gl){

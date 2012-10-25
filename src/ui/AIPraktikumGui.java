@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import kindergarten.admin.Preisinfo;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
 import kindergarten.model.Registrierung;
@@ -56,6 +57,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
             jList2.setModel(lm);
         }
+        
+        
     }
 
     /**
@@ -141,10 +144,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, 0, 475, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 525, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton7)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 440, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -158,7 +161,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118)
                 .addComponent(jButton7)
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addContainerGap(355, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Kinder", jPanel1);
@@ -231,17 +234,19 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel7))
-                            .addComponent(jLabel6)
-                            .addComponent(jButton8))))
-                .addContainerGap(95, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel7))
+                                .addComponent(jLabel6))
+                            .addGap(87, 87, 87))))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +264,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -305,7 +310,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Gruppen", jPanel2);
@@ -349,7 +354,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -372,7 +377,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton9)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Wartelisten", jPanel4);
