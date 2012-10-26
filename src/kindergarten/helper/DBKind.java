@@ -48,8 +48,6 @@ public class DBKind {
         Kind k = new Kind();
         
         List<Gruppe> gl = new ArrayList<Gruppe>();
-        List<Registrierung> reg = new ArrayList<Registrierung>();
-        Warteliste wl;
         Date now = new Date();
         
         
@@ -66,33 +64,32 @@ public class DBKind {
         em.persist(k);
         entr.commit();
         
-        for(Object o : groups){
-            String s = (String)o;
-            
-            if(s.startsWith("Warteliste")){
-                reg.add(DBRegistrierung.insertNewReg(k, DBWarteliste.getWartelisteByName(s), now));
+        for(Object o : groups){            
+            if(o instanceof Warteliste){
+                DBRegistrierung.insertNewReg(k, (Warteliste)o, now);
             }else{
-                gl.add(DBGruppe.getGroupByName(s));
-            }
-            
-        }
-        
-        String[] logIn = Files.readAll("C:\\Users\\sebastian\\Desktop\\pwd.txt").split(" ");
-        DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
+                gl.add((Gruppe)o);
+            }            
+        }       
         
         for(Gruppe g: gl){
-            String gruppe = g.getIdent().toString();
-            String kind = nextId.toString();
-            System.out.println(gruppe);
-            System.out.println(kind);
-            String s = "Insert into kind_gruppe values("+gruppe+","+kind+")";
-            System.out.println(s);
-            try {
-                db.update(s);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBKind.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            insertInGroup(k,g);
+        }
+    }
+    
+    public static void insertInGroup(Kind child, Gruppe gruppe){
+        DBJdbc db = DBhelpers.getDatabase();
+        String g = gruppe.getIdent().toString();
+        String ch = child.getIdent().toString();
+        System.out.println("Kind: "+ ch);
+        System.out.println("Gruppe: "+ g);
+        String s = "Insert into kind_gruppe values("+g+","+ch+")";
+        System.out.println("Kind in Warteliste: String: "+ s);
+        try{
+            db.update(s);
+            System.out.println("eingefuegt");
+        }catch(SQLException ex){
+            Logger.getLogger(DBKind.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -124,12 +121,13 @@ public class DBKind {
         
     }
     
-    public static void shift(String child, Gruppe oldGroup, Gruppe newGroup){
-        String[] nameParts = child.split(",");
-        System.out.println(nameParts);
-        Kind k = getByVorNachname(nameParts[0], nameParts[1]);
-        System.out.println("Kind: "+k);
+    public static void shift(Kind k, Gruppe oldGroup, Gruppe newGroup){
         DBGruppe.deleteFromGroup(k, oldGroup);
-        
+        DBKind.insertInGroup(k, newGroup);   
+    }
+    
+    public static void shift(Kind child, Gruppe oldGroup, Warteliste wl){
+        DBGruppe.deleteFromGroup(child, oldGroup);
+        DBRegistrierung.insertNewReg(child, wl, new Date());
     }
 }

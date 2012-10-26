@@ -39,10 +39,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
             List<Kind> kind = new ArrayList<Kind>();
             kind.addAll(gr.getKindCollection());
-            System.out.println(kind.size());
 
             for(Kind k : kind){
-                lm.addElement(k.getNachname()+","+k.getVorname());
+                lm.addElement(k);
             }
             jList1.setModel(lm);
         }
@@ -54,8 +53,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             List<Registrierung> kinder = new ArrayList<Registrierung>();
             kinder.addAll(wl.getRegistrierungCollection());
 
-            for(Registrierung k : kinder){
-                lm.addElement(k.getKind().getNachname()+","+k.getKind().getVorname());
+            for(Registrierung r : kinder){                
+                lm.addElement(r.getKind());
             }
             jList2.setModel(lm);
         }
@@ -475,7 +474,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             System.out.println(kind.size());
         
             for(Kind k : kind){
-                lm.addElement(k.getNachname()+","+k.getVorname());
+                lm.addElement(k);
             }
             jList1.setModel(lm);
             
@@ -488,12 +487,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if(jList1.getSelectedValue() != null){
             KindInfoDialog kid = new KindInfoDialog(this, true);
-            String vun = (String)jList1.getSelectedValue();
-            String[] s = vun.split(",");
-            Kind k = DBKind.getByVorNachname(s[0], s[1]);
+            Kind k = (Kind)jList1.getSelectedValue();
             // preis berechnen
             int preis = Preisinfo.getPrice(k);
-            kid.setTextFields(s[0], s[1], k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
+            kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
             kid.setVisible(true);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -509,7 +506,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 kinder.addAll(wl.getRegistrierungCollection());
 
                 for(Registrierung k : kinder){
-                    lm.addElement(k.getKind().getNachname()+","+k.getKind().getVorname());
+                    lm.addElement(k.getKind());
                 }
                 jList2.setModel(lm);
             }
@@ -519,12 +516,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         if(jList2.getSelectedValue() != null){
             KindInfoDialog kid = new KindInfoDialog(this, true);
-            String vun = (String)jList2.getSelectedValue();
-            String[] s = vun.split(",");
-            Kind k = DBKind.getByVorNachname(s[0], s[1]);
+            Kind k = (Kind)jList2.getSelectedValue();
             // preis berechnen
             int preis = Preisinfo.getPrice(k);
-            kid.setTextFields(s[0], s[1], k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
+            kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
             kid.setVisible(true);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -551,13 +546,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
     private void BTverschiebenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTverschiebenActionPerformed
         // TODO add your handling code here:
-        String kind = (String)jList1.getSelectedValue();
+        Kind kind = (Kind)jList1.getSelectedValue();
         Gruppe oldGroup = (Gruppe)jComboBoxGruppe.getSelectedItem();
         if(jCverschieben.getSelectedItem() instanceof Gruppe){
             Gruppe newGroup = (Gruppe)jCverschieben.getSelectedItem(); 
             DBKind.shift(kind,oldGroup,newGroup);
         }else{
-          //  DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
+            DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
         }
       
     }//GEN-LAST:event_BTverschiebenActionPerformed

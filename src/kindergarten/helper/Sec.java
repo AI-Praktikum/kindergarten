@@ -21,7 +21,6 @@ import kindergarten.model.Warteliste;
 public class Sec {
     public static void insertNewChild(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups){
         if(isValidDate(gebDat) && (validPreismodell(p)) && validGroups(groups) ){
-            System.out.println("Everything valid so far");
 //                for(Object o : groups){
 //                    if(!isValidGroupSize((String)o)){
 //                        System.out.println("Aaaaaand it's gone");
@@ -30,6 +29,7 @@ public class Sec {
 //                    }
 //                }
             try {
+                System.out.println("new child aufruf in sec");
                 DBKind.newKind(vorname, nachname, gebDat, eltern, p, groups);
             } catch (ParseException ex) {
                //error Message
@@ -52,17 +52,14 @@ public class Sec {
     private static boolean validGroups(Object[] groups){
         for(Object o : groups){
             if(o == null) return false;
-            if(!(o instanceof String)){
-                System.out.println("Invalid Gruppe");
-                return false;
-            }
-            Gruppe g = DBGruppe.getGroupByName((String)o);
-            Warteliste w = DBWarteliste.getWartelisteByName((String)o);
-            if(g == null && w == null){
+            if((!(o instanceof Gruppe))&& (!(o instanceof Warteliste))){
                 return false;
             }
         }
+        System.out.println("valid groups");
         return true;
+        
+            
     }
   
     private static boolean isValidDate(String d){

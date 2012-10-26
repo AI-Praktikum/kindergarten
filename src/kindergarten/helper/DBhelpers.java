@@ -64,27 +64,28 @@ public class DBhelpers {
     
     public static DefaultListModel lmFreeGroupsAndWartelisten(){
         DefaultListModel lm = new DefaultListModel();
-        List<String> free = freeGroupsAndWartelisten_String();
+        List<Object> free = freeGroupsAndWartelisten_String();
         
-        for(String s : free){
-            lm.addElement(s);
+        for(Object o : free){
+            lm.addElement(o);
         }
         
         return lm;
     }
     
-    public static List<String> freeGroupsAndWartelisten_String(){
-        List<String> result = new ArrayList<String>();
+    public static DBJdbc  getDatabase(){
+        String[] logIn = Files.readAll("C:\\Users\\sebastian\\Desktop\\pwd.txt").split(" ");
+        DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
+        return db;
+    }
+    
+    public static List<Object> freeGroupsAndWartelisten_String(){
+        List<Object> result = new ArrayList<Object>();
         List<Gruppe> free = DBGruppe.getFreeGroups();
         
-        for(Gruppe g : free){
-            result.add(g.toString());
-        }
-        result.add("Warteliste Frueh");
-        result.add("Warteliste Vormittag");
-        result.add("Warteliste Nachmittag");
-        result.add("Warteliste Spaet");
-        result.add("Warteliste Ganztag");
+        result.addAll(free);
+        List<Warteliste> wl = DBWarteliste.getAll();
+        result.addAll(wl);
         
         return result;
     }
