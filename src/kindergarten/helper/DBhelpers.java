@@ -82,7 +82,8 @@ public class DBhelpers {
         
     
     public static DBJdbc  getDatabase(){
-        String[] logIn = Files.readAll("C:\\Users\\sebastian\\Desktop\\pwd.txt").split(" ");
+        String workingDir = System.getProperty("user.dir");
+        String[] logIn = Files.readAll(workingDir+"\\pwd.txt").split(" ");
         DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
         return db;
     }
@@ -137,21 +138,6 @@ public class DBhelpers {
         return d;
     }
    
-    
-    public static void main(String args[]){
-        try {
-            System.out.println(stringToDate("03.06.1991"));
-        } catch (ParseException ex) {
-            Logger.getLogger(DBhelpers.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-//    private boolean checkDate(String s){
-//        String[] ls = s.split(".");
-//        
-//        if(ls.length != 3){
-//            return false;
-//        }
-//   
-//    }
+   
+//    
 }
