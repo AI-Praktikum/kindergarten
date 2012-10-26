@@ -25,8 +25,7 @@ public class DBElternteil {
         int netto = ((Number) n).intValue(); 
         BigInteger bigNetto = new BigInteger(String.valueOf(netto));
         
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         
         EntityTransaction entr = em.getTransaction();

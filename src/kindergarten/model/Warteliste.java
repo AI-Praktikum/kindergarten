@@ -122,7 +122,7 @@ public class Warteliste implements Serializable {
 
     @Override
     public String toString() {
-        return "Warteliste: "+this.getWartelistentyp()+"gruppen";
+        return this.getWartelistentyp()+"gruppen";
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

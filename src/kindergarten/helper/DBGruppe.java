@@ -55,19 +55,12 @@ public class DBGruppe {
         else{
             bigtyp = ganztags;
         }
-        
-        
-        
-        System.out.println("Typ: "+ bigtyp);
-        
+                
         BigInteger biggroesse = new BigInteger(String.valueOf(gr));
         
         //if(checkGroupSize(bigtyp, biggroesse)){
 
-            System.out.println("Groesse: "+ biggroesse);
-
-            EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = DBhelpers.getEntityManager();
             TypedQuery<Kindergarten> queryk = em.createNamedQuery("Kindergarten.findByIdent", Kindergarten.class);
             TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
 
@@ -92,9 +85,7 @@ public class DBGruppe {
     }
     
     public static List<Gruppe> getAllGroups(){
-        
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
         
         List<Gruppe> result = queryg.getResultList();
@@ -104,17 +95,17 @@ public class DBGruppe {
     
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
         boolean valid = false;
+        System.out.println(child);
+        System.out.println(gruppe);
         for(Gruppe g : child.getGruppeCollection()){
             if(g.equals(gruppe))valid = true;
             break;
         }
         if(valid){
-            String[] logIn = Files.readAll("C:\\Users\\sebastian\\Desktop\\pwd.txt").split(" ");
-            DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
+            DBJdbc db = DBhelpers.getDatabase();
             String kind = child.getIdent().toString();
             String gr = gruppe.getIdent().toString();
             String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
-            System.out.println(s);
             try {
                 db.delete(s);
             } catch (SQLException ex) {
@@ -146,8 +137,7 @@ public class DBGruppe {
     }
     
     public static Gruppe getGroupByName(String name){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findByBezeichnung", Gruppe.class);
         
         queryg.setParameter("bezeichnung", name);
@@ -193,11 +183,6 @@ public class DBGruppe {
 //        
 //    }
     
-    public static void main(String args[]){
-        Gruppe gl = getGroupByName("die duennen dinos");
-        System.out.println(gl);
-        System.out.println(getGroupByType(new BigInteger("4")));
-    }
-    
+  
     
 }

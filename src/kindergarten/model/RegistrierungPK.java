@@ -5,10 +5,12 @@
 package kindergarten.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import kindergarten.helper.DBKind;
 
 /**
  *
@@ -73,7 +75,8 @@ public class RegistrierungPK implements Serializable {
 
     @Override
     public String toString() {
-        return "kindergarten.model.RegistrierungPK[ kindId=" + kindId + ", wartelisteId=" + wartelisteId + " ]";
+        Kind k = DBKind.getByIdent(new BigDecimal(this.kindId.toString()));
+        return k.getNachname()+","+k.getVorname();
     }
     
 }

@@ -73,6 +73,14 @@ public class DBhelpers {
         return lm;
     }
     
+    public static EntityManager getEntityManager(){
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        return em;
+    }
+            
+        
+    
     public static DBJdbc  getDatabase(){
         String[] logIn = Files.readAll("C:\\Users\\sebastian\\Desktop\\pwd.txt").split(" ");
         DBJdbc db = new DBJdbc(logIn[0],logIn[1]);

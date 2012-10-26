@@ -32,11 +32,7 @@ public class DBKind {
    
     
     public static void newKind(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups) throws ParseException{
-        
-        
-        
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         Date geb = DBhelpers.stringToDate(gebDat);
         
@@ -81,13 +77,9 @@ public class DBKind {
         DBJdbc db = DBhelpers.getDatabase();
         String g = gruppe.getIdent().toString();
         String ch = child.getIdent().toString();
-        System.out.println("Kind: "+ ch);
-        System.out.println("Gruppe: "+ g);
         String s = "Insert into kind_gruppe values("+g+","+ch+")";
-        System.out.println("Kind in Warteliste: String: "+ s);
         try{
             db.update(s);
-            System.out.println("eingefuegt");
         }catch(SQLException ex){
             Logger.getLogger(DBKind.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -106,8 +98,7 @@ public class DBKind {
     public static Kind getByVorNachname(String nachname, String vorname){
         List<Kind> kl;
         
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findByNachname", Kind.class);
         
         queryk.setParameter("nachname", nachname);
@@ -129,5 +120,29 @@ public class DBKind {
     public static void shift(Kind child, Gruppe oldGroup, Warteliste wl){
         DBGruppe.deleteFromGroup(child, oldGroup);
         DBRegistrierung.insertNewReg(child, wl, new Date());
+    }
+    
+    public static void shift(Registrierung r, Warteliste source, Warteliste target){
+        Kind k = r.getKind();
+        DBRegistrierung.deleteReg(r);
+        DBRegistrierung.insertNewReg(k, target,new Date());
+    }
+    
+    public static void shift(Registrierung r, Warteliste source, Gruppe target){
+        Kind k = r.getKind();
+        DBRegistrierung.deleteReg(r);
+        DBKind.insertInGroup(k, target);
+    }
+    
+    public static Kind getByIdent(BigDecimal ident){
+        Kind result;
+        
+        EntityManager em = DBhelpers.getEntityManager();
+        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findByIdent", Kind.class);
+        
+        queryk.setParameter("ident", ident);
+        
+        result = queryk.getSingleResult();
+        return result;
     }
 }
