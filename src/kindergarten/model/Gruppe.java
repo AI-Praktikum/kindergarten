@@ -143,7 +143,9 @@ public class Gruppe implements Serializable {
 
     @Override
     public String toString() {
-        return "kindergarten.model.Gruppe[ ident=" + ident + " ]";
+        String result = this.getBezeichnung();
+        result = result + " --> "+this.getWartelisteId().toString();
+        return result;
     }
     
 }

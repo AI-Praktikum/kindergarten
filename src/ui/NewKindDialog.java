@@ -16,6 +16,7 @@ import javax.swing.JList;
 import kindergarten.helper.DBElternteil;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.DBhelpers;
 import kindergarten.helper.Sec;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
@@ -34,19 +35,8 @@ public class NewKindDialog extends javax.swing.JDialog {
     public NewKindDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        DefaultListModel lm = new DefaultListModel();
         
-        List<Gruppe> free = DBGruppe.getFreeGroups();
-        
-        for(Gruppe g : free){
-            lm.addElement(g.getBezeichnung());
-        }
-        lm.addElement("Warteliste Frueh");
-        lm.addElement("Warteliste Vormittag");
-        lm.addElement("Warteliste Nachmittag");
-        lm.addElement("Warteliste Spaet");
-        lm.addElement("Warteliste Ganztag");
-        jList1.setModel(lm);
+        jList1.setModel(DBhelpers.lmFreeGroupsAndWartelisten());
     }
 
     /**

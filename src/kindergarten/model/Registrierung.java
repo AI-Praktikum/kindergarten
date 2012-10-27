@@ -5,6 +5,7 @@
 package kindergarten.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import kindergarten.helper.DBKind;
 
 /**
  *
@@ -110,7 +112,8 @@ public class Registrierung implements Serializable {
 
     @Override
     public String toString() {
-        return "kindergarten.model.Registrierung[ registrierungPK=" + registrierungPK + " ]";
+        Kind k = this.kind;
+        return k.getNachname()+","+k.getVorname();
     }
     
 }

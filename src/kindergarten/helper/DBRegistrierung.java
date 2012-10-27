@@ -5,8 +5,12 @@
 package kindergarten.helper;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -24,9 +28,7 @@ import kindergarten.model.Warteliste;
  */
 public class DBRegistrierung {
     public static Registrierung insertNewReg(Kind k, Warteliste w, Date d){
-        
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         EntityTransaction entr = em.getTransaction();
         entr.begin();
@@ -43,14 +45,39 @@ public class DBRegistrierung {
         return r;
     }
     
+//    public static void deleteReg(Registrierung r){
+//        EntityManager em = getEntityManager();
+//  try{
+//    em.getTransaction().begin();
+//    Users userx = em.find(Users.class, user.getUserId());
+//    em.remove(userx); 
+//    em.getTransaction().commit();
+//  } finally {
+//    em.close();
+//    return false;
+//  }
+//    }
+    
     public static List<Gruppe> getAllGroups(){
-        
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
         
         List<Gruppe> result = queryg.getResultList();
         
         return result;
+    }
+    
+    public static void deleteReg(Registrierung r){
+        Kind k = r.getKind();
+        Warteliste w = r.getWarteliste();
+        DBJdbc db = DBhelpers.getDatabase();
+        String kind = k.getIdent().toString();
+        String gr = w.getIdent().toString();
+        String s = "Delete from registrierung where kind_id = " + kind + " and warteliste_id = " + gr;
+            try {
+                db.delete(s);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 }

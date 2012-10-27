@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.swing.DefaultListModel;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
@@ -59,6 +61,43 @@ public class DBhelpers {
         
         return maxID.add(new BigDecimal("1"));
     }
+    
+    public static DefaultListModel lmFreeGroupsAndWartelisten(){
+        DefaultListModel lm = new DefaultListModel();
+        List<Object> free = freeGroupsAndWartelisten_String();
+        
+        for(Object o : free){
+            lm.addElement(o);
+        }
+        
+        return lm;
+    }
+    
+    public static EntityManager getEntityManager(){
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        return em;
+    }
+            
+        
+    
+    public static DBJdbc  getDatabase(){
+        String workingDir = System.getProperty("user.dir");
+        String[] logIn = Files.readAll(workingDir+"\\pwd.txt").split(" ");
+        DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
+        return db;
+    }
+    
+    public static List<Object> freeGroupsAndWartelisten_String(){
+        List<Object> result = new ArrayList<Object>();
+        List<Gruppe> free = DBGruppe.getFreeGroups();
+        
+        result.addAll(free);
+        List<Warteliste> wl = DBWarteliste.getAll();
+        result.addAll(wl);
+        
+        return result;
+    }
     public static BigDecimal nextWartelisteIdent(){
         
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
@@ -99,21 +138,6 @@ public class DBhelpers {
         return d;
     }
    
-    
-    public static void main(String args[]){
-        try {
-            System.out.println(stringToDate("03.06.1991"));
-        } catch (ParseException ex) {
-            Logger.getLogger(DBhelpers.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-//    private boolean checkDate(String s){
-//        String[] ls = s.split(".");
-//        
-//        if(ls.length != 3){
-//            return false;
-//        }
-//   
-//    }
+   
+//    
 }
