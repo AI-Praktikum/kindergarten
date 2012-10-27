@@ -449,6 +449,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             jLabel5.setText(gr.getGruppengroesse().toString());
             jLabel7.setText(gr.getGruppengroesse().subtract(new BigInteger(String.valueOf(kind.size()))).toString());
         }
+        
     }//GEN-LAST:event_jComboBoxGruppeItemStateChanged
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
