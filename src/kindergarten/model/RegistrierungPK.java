@@ -5,12 +5,9 @@
 package kindergarten.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import kindergarten.helper.DBKind;
 
 /**
  *
@@ -19,41 +16,41 @@ import kindergarten.helper.DBKind;
 @Embeddable
 public class RegistrierungPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "KIND_ID")
-    private BigInteger kindId;
+    @Column(name = "kind_id")
+    private long kindId;
     @Basic(optional = false)
-    @Column(name = "WARTELISTE_ID")
-    private BigInteger wartelisteId;
+    @Column(name = "warteliste_id")
+    private long wartelisteId;
 
     public RegistrierungPK() {
     }
 
-    public RegistrierungPK(BigInteger kindId, BigInteger wartelisteId) {
+    public RegistrierungPK(long kindId, long wartelisteId) {
         this.kindId = kindId;
         this.wartelisteId = wartelisteId;
     }
 
-    public BigInteger getKindId() {
+    public long getKindId() {
         return kindId;
     }
 
-    public void setKindId(BigInteger kindId) {
+    public void setKindId(long kindId) {
         this.kindId = kindId;
     }
 
-    public BigInteger getWartelisteId() {
+    public long getWartelisteId() {
         return wartelisteId;
     }
 
-    public void setWartelisteId(BigInteger wartelisteId) {
+    public void setWartelisteId(long wartelisteId) {
         this.wartelisteId = wartelisteId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (kindId != null ? kindId.hashCode() : 0);
-        hash += (wartelisteId != null ? wartelisteId.hashCode() : 0);
+        hash += (int) kindId;
+        hash += (int) wartelisteId;
         return hash;
     }
 
@@ -64,10 +61,10 @@ public class RegistrierungPK implements Serializable {
             return false;
         }
         RegistrierungPK other = (RegistrierungPK) object;
-        if ((this.kindId == null && other.kindId != null) || (this.kindId != null && !this.kindId.equals(other.kindId))) {
+        if (this.kindId != other.kindId) {
             return false;
         }
-        if ((this.wartelisteId == null && other.wartelisteId != null) || (this.wartelisteId != null && !this.wartelisteId.equals(other.wartelisteId))) {
+        if (this.wartelisteId != other.wartelisteId) {
             return false;
         }
         return true;
@@ -75,8 +72,7 @@ public class RegistrierungPK implements Serializable {
 
     @Override
     public String toString() {
-        Kind k = DBKind.getByIdent(new BigDecimal(this.kindId.toString()));
-        return k.getNachname()+","+k.getVorname();
+        return "kindergarten.model.RegistrierungPK[ kindId=" + kindId + ", wartelisteId=" + wartelisteId + " ]";
     }
     
 }

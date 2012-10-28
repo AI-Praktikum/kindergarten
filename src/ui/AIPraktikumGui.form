@@ -4,7 +4,9 @@
   <NonVisualComponents>
     <Component class="javax.persistence.EntityManager" name="entityManager">
       <Properties>
-        <Property name="persistenceUnit" type="java.lang.String" value="jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU"/>
+        <Property name="persistenceUnit" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU&quot;" type="code"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.persistence.Query" name="gruppeQuery">
@@ -61,41 +63,12 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;kindergarten.model.Warteliste&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="kindQuery1">
+    <Component class="javax.persistence.EntityManager" name="kindergartenPUEntityManager">
       <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT k FROM Kind k"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
+        <Property name="persistenceUnit" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU&quot;" type="code"/>
         </Property>
       </Properties>
-    </Component>
-    <Component class="java.util.List" name="kindList1">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="kindQuery1"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;kindergarten.model.Kind&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.persistence.Query" name="kindQuery2">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT k FROM Kind k"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="kindList2">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="kindQuery2"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;kindergarten.model.Kind&gt;"/>
-      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -177,7 +150,7 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jButton7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="488" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="516" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -196,7 +169,7 @@
                           <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
                           <Component id="jButton7" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="355" max="32767" attributes="0"/>
+                          <EmptySpace pref="391" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -293,7 +266,6 @@
                     <BindingProperty name="elements" source="gruppeList" target="jComboBoxGruppe" targetPath="elements" updateStrategy="0" immediately="false">
                       <Property name="name" type="java.lang.String" value=""/>
                     </BindingProperty>
-                    <BindingProperty name="selectedItem" source="gruppeList" target="jComboBoxGruppe" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Events>
                     <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxGruppeItemStateChanged"/>
@@ -479,7 +451,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jComboBox1" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane2" pref="615" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="665" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
@@ -519,7 +491,7 @@
                           <Component id="jCverschieben2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="BTverschieben2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="161" max="32767" attributes="0"/>
+                          <EmptySpace pref="173" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -554,8 +526,8 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="elements" source="jComboBox1" sourcePath="${selectedItem.registrierungCollection}" target="jList2" targetPath="elements" updateStrategy="0" immediately="false">
-                          <BindingParameter name="DISPLAY" value="${kind.nachname}"/>
+                        <BindingProperty name="elements" source="jComboBox1" sourcePath="${selectedItem.gruppeCollection}" target="jList2" targetPath="elements" updateStrategy="0" immediately="false">
+                          <BindingParameter name="DISPLAY" value="${kindCollection.nachname}"/>
                         </BindingProperty>
                       </BindingProperties>
                     </Component>

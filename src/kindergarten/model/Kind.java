@@ -7,16 +7,17 @@ package kindergarten.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -34,69 +35,69 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author andy
  */
 @Entity
-@Table(name = "KIND")
+@Table(name = "kind")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kind.findAll", query = "SELECT k FROM Kind k"),
     @NamedQuery(name = "Kind.findByIdent", query = "SELECT k FROM Kind k WHERE k.ident = :ident"),
-    @NamedQuery(name = "Kind.findByVorname", query = "SELECT k FROM Kind k WHERE k.vorname = :vorname"),
-    @NamedQuery(name = "Kind.findByNachname", query = "SELECT k FROM Kind k WHERE k.nachname = :nachname"),
     @NamedQuery(name = "Kind.findByGeburtsdatum", query = "SELECT k FROM Kind k WHERE k.geburtsdatum = :geburtsdatum"),
-    @NamedQuery(name = "Kind.findByHashvalue", query = "SELECT k FROM Kind k WHERE k.hashvalue = :hashvalue")})
+    @NamedQuery(name = "Kind.findByHashValue", query = "SELECT k FROM Kind k WHERE k.hashValue = :hashValue")})
 public class Kind implements Serializable {
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IDENT")
-    private BigDecimal ident;
+    @Column(name = "ident")
+    private Long ident;
     @Basic(optional = false)
-    @Column(name = "VORNAME")
+    @Lob
+    @Column(name = "Vorname")
     private String vorname;
     @Basic(optional = false)
-    @Column(name = "NACHNAME")
+    @Lob
+    @Column(name = "Nachname")
     private String nachname;
     @Basic(optional = false)
-    @Column(name = "GEBURTSDATUM")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "Geburtsdatum")
+    @Temporal(TemporalType.DATE)
     private Date geburtsdatum;
     @Basic(optional = false)
-    @Column(name = "HASHVALUE")
-    private BigInteger hashvalue;
+    @Column(name = "HashValue")
+    private long hashValue;
     @ManyToMany(mappedBy = "kindCollection")
     private Collection<Gruppe> gruppeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kind")
     private Collection<Registrierung> registrierungCollection;
-    @JoinColumn(name = "PREISMODELL_ID", referencedColumnName = "IDENT")
-    @ManyToOne
+    @JoinColumn(name = "preismodell_id", referencedColumnName = "ident")
+    @ManyToOne(optional = false)
     private Preismodell preismodellId;
-    @JoinColumn(name = "ELTERNTEIL_ID", referencedColumnName = "IDENT")
-    @ManyToOne
-    private Elternteil elternteilId;
+    @JoinColumn(name = "Elternteil_id", referencedColumnName = "ident")
+    @ManyToOne(optional = false)
+    private Elternteil elternteilid;
 
     public Kind() {
     }
 
-    public Kind(BigDecimal ident) {
+    public Kind(Long ident) {
         this.ident = ident;
     }
 
-    public Kind(BigDecimal ident, String vorname, String nachname, Date geburtsdatum, BigInteger hashvalue) {
+    public Kind(Long ident, String vorname, String nachname, Date geburtsdatum, long hashValue) {
         this.ident = ident;
         this.vorname = vorname;
         this.nachname = nachname;
         this.geburtsdatum = geburtsdatum;
-        this.hashvalue = hashvalue;
+        this.hashValue = hashValue;
     }
 
-    public BigDecimal getIdent() {
+    public Long getIdent() {
         return ident;
     }
 
-    public void setIdent(BigDecimal ident) {
-        BigDecimal oldIdent = this.ident;
+    public void setIdent(Long ident) {
+        Long oldIdent = this.ident;
         this.ident = ident;
         changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
@@ -131,14 +132,14 @@ public class Kind implements Serializable {
         changeSupport.firePropertyChange("geburtsdatum", oldGeburtsdatum, geburtsdatum);
     }
 
-    public BigInteger getHashvalue() {
-        return hashvalue;
+    public long getHashValue() {
+        return hashValue;
     }
 
-    public void setHashvalue(BigInteger hashvalue) {
-        BigInteger oldHashvalue = this.hashvalue;
-        this.hashvalue = hashvalue;
-        changeSupport.firePropertyChange("hashvalue", oldHashvalue, hashvalue);
+    public void setHashValue(long hashValue) {
+        long oldHashValue = this.hashValue;
+        this.hashValue = hashValue;
+        changeSupport.firePropertyChange("hashValue", oldHashValue, hashValue);
     }
 
     @XmlTransient
@@ -169,14 +170,14 @@ public class Kind implements Serializable {
         changeSupport.firePropertyChange("preismodellId", oldPreismodellId, preismodellId);
     }
 
-    public Elternteil getElternteilId() {
-        return elternteilId;
+    public Elternteil getElternteilid() {
+        return elternteilid;
     }
 
-    public void setElternteilId(Elternteil elternteilId) {
-        Elternteil oldElternteilId = this.elternteilId;
-        this.elternteilId = elternteilId;
-        changeSupport.firePropertyChange("elternteilId", oldElternteilId, elternteilId);
+    public void setElternteilid(Elternteil elternteilid) {
+        Elternteil oldElternteilid = this.elternteilid;
+        this.elternteilid = elternteilid;
+        changeSupport.firePropertyChange("elternteilid", oldElternteilid, elternteilid);
     }
 
     @Override
@@ -201,7 +202,7 @@ public class Kind implements Serializable {
 
     @Override
     public String toString() {
-        return this.nachname+","+this.vorname;
+        return this.getVorname()+","+this.getNachname();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

@@ -37,7 +37,7 @@ public class DBGruppe {
     public static void insertNewGrp(Object groesse, Object inserttyp, String bezeichnung){
         
         String typ = (String) inserttyp;
-        int gr = ((Number) groesse).intValue(); 
+        long gr = ((Number) groesse).intValue(); 
         
         BigInteger bigtyp;
         if(typ.equals("Fruehgruppe")){
@@ -56,7 +56,6 @@ public class DBGruppe {
             bigtyp = ganztags;
         }
                 
-        BigInteger biggroesse = new BigInteger(String.valueOf(gr));
         
         //if(checkGroupSize(bigtyp, biggroesse)){
 
@@ -74,7 +73,7 @@ public class DBGruppe {
             entr.begin();
 
             Gruppe g = new Gruppe();
-            g.setGruppengroesse(biggroesse);
+            g.setGruppengroesse(gr);
             g.setIdent(DBhelpers.nextGruppeIdent());
             g.setKindergartenId(kresult);
             g.setWartelisteId(wresult);
@@ -150,12 +149,12 @@ public class DBGruppe {
         }
     }
     
-    public static List<Gruppe> getGroupByType(BigInteger type){
+    public static List<Gruppe> getGroupByType(long type){
         List<Gruppe> gl = getAllGroups();
         List<Gruppe> result = new ArrayList<Gruppe>();
         
         for(Gruppe g : gl){
-            if(g.getWartelisteId().getIdent().toBigInteger().equals(type)){
+            if(g.getWartelisteId().getIdent().equals(type)){
                 result.add(g);
             }
         }

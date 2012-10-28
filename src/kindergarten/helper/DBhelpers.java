@@ -23,6 +23,7 @@ import javax.swing.DefaultListModel;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
+import kindergarten.model.Registrierung;
 import kindergarten.model.Warteliste;
 
 /**
@@ -31,7 +32,7 @@ import kindergarten.model.Warteliste;
  */
 public class DBhelpers {
     
-    public static BigDecimal nextKindIdent(){
+    public static long nextKindIdent(){
         
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
@@ -39,14 +40,14 @@ public class DBhelpers {
         TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findAll", Kind.class);
         
         List<Kind> kinder = queryk.getResultList();
-        BigDecimal maxID = new BigDecimal("0");
+        long maxID = 0;
         for(Kind elem : kinder){
             if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
         }
         
-        return maxID.add(new BigDecimal("1"));
+        return maxID+1;
     }
-    public static BigDecimal nextGruppeIdent(){
+    public static long nextGruppeIdent(){
         
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
@@ -54,12 +55,12 @@ public class DBhelpers {
         TypedQuery<Gruppe> queryk = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
         
         List<Gruppe> kinder = queryk.getResultList();
-        BigDecimal maxID = new BigDecimal("0");
+        long maxID = 0;
         for(Gruppe elem : kinder){
             if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
         }
         
-        return maxID.add(new BigDecimal("1"));
+        return maxID+1;
     }
     
     public static DefaultListModel lmFreeGroupsAndWartelisten(){
@@ -98,7 +99,7 @@ public class DBhelpers {
         
         return result;
     }
-    public static BigDecimal nextWartelisteIdent(){
+    public static long nextWartelisteIdent(){
         
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
@@ -106,14 +107,14 @@ public class DBhelpers {
         TypedQuery<Warteliste> queryk = em.createNamedQuery("Warteliste.findAll", Warteliste.class);
         
         List<Warteliste> kinder = queryk.getResultList();
-        BigDecimal maxID = new BigDecimal("0");
+        long maxID = 0;
         for(Warteliste elem : kinder){
             if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
         }
         
-        return maxID.add(new BigDecimal("1"));
+        return maxID+1;
     }
-    public static BigDecimal nextElternteilIdent(){
+    public static long nextElternteilIdent(){
         
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
         EntityManager em = emf.createEntityManager();
@@ -121,12 +122,12 @@ public class DBhelpers {
         TypedQuery<Elternteil> queryk = em.createNamedQuery("Elternteil.findAll", Elternteil.class);
         
         List<Elternteil> kinder = queryk.getResultList();
-        BigDecimal maxID = new BigDecimal("0");
+        long maxID = 0;
         for(Elternteil elem : kinder){
             if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
         }
         
-        return maxID.add(new BigDecimal("1"));
+        return maxID+1;
     }
     
     public static Date stringToDate(String geb) throws ParseException{
@@ -138,6 +139,17 @@ public class DBhelpers {
         return d;
     }
    
+    
+    public static List<Registrierung> getRegistrierungenByWarteliste(Warteliste w){
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        EntityManager em = emf.createEntityManager();
+        
+        TypedQuery<Registrierung> queryk = em.createNamedQuery("Registrierung.findByWartelisteId", Registrierung.class);
+        
+        queryk.setParameter("wartelisteId", w.getIdent());
+        
+        return queryk.getResultList();
+    }
    
 //    
 }

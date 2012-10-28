@@ -36,8 +36,8 @@ public class DBRegistrierung {
         Registrierung r = new Registrierung();
         r.setDatumRegistrierung(d);
         r.setKind(k);
-        r.setWarteliste(w);
-        r.setRegistrierungPK(new RegistrierungPK(k.getIdent().toBigInteger(),w.getIdent().toBigInteger()));
+        //r.setWarteliste(w);
+        r.setRegistrierungPK(new RegistrierungPK(k.getIdent(),w.getIdent()));
         
         em.persist(r);
         entr.commit();
@@ -68,8 +68,14 @@ public class DBRegistrierung {
     }
     
     public static void deleteReg(Registrierung r){
+        EntityManager em = DBhelpers.getEntityManager();
+        TypedQuery<Warteliste> queryg = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
+        
+        long id = r.getRegistrierungPK().getWartelisteId();
+        queryg.setParameter("ident", id);
+        Warteliste w = queryg.getSingleResult();
+        
         Kind k = r.getKind();
-        Warteliste w = r.getWarteliste();
         DBJdbc db = DBhelpers.getDatabase();
         String kind = k.getIdent().toString();
         String gr = w.getIdent().toString();

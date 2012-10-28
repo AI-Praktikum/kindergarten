@@ -87,7 +87,7 @@ public class Sec {
     private static boolean isValidGroupSize(String s){
         Gruppe g = DBGruppe.getGroupByName(s);
         if(g == null) return false;
-        return (g.getGruppengroesse().compareTo(new BigInteger(String.valueOf(g.getKindCollection().size())))) == 1;
+        return (g.getGruppengroesse() > g.getKindCollection().size());
     }
     
     private static void showMsgBox(String s){

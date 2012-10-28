@@ -20,10 +20,8 @@ import kindergarten.model.Elternteil;
 public class DBElternteil {
     public static Elternteil newElternteil(String name, Object famgr, Object n, String adr){
         
-        int gr = ((Number) famgr).intValue(); 
-        BigInteger bigGr = new BigInteger(String.valueOf(gr));
-        int netto = ((Number) n).intValue(); 
-        BigInteger bigNetto = new BigInteger(String.valueOf(netto));
+        long gr = ((Number) famgr).intValue(); 
+        long netto = ((Number) n).intValue(); 
         
         EntityManager em = DBhelpers.getEntityManager();
         
@@ -31,14 +29,14 @@ public class DBElternteil {
         EntityTransaction entr = em.getTransaction();
         entr.begin();
         
-        BigDecimal nextId = DBhelpers.nextElternteilIdent();
+        long nextId = DBhelpers.nextElternteilIdent();
         Elternteil e = new Elternteil();
         e.setIdent(nextId);
         e.setAdresse(adr);
-        e.setFamiliengroesse(bigGr);
+        e.setFamiliengroesse(gr);
         e.setName(name);
-        e.setNettoeinkommen(bigNetto);
-        e.setFamiliengroesse(bigNetto);
+        e.setNettoeinkommen(netto);
+        e.setFamiliengroesse(netto);
         em.persist(e);
         entr.commit();
         

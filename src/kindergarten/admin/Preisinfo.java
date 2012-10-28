@@ -10,8 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -167,29 +165,29 @@ public class Preisinfo {
         return success;
     }
     
-    public static int getPrice(Kind k){
+    public static long getPrice(Kind k){
         // über k an alle daten kommen und berechnen
-        int preis = 0;
+        long preis = 0;
         List<Integer> einkommen = new ArrayList<Integer>();
         Map<Integer, Preisliste> map = new HashMap<Integer, Preisliste>();
         
-        Elternteil eltern = k.getElternteilId();
-        BigInteger fg = eltern.getFamiliengroesse();
-        Integer netto = eltern.getNettoeinkommen().intValue();
+        Elternteil eltern = k.getElternteilid();
+        long fg = eltern.getFamiliengroesse();
+        long netto = eltern.getNettoeinkommen();
         Preismodell preismodell = k.getPreismodellId();
         Collection<Preisliste> preisColl = preismodell.getPreislisteCollection();
         for(Preisliste p : preisColl){
-            if (p.getNettoeinkommen().intValue() <= netto){
-                 map.put(p.getNettoeinkommen().intValue(), p);
+            if (p.getNettoeinkommen() <= netto){
+                 map.put((int)p.getNettoeinkommen(), p);
             }
         }
         Preisliste preisliste = map.get(Collections.max(map.keySet()));
 
-        if(fg.intValue() >= 6){preis = preisliste.getPreis6pers().intValue();}
-        else if(fg.intValue() >= 5){preis = preisliste.getPreis5pers().intValue();}
-        else if(fg.intValue() >= 4){preis = preisliste.getPreis4pers().intValue();}
-        else if(fg.intValue() >= 3){preis = preisliste.getPreis3pers().intValue();}
-        else if(fg.intValue() <= 2){preis = preisliste.getPreis2pers().intValue();}
+        if(fg >= 6){preis = preisliste.getPreis6pers();}
+        else if(fg >= 5){preis = preisliste.getPreis5pers();}
+        else if(fg >= 4){preis = preisliste.getPreis4pers();}
+        else if(fg >= 3){preis = preisliste.getPreis3pers();}
+        else if(fg <= 2){preis = preisliste.getPreis2pers();}
         
         return preis;
     }

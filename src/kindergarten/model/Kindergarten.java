@@ -5,16 +5,15 @@
 package kindergarten.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,42 +27,39 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author andy
  */
 @Entity
-@Table(name = "KINDERGARTEN")
+@Table(name = "kindergarten")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kindergarten.findAll", query = "SELECT k FROM Kindergarten k"),
     @NamedQuery(name = "Kindergarten.findByIdent", query = "SELECT k FROM Kindergarten k WHERE k.ident = :ident"),
-    @NamedQuery(name = "Kindergarten.findByBezeichnung", query = "SELECT k FROM Kindergarten k WHERE k.bezeichnung = :bezeichnung"),
     @NamedQuery(name = "Kindergarten.findByAdresse", query = "SELECT k FROM Kindergarten k WHERE k.adresse = :adresse"),
     @NamedQuery(name = "Kindergarten.findByMaxplaetze", query = "SELECT k FROM Kindergarten k WHERE k.maxplaetze = :maxplaetze"),
     @NamedQuery(name = "Kindergarten.findByKontonummer", query = "SELECT k FROM Kindergarten k WHERE k.kontonummer = :kontonummer"),
     @NamedQuery(name = "Kindergarten.findByBlz", query = "SELECT k FROM Kindergarten k WHERE k.blz = :blz")})
 public class Kindergarten implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IDENT")
-    private BigDecimal ident;
+    @Column(name = "ident")
+    private Long ident;
     @Basic(optional = false)
-    @Column(name = "BEZEICHNUNG")
+    @Lob
+    @Column(name = "bezeichnung")
     private String bezeichnung;
     @Basic(optional = false)
-    @Column(name = "ADRESSE")
+    @Column(name = "adresse")
     private String adresse;
     @Basic(optional = false)
-    @Column(name = "MAXPLAETZE")
-    private BigInteger maxplaetze;
+    @Column(name = "maxplaetze")
+    private long maxplaetze;
     @Basic(optional = false)
-    @Column(name = "KONTONUMMER")
-    private BigInteger kontonummer;
+    @Column(name = "kontonummer")
+    private long kontonummer;
     @Basic(optional = false)
-    @Column(name = "BLZ")
-    private BigInteger blz;
-    @JoinTable(name = "KINDERGARTEN_PREISMODELL", joinColumns = {
-        @JoinColumn(name = "KINDERGARTEN_ID", referencedColumnName = "IDENT")}, inverseJoinColumns = {
-        @JoinColumn(name = "PREISMODELL_ID", referencedColumnName = "IDENT")})
-    @ManyToMany
+    @Column(name = "blz")
+    private long blz;
+    @ManyToMany(mappedBy = "kindergartenCollection")
     private Collection<Preismodell> preismodellCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kindergartenId")
     private Collection<Gruppe> gruppeCollection;
@@ -71,11 +67,11 @@ public class Kindergarten implements Serializable {
     public Kindergarten() {
     }
 
-    public Kindergarten(BigDecimal ident) {
+    public Kindergarten(Long ident) {
         this.ident = ident;
     }
 
-    public Kindergarten(BigDecimal ident, String bezeichnung, String adresse, BigInteger maxplaetze, BigInteger kontonummer, BigInteger blz) {
+    public Kindergarten(Long ident, String bezeichnung, String adresse, long maxplaetze, long kontonummer, long blz) {
         this.ident = ident;
         this.bezeichnung = bezeichnung;
         this.adresse = adresse;
@@ -84,11 +80,11 @@ public class Kindergarten implements Serializable {
         this.blz = blz;
     }
 
-    public BigDecimal getIdent() {
+    public Long getIdent() {
         return ident;
     }
 
-    public void setIdent(BigDecimal ident) {
+    public void setIdent(Long ident) {
         this.ident = ident;
     }
 
@@ -108,27 +104,27 @@ public class Kindergarten implements Serializable {
         this.adresse = adresse;
     }
 
-    public BigInteger getMaxplaetze() {
+    public long getMaxplaetze() {
         return maxplaetze;
     }
 
-    public void setMaxplaetze(BigInteger maxplaetze) {
+    public void setMaxplaetze(long maxplaetze) {
         this.maxplaetze = maxplaetze;
     }
 
-    public BigInteger getKontonummer() {
+    public long getKontonummer() {
         return kontonummer;
     }
 
-    public void setKontonummer(BigInteger kontonummer) {
+    public void setKontonummer(long kontonummer) {
         this.kontonummer = kontonummer;
     }
 
-    public BigInteger getBlz() {
+    public long getBlz() {
         return blz;
     }
 
-    public void setBlz(BigInteger blz) {
+    public void setBlz(long blz) {
         this.blz = blz;
     }
 

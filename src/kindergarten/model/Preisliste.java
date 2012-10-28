@@ -5,11 +5,11 @@
 package kindergarten.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author andy
  */
 @Entity
-@Table(name = "PREISLISTE")
+@Table(name = "preisliste")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Preisliste.findAll", query = "SELECT p FROM Preisliste p"),
@@ -36,41 +36,41 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Preisliste.findByPreis6pers", query = "SELECT p FROM Preisliste p WHERE p.preis6pers = :preis6pers")})
 public class Preisliste implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IDENT")
-    private BigDecimal ident;
+    @Column(name = "ident")
+    private Long ident;
     @Basic(optional = false)
-    @Column(name = "NETTOEINKOMMEN")
-    private BigInteger nettoeinkommen;
+    @Column(name = "nettoeinkommen")
+    private long nettoeinkommen;
     @Basic(optional = false)
-    @Column(name = "PREIS2PERS")
-    private BigInteger preis2pers;
+    @Column(name = "preis2pers")
+    private long preis2pers;
     @Basic(optional = false)
-    @Column(name = "PREIS3PERS")
-    private BigInteger preis3pers;
+    @Column(name = "preis3pers")
+    private long preis3pers;
     @Basic(optional = false)
-    @Column(name = "PREIS4PERS")
-    private BigInteger preis4pers;
+    @Column(name = "preis4pers")
+    private long preis4pers;
     @Basic(optional = false)
-    @Column(name = "PREIS5PERS")
-    private BigInteger preis5pers;
+    @Column(name = "preis5pers")
+    private long preis5pers;
     @Basic(optional = false)
-    @Column(name = "PREIS6PERS")
-    private BigInteger preis6pers;
-    @JoinColumn(name = "PREISMODELL_ID", referencedColumnName = "IDENT")
+    @Column(name = "preis6pers")
+    private long preis6pers;
+    @JoinColumn(name = "preismodell_id", referencedColumnName = "ident")
     @ManyToOne(optional = false)
     private Preismodell preismodellId;
 
     public Preisliste() {
     }
 
-    public Preisliste(BigDecimal ident) {
+    public Preisliste(Long ident) {
         this.ident = ident;
     }
 
-    public Preisliste(BigDecimal ident, BigInteger nettoeinkommen, BigInteger preis2pers, BigInteger preis3pers, BigInteger preis4pers, BigInteger preis5pers, BigInteger preis6pers) {
+    public Preisliste(Long ident, long nettoeinkommen, long preis2pers, long preis3pers, long preis4pers, long preis5pers, long preis6pers) {
         this.ident = ident;
         this.nettoeinkommen = nettoeinkommen;
         this.preis2pers = preis2pers;
@@ -80,59 +80,59 @@ public class Preisliste implements Serializable {
         this.preis6pers = preis6pers;
     }
 
-    public BigDecimal getIdent() {
+    public Long getIdent() {
         return ident;
     }
 
-    public void setIdent(BigDecimal ident) {
+    public void setIdent(Long ident) {
         this.ident = ident;
     }
 
-    public BigInteger getNettoeinkommen() {
+    public long getNettoeinkommen() {
         return nettoeinkommen;
     }
 
-    public void setNettoeinkommen(BigInteger nettoeinkommen) {
+    public void setNettoeinkommen(long nettoeinkommen) {
         this.nettoeinkommen = nettoeinkommen;
     }
 
-    public BigInteger getPreis2pers() {
+    public long getPreis2pers() {
         return preis2pers;
     }
 
-    public void setPreis2pers(BigInteger preis2pers) {
+    public void setPreis2pers(long preis2pers) {
         this.preis2pers = preis2pers;
     }
 
-    public BigInteger getPreis3pers() {
+    public long getPreis3pers() {
         return preis3pers;
     }
 
-    public void setPreis3pers(BigInteger preis3pers) {
+    public void setPreis3pers(long preis3pers) {
         this.preis3pers = preis3pers;
     }
 
-    public BigInteger getPreis4pers() {
+    public long getPreis4pers() {
         return preis4pers;
     }
 
-    public void setPreis4pers(BigInteger preis4pers) {
+    public void setPreis4pers(long preis4pers) {
         this.preis4pers = preis4pers;
     }
 
-    public BigInteger getPreis5pers() {
+    public long getPreis5pers() {
         return preis5pers;
     }
 
-    public void setPreis5pers(BigInteger preis5pers) {
+    public void setPreis5pers(long preis5pers) {
         this.preis5pers = preis5pers;
     }
 
-    public BigInteger getPreis6pers() {
+    public long getPreis6pers() {
         return preis6pers;
     }
 
-    public void setPreis6pers(BigInteger preis6pers) {
+    public void setPreis6pers(long preis6pers) {
         this.preis6pers = preis6pers;
     }
 

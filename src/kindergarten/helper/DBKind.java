@@ -36,7 +36,7 @@ public class DBKind {
         
         Date geb = DBhelpers.stringToDate(gebDat);
         
-        BigDecimal nextId = DBhelpers.nextKindIdent();
+        long nextId = DBhelpers.nextKindIdent();
         
         EntityTransaction entr = em.getTransaction();
         entr.begin();
@@ -48,15 +48,14 @@ public class DBKind {
         
         
         
-        k.setElternteilId(eltern);
+        k.setElternteilid(eltern);
         k.setVorname(vorname);
         k.setNachname(nachname);
         k.setGeburtsdatum(geb);
         k.setIdent(nextId);
         k.setPreismodellId((Preismodell)p);
-        int hashv = hashV(eltern, nachname, vorname, geb, nextId);
-        BigInteger hash = new BigInteger(String.valueOf(hashv));
-        k.setHashvalue(hash);
+        long hashv = hashV(eltern, nachname, vorname, geb, nextId);
+        k.setHashValue(hashv);
         em.persist(k);
         entr.commit();
         
@@ -85,13 +84,13 @@ public class DBKind {
         }
     }
     
-    private static int hashV(Elternteil e, String n, String v, Date g, BigDecimal id){
-        int hash = 1;
+    private static long hashV(Elternteil e, String n, String v, Date g, long id){
+        long hash = 1;
         hash = hash * 17 + e.hashCode();
         hash = hash * 31 + n.hashCode();
         hash = hash * 13 + v.hashCode();
         hash = hash * 17 + g.hashCode();
-        hash = hash * 31 + id.hashCode();
+        hash = hash * 31 + id;
         return hash;
     }
     
