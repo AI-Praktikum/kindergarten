@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !^$
+RewriteRule ^$ index.rbx
+RewriteRule ^([^/]*)$ index.rbx?kindergarten=$1&%{QUERY_STRING}
+RewriteRule ^([^/]*)/([^/]*)$ index.rbx?kindergarten=$1&hash=$2&%{QUERY_STRING}
+RewriteRule ^([^/]*)/([^/]*)/(.*)$ index.rbx
