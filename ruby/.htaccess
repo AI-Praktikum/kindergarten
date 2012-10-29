@@ -1,7 +1,6 @@
 RewriteEngine On
 RewriteBase /
-#RewriteCond %{REQUEST_URI} !^$ [NC]
-RewriteRule ^$ index.rbx
+RewriteCond %{REQUEST_FILENAME} !^.*style.css$
 RewriteRule ^([^/]*)$ index.rbx?kindergarten=$1&%{QUERY_STRING}
 RewriteRule ^([^/]*)/([^/]*)$ index.rbx?kindergarten=$1&hash=$2&%{QUERY_STRING}
 RewriteRule ^([^/]*)/([^/]*)/(.*)$ index.rbx
