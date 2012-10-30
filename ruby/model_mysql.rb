@@ -12,7 +12,7 @@ class MysqlModel
 		else
                   children=[]
                   begin	
-			con = Mysql.new('ec2-176-34-76-54.eu-west-1.compute.amazonaws.com',username, password, kindergarten)
+			con = Mysql.new(host,username, password, kindergarten)
 			sql_child = "select k.vorname,k.nachname,w.ident,w.wartelistentyp,kw.datum_registrierung from (((Select * from kind where hashvalue=?) k join registrierung kw on k.ident = kw.kind_id) join warteliste w on kw.warteliste_id=w.ident)"
 			pst_child = con.prepare(sql_child)
 			pst_child.execute(hashvalue)
