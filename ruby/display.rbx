@@ -11,6 +11,7 @@ params=cgi.params
 #Enthällt den Kindergarten der in Login mitgegeben wurde
 kindergarten =  params["state"]
 puts kindergarten
+puts kindergarten.class
 model = MysqlModel.new
 
 client_id     = "429415353772776"  # set your facebook application client_id
@@ -57,12 +58,14 @@ https.start {
 #name = JSON.parse(json)["name"]
 
 facebook_id = JSON.parse(json)["id"]
+puts facebook_id
+puts facebook_id.class
 children = []
-hashes=model.getChildHashes(kindergarten,facebook_id)
-puts hashes
-hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
-view= View.new("Kindergarten Wartelisten&uuml;berblick")
-view.display(children)
+#hashes=model.getChildHashes(kindergarten,facebook_id)
+#puts hashes
+#hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
+#view= View.new("Kindergarten Wartelisten&uuml;berblick")
+#view.display(children)
 
 
 
