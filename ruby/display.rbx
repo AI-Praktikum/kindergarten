@@ -10,6 +10,7 @@ params=cgi.params
 
 #Enthällt den Kindergarten der in Login mitgegeben wurde
 kindergarten =  params["state"]
+puts kindergarten
 model = MysqlModel.new
 
 client_id     = "429415353772776"  # set your facebook application client_id
