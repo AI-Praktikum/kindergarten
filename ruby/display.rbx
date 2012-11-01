@@ -60,5 +60,5 @@ puts json
 name = JSON.parse(json)["name"]
 puts name
 
-name = JSON.parse(json)["id"]
+id = JSON.parse(json)["id"]
 puts id
