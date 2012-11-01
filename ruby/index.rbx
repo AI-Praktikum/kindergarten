@@ -9,6 +9,6 @@ model = MysqlModel.new
 hash= params.has_key?("hash") ? params["hash"].first : nil
 kindergarten= params.has_key?("kindergarten") ? params["kindergarten"].first : nil
 result=model.getChildren(kindergarten,hash)
-view= View.new("Kindergarten Wartelisten&uuml;berblick")
+view= View.new("Kindergarten Wartelisten&uuml;berblick" + hash.class.to_s)
 view.display(result)
 
