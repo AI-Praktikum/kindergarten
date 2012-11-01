@@ -63,8 +63,12 @@ children = []
 hashes=model.getChildHashes(kindergarten,facebook_id)
 puts hashes
 hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
-view= View.new("Kindergarten Wartelisten&uuml;berblick")
-view.display(children)
+puts children
+puts children.class
+children.each{|child| puts child
+	puts child.class}
+#view= View.new("Kindergarten Wartelisten&uuml;berblick")
+#view.display(children)
 
 
 
