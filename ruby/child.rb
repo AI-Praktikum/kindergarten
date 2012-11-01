@@ -16,4 +16,8 @@ class Child
   def rank
     @rank
   end
+
+  def to_s
+	"Name: " + name + " " + surname + " Queue: " + queue + " Rank: " + rank
+  end
 end
