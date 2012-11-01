@@ -50,9 +50,10 @@ class MysqlModel
 			sql_hash = "SELECT kind.vorname, kind.nachname,kind.hashvalue FROM elternteil,kind WHERE elternteil.facebook_id=? AND 			elternteil.ident = kind.elternteil_id;"
 			pst_hash = con.prepare(sql_hash)
 			pst_hash.execute(facebook_id)
-			pst_hash.each{|child_list|) 
+			pst_hash.each{|child_list|
 				hashes << child_list[2]	
-				puts child_list}
+				puts child_list
+				}
 		    
 			rescue Mysql::Error => e
                         	return "Sorry, ein interner Fehler ist passiert."
