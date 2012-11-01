@@ -43,12 +43,14 @@ https.start {
 #
 # 7. Request User Information Using Access Token
 #
+puts "Requesting" 
 json=""
 url = "/me?access_token=#{access_token}"
 https.start {
   json = https.get(url).body
 }
  
+puts "Displaying"
 #
 # 9. User Infomation Page
 #
