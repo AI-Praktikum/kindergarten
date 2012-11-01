@@ -3,7 +3,7 @@ require "cgi"
 require "cgi/session"
  
 client_id    = "429415353772776"  # set your facebook application client_id
-redirect_uri = CGI.escape("http://kindergarten.hopto.org") # set your application url
+redirect_uri = CGI.escape("http://kindergarten.hopto.org/display.rbx") # set your application url
 
 
 cgi = CGI.new("xhtml10")
@@ -11,9 +11,10 @@ params=cgi.params
 hash= params.has_key?("hash") ? params["hash"].first : nil
 kindergarten= params.has_key?("kindergarten") ? params["kindergarten"].first : nil
 
-# Session für Kindergarten
-session = CGI::Session.new(cgi, "prefix" => "kindergarten.", "kindergarten" => kindergarten)
 
+# Session für Kindergarten
+session = CGI::Session.new(cgi, "session_key" => "ident", "prefix" => "kindergarten.")
+session["kindergarten"] = kindergarten 
 
 
 #
