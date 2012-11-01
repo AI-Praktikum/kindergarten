@@ -58,7 +58,7 @@ class MysqlModel
 			rescue Mysql::Error => e
                         	return "Sorry, ein interner Fehler ist passiert."
                   	ensure
-				pst_child.close if pst_child
+				pst_hash.close if pst_hash
                         	con.close if con
 			end
                      
