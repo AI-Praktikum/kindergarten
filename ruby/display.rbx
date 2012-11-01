@@ -37,6 +37,7 @@ https.start {
   # perse string such as  "access_token=AAAsZCLvBgZDZD&expires=4992995"
   response.body.split("&").each do |param|
     access_token = param.split("=")[1] if param.split("=")[0] == "access_token"
+    puts access_token
   end
 }
  
@@ -49,8 +50,9 @@ url = "/me?access_token=#{access_token}"
 https.start {
   json = https.get(url).body
 }
+
+puts json
  
-puts "Displaying"
 #
 # 9. User Infomation Page
 #
