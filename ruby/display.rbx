@@ -65,10 +65,10 @@ hashes=model.getChildHashes(kindergarten,facebook_id)
 puts "HashClass"
 puts hashes.class
 hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
-puts "Children" + children
+puts "Children" + children.to_s
 puts "Children calsse" 
 puts children.class
-children.each{|child| puts "Child: " + child
+children.each{|child| puts "Child: " + child.to_s
 	puts "child class: " 
 	puts child.class}
 #view= View.new("Kindergarten Wartelisten&uuml;berblick")
