@@ -61,13 +61,16 @@ facebook_id = JSON.parse(json)["id"]
 
 children = []
 hashes=model.getChildHashes(kindergarten,facebook_id)
-puts "HashClass" + hashes.class
+puts "HashClass"
+puts hashes.class
 hashes.each{|value| puts "VALUE:" + value}
 hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
 puts "Children" + children
-puts "Children calsse" +children.class
+puts "Children calsse" 
+puts children.class
 children.each{|child| puts "Child: " + child
-	puts "child class: " + child.class}
+	puts "child class: " 
+	puts child.class}
 #view= View.new("Kindergarten Wartelisten&uuml;berblick")
 #view.display(children)
 
