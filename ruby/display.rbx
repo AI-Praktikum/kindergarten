@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 require 'rubygems'
 require "model_mysql"
+require "view"
 require 'json'
 require 'cgi'
 require 'cgi/session'
