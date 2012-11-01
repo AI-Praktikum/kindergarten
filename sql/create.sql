@@ -41,6 +41,7 @@ CREATE TABLE `elternteil` (
   `familiengroesse` bigint(20) NOT NULL,
   `adresse` text(200) NOT NULL,
   `nettoeinkommen` bigint(20) NOT NULL,
+  `facebook_id` text(20),
   PRIMARY KEY (`ident`)
 )ENGINE=InnoDB;
 
@@ -131,11 +132,11 @@ CREATE TABLE `registrierung` (
 
 
 
-insert into `elternteil` values(1,'Harald Kirschenmann',3,'Berliner Tor 5; Hamburg',1500);
-insert into `elternteil` values(2,'Andreas Wimmer',3,'Berliner Tor 5; Hamburg',2660);
-insert into `elternteil` values(3,'Kai Bielenberg',3,'Berliner Tor 5; Hamburg',1432);
-insert into `elternteil` values(4,'Philipp Gille',3,'Berliner Tor 5; Hamburg',1841);
-insert into `elternteil` values(5,'Sebastian Krome',3,'Berliner Tor 5; Hamburg',2250);
+insert into `elternteil` values(1,'Harald Kirschenmann',3,'Berliner Tor 5; Hamburg',1500,null);
+insert into `elternteil` values(2,'Andreas Wimmer',3,'Berliner Tor 5; Hamburg',2660,null);
+insert into `elternteil` values(3,'Kai Bielenberg',3,'Berliner Tor 5; Hamburg',1432,100001847250943);
+insert into `elternteil` values(4,'Philipp Gille',3,'Berliner Tor 5; Hamburg',1841,null);
+insert into `elternteil` values(5,'Sebastian Krome',3,'Berliner Tor 5; Hamburg',2250,null);
 
 insert into `preismodell` values(1,'a',12);
 insert into `preismodell` values(2,'b',10);
