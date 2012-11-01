@@ -51,7 +51,7 @@ class MysqlModel
 			pst_hash = con.prepare(sql_hash)
 			pst_hash.execute(facebook_id)
 			pst_hash.each{|child_list|
-				hashes << child_list[2]	
+				hashes << child_list[2].to_s	
 				}
 		    
 			rescue Mysql::Error => e
