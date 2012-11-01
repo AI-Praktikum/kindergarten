@@ -44,23 +44,25 @@ class MysqlModel
 		if(kindergarten.nil? || facebook_id.nil?)
 			return "No Kindergarten or ID"
 		else
+		    hashes = []
 		    begin
-			hashes = []
 			con = Mysql.new(host,username, password, kindergarten)
 			sql_hash = "SELECT kind.vorname, kind.nachname,kind.hashvalue FROM elternteil,kind WHERE elternteil.facebook_id=? AND 			elternteil.ident = kind.elternteil_id;"
 			pst_hash = con.prepare(sql_hash)
 			pst_hash.execute(facebook_id)
-			pst_hash.each{|child_list|)  hashes << child_list[2]}
+			pst_hash.each{|child_list|) hashes << child_list[2]}
 		    
 			rescue Mysql::Error => e
                         	return "Sorry, ein interner Fehler ist passiert."
                   	ensure
 				pst_child.close if pst_child
                         	con.close if con
-                     end
-		  if(hashes.empty?) 
+			end
+                     
+		     if(hashes.empty?) 
 			return "Keine Hashes gefunden"
-		  end
+		     end
 		  return hashes
+		end
  	end	
 end
