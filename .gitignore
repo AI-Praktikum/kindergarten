@@ -3,3 +3,4 @@ src/META-INF/persistence.xml
 /build/
 /dist/
 /Preisinfo/
+db_config.rb
