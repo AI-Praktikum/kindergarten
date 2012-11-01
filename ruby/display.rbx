@@ -54,5 +54,8 @@ puts "Displaying"
 #
 # 9. User Infomation Page
 #
+name = JSON.parse(json)["name"]
+puts name
+
 name = JSON.parse(json)["id"]
-print "Content-Type: text/html\n\nHello #{name}\n<hr>\n#{json}\n"
+puts id
