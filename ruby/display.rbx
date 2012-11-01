@@ -9,6 +9,8 @@ cgi = CGI.new("html4")
 params=cgi.params
 
 #Enthällt den Kindergarten der in Login mitgegeben wurde
+
+#params[] returns array -> to_s 
 kindergarten =  params["state"].to_s
 puts kindergarten
 puts kindergarten.class
@@ -61,8 +63,8 @@ facebook_id = JSON.parse(json)["id"]
 puts facebook_id
 puts facebook_id.class
 children = []
-#hashes=model.getChildHashes(kindergarten,facebook_id)
-#puts hashes
+hashes=model.getChildHashes(kindergarten,facebook_id)
+puts hashes
 #hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
 #view= View.new("Kindergarten Wartelisten&uuml;berblick")
 #view.display(children)
