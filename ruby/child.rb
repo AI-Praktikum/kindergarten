@@ -1,3 +1,4 @@
+#!/usr/local/bin/ruby
 class Child
   def initialize(name,surname,queue,rank)
     @name,@surname,@queue,@rank=name,surname,queue,rank

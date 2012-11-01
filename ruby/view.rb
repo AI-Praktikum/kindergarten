@@ -1,3 +1,4 @@
+#!/usr/local/bin/ruby
 require "child"
 
 class View

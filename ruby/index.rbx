@@ -1,3 +1,4 @@
+#!/usr/local/bin/ruby
 require 'cgi'
 require "view"
 require "model_mysql"

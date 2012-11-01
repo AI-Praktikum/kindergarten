@@ -1,3 +1,4 @@
+#!/usr/local/bin/ruby
 require "db_config"
 require "child"
 require 'rubygems'
@@ -34,4 +35,6 @@ class Oci8Model
 			return children
 		end	
   	end
+
+	
 end
