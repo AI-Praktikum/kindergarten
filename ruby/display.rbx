@@ -9,7 +9,7 @@ cgi = CGI.new("html4")
 params=cgi.params
 
 #Enthällt den Kindergarten der in Login mitgegeben wurde
-kindergarten =  params["state"]
+kindergarten =  params["state"].to_s
 puts kindergarten
 puts kindergarten.class
 model = MysqlModel.new
