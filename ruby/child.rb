@@ -18,6 +18,6 @@ class Child
   end
 
   def to_s
-	"Name: " + name + " " + surname + " Queue: " + queue + " Rank: " + rank
+	"Name: " + name.to_s + " " + surname.to_s + " Queue: " + queue.to_s + " Rank: " + rank.to_s
   end
 end
