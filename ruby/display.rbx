@@ -12,7 +12,7 @@ state =  params["state"]
  
 client_id     = "429415353772776"  # set your facebook application client_id
 client_secret = "da5d3ce4978f795a470888cb00cd554b"  # set your facebook application client_secret
-redirect_uri  = CGI.escape("http://kindergarten.hopto/display.rbx")  # set your application url
+redirect_uri  = CGI.escape("http://kindergarten.hopto.org/display.rbx")  # set your application url
  
  
 #
