@@ -52,7 +52,6 @@ class MysqlModel
 			pst_hash.execute(facebook_id)
 			pst_hash.each{|child_list|
 				hashes << child_list[2]	
-				puts child_list
 				}
 		    
 			rescue Mysql::Error => e
