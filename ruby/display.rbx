@@ -34,13 +34,14 @@ https.verify_mode = OpenSSL::SSL::VERIFY_NONE
 access_token=""
 https.start {
   response = https.get(url)
+	puts "Response: " + response.body
   # perse string such as  "access_token=AAAsZCLvBgZDZD&expires=4992995"
   response.body.split("&").each do |param|
     access_token = param.split("=")[1] if param.split("=")[0] == "access_token"
     puts access_token
   end
 }
- 
+ puts access_token
 #
 # 7. Request User Information Using Access Token
 #
