@@ -23,5 +23,6 @@ session["kindergarten"] = kindergarten
 url = "https://graph.facebook.com/oauth/authorize?" +
   "response_type=code&" +
   "client_id=#{client_id}&" +
+  "state=#{kindergarten}&"  +
   "redirect_uri=#{redirect_uri}"
 print cgi.header({ 'status' => 'REDIRECT', 'Location' => url })
