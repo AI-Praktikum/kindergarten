@@ -57,7 +57,7 @@ https.start {
 
 facebook_id = JSON.parse(json)["id"]
 children = []
-hashes=model.getHashes(kindergarten,facebook_id)
+hashes=model.getChildHashes(kindergarten,facebook_id)
 puts hashes
 hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
 view= View.new("Kindergarten Wartelisten&uuml;berblick")
