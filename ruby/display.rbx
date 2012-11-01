@@ -60,10 +60,10 @@ https.start {
 facebook_id = JSON.parse(json)["id"]
 
 children = []
+#Hashes = List(Fixum)
 hashes=model.getChildHashes(kindergarten,facebook_id)
 puts "HashClass"
 puts hashes.class
-hashes.each{|value| puts "VALUE:" + value}
 hashes.each{|hash| children << model.getChildren(kindergarten,hash)}
 puts "Children" + children
 puts "Children calsse" 
