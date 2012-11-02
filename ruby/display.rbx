@@ -63,7 +63,7 @@ facebook_id = JSON.parse(json)["id"]
 children = []
 hashes=model.getChildHashes(kindergarten,facebook_id)
 #Prüfen ob Kind drinne! sonst komischer String
-if (not(hashes.empty?)) {
+if (not(hashes.empty?)) 
 	hashes.each{|hash| 
 		child = model.getChildren(kindergarten,hash)
 		if (child.is_a? Child) children << child}
@@ -74,9 +74,9 @@ if (not(hashes.empty?)) {
 	children.each{|child| puts "++++Child: " + child.to_s
 	puts "child class: " 
 	puts child.class}
-} else {
+else 
 	puts "no child found"
-}
+end
 #view= View.new("Kindergarten Wartelisten&uuml;berblick")
 #view.display(children)
 
