@@ -42,9 +42,7 @@ class View
 		elsif(something.is_a?(Array) and not(something.empty?) and something.all?{|x|x.is_a?(Child)})
 			displayChildren(something)
 		else
-			puts something.to_s
-			something.each{|x| puts x.to_s}
-			#displayError("Ein interner Fehler ist aufgetreten")
+			displayError("Ein interner Fehler ist aufgetreten")
 		end
 		displayBottom
 	end
