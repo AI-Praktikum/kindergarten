@@ -74,6 +74,7 @@ if (not(hashes.empty?))
 		child_list = model.getChildren(kindergarten,hash)
 		puts "Childrens for Hash"
 		puts child_list.empty?
+		puts child_list.class
 		puts child_list.to_s
 		if not(child_list.is_a? String) 
 			children + child_list
