@@ -60,9 +60,11 @@ https.start {
 facebook_id = JSON.parse(json)["id"]
 
 children = []
-#Hashes = List(Fixum)
 hashes=model.getChildHashes(kindergarten,facebook_id)
-hashes.each{|hash| children = model.getChildren(kindergarten,hash)}
+#Prüfen ob Kind drinne! sonst komischer String
+hashes.each{|hash| 
+	child = model.getChildren(kindergarten,hash)
+	if child.instance_of?(Child) children << child	}
 puts "Children" + children.to_s
 children.each{|child| puts "####Child: " + child.to_s}
 puts "----Children calsse" 
