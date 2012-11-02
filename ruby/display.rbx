@@ -77,7 +77,7 @@ if (not(hashes.empty?))
 		puts child_list.class
 		puts child_list.to_s
 		if not(child_list.is_a? String) 
-			children + child_list
+			children.concat(child_list)
 		end
 		puts "Children: "
 		puts children.empty?
