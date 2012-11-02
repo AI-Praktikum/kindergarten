@@ -5,6 +5,7 @@ require "view"
 require 'json'
 require 'cgi'
 require 'cgi/session'
+require 'child'
 cgi = CGI.new("html4")
 params=cgi.params
 
@@ -62,16 +63,20 @@ facebook_id = JSON.parse(json)["id"]
 children = []
 hashes=model.getChildHashes(kindergarten,facebook_id)
 #Prüfen ob Kind drinne! sonst komischer String
-hashes.each{|hash| 
-	child = model.getChildren(kindergarten,hash)
-	if (child.instance_of?(Child)) children << child	}
-puts "Children" + children.to_s
-children.each{|child| puts "####Child: " + child.to_s}
-puts "----Children calsse" 
-puts children.class
-children.each{|child| puts "++++Child: " + child.to_s
+if (not(hashes.empty?)) {
+	hashes.each{|hash| 
+		child = model.getChildren(kindergarten,hash)
+		if (child.is_a? Child) children << child}
+	puts "Children" + children.to_s
+	children.each{|child| puts "####Child: " + child.to_s}
+	puts "----Children calsse" 
+	puts children.class
+	children.each{|child| puts "++++Child: " + child.to_s
 	puts "child class: " 
 	puts child.class}
+} else {
+	puts "no child found"
+}
 #view= View.new("Kindergarten Wartelisten&uuml;berblick")
 #view.display(children)
 
