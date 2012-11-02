@@ -16,7 +16,6 @@ class MysqlModel
 			con = Mysql.new(host,username, password, kindergarten)
 			sql_child = "select k.vorname,k.nachname,w.ident,w.wartelistentyp,kw.datum_registrierung from (((Select * from kind where hashvalue=?) k join registrierung kw on k.ident = kw.kind_id) join warteliste w on kw.warteliste_id=w.ident)"
 			pst_child = con.prepare(sql_child)
-			puts "getChildren-hashvalue-type: " + hashvalue.class.to_s
 			pst_child.execute(hashvalue)
                         pst_child.each{|child_list|
                             sql_rank = "select (count(*)) from registrierung where warteliste_id=? and datum_registrierung<=?"

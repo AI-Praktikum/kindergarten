@@ -69,24 +69,15 @@ if (not(hashes.empty?))
 	hashes.each{|hash| 
 		#getChilderen Returns list(Child) or String if Error or no Child found
 		child_list = model.getChildren(kindergarten,hash)
-		puts "CHILD: " + child_list.to_s
 		if not(child_list.is_a? String) 
 			children + child_list
 		end	
 		}
-	puts "Children" + children.to_s
-	children.each{|child| puts "####Child: " + child.to_s}
-	puts "----Children calsse" 
-	puts children.class
-	puts children.empty?
-	children.each{|child| puts "++++Child: " + child.to_s
-	puts "child class: " 
-	puts child.class}
 else 
 	puts "no child found"
 end
-#view= View.new("Kindergarten Wartelisten&uuml;berblick")
-#view.display(children)
+view= View.new("Kindergarten Wartelisten&uuml;berblick")
+view.display(children)
 
 
 
