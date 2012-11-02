@@ -61,13 +61,16 @@ https.start {
 facebook_id = JSON.parse(json)["id"]
 
 children = []
+#Get the Hashes for the logged in parent
 hashes=model.getChildHashes(kindergarten, facebook_id)
-#Prüfen ob Kind drinne! sonst komischer String
+
+#Get Wartelistenplätze for each hash(child) 
 if (not(hashes.empty?)) 
 	hashes.each{|hash| 
+		#getChilderen Returns list(Child) or String if Error or no Child found
 		child_list = model.getChildren(kindergarten,hash)
 		puts "CHILD: " + child_list.to_s
-		if not(children.is_a? String) 
+		if not(child_list.is_a? String) 
 			children + child_list
 		end	
 		}
