@@ -65,33 +65,20 @@ children = []
 hashes=model.getChildHashes(kindergarten, facebook_id)
 
 #Get Wartelistenplätze for each hash(child) 
-puts "######Hashes: "
 if (not(hashes.empty?)) 
 	hashes.each{|hash| 
-		
-		puts hash
 		#getChilderen Returns list(Child) or String if Error or no Child found
 		child_list = model.getChildren(kindergarten,hash)
-		puts "Childrens for Hash"
-		puts child_list.empty?
-		puts child_list.class
-		puts child_list.to_s
 		if not(child_list.is_a? String) 
 			children.concat(child_list)
-		end
-		puts "Children: "
-		puts children.empty?
-		puts children.to_s	
+		end	
 		}
 else 
 	puts "no child found"
 end
-			puts "Output Children: "
-			puts children.empty?
-			puts children.to_s
-			children.each{|x| puts x.to_s}
-#view= View.new("Kindergarten Wartelisten&uuml;berblick")
-#view.display(children)
+
+view= View.new("Kindergarten Wartelisten&uuml;berblick")
+view.display(children)
 
 
 
