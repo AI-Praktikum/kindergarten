@@ -37,6 +37,11 @@ class View
 
 	def display(something)
 		displayHead
+
+		puts something.to_s
+		something.each{|x| puts x.to_s}
+
+
 		if(something.is_a?(String))
 			displayError(something)
 		elsif(something.is_a?(Array) and not(something.empty?) and something.all?{|x|x.is_a?(Child)})
