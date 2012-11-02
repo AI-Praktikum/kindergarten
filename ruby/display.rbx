@@ -76,6 +76,8 @@ if (not(hashes.empty?))
 else 
 	puts "no child found"
 end
+puts children.to_s
+children.each{|x| puts x.to_s}
 view= View.new("Kindergarten Wartelisten&uuml;berblick")
 view.display(children)
 
