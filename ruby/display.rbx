@@ -66,7 +66,10 @@ hashes=model.getChildHashes(kindergarten,facebook_id)
 if (not(hashes.empty?)) 
 	hashes.each{|hash| 
 		child = model.getChildren(kindergarten,hash)
-		if (not(child.is_a? String)) children << child}
+		if child.is_a? Child 
+			children << child
+		end	
+		}
 	puts "Children" + children.to_s
 	children.each{|child| puts "####Child: " + child.to_s}
 	puts "----Children calsse" 
