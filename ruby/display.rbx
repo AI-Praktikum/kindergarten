@@ -61,11 +61,12 @@ https.start {
 facebook_id = JSON.parse(json)["id"]
 
 children = []
-hashes=model.getChildHashes(kindergarten,facebook_id)
+hashes=model.getChildHashes(kindergarten, facebook_id)
 #Prüfen ob Kind drinne! sonst komischer String
 if (not(hashes.empty?)) 
 	hashes.each{|hash| 
 		child = model.getChildren(kindergarten,hash)
+		puts "CHILD: #child"
 		if child.is_a? Child 
 			children << child
 		end	
@@ -74,6 +75,7 @@ if (not(hashes.empty?))
 	children.each{|child| puts "####Child: " + child.to_s}
 	puts "----Children calsse" 
 	puts children.class
+	puts children.empty?
 	children.each{|child| puts "++++Child: " + child.to_s
 	puts "child class: " 
 	puts child.class}
