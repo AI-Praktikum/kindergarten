@@ -64,7 +64,7 @@ hashes=model.getChildHashes(kindergarten,facebook_id)
 #Prüfen ob Kind drinne! sonst komischer String
 hashes.each{|hash| 
 	child = model.getChildren(kindergarten,hash)
-	if child.instance_of?(Child) children << child	}
+	if (child.instance_of?(Child)) children << child	}
 puts "Children" + children.to_s
 children.each{|child| puts "####Child: " + child.to_s}
 puts "----Children calsse" 
