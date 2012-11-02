@@ -65,10 +65,10 @@ hashes=model.getChildHashes(kindergarten, facebook_id)
 #Prüfen ob Kind drinne! sonst komischer String
 if (not(hashes.empty?)) 
 	hashes.each{|hash| 
-		child = model.getChildren(kindergarten,hash)
-		puts "CHILD: #child"
-		if child.is_a? Child 
-			children << child
+		child_list = model.getChildren(kindergarten,hash)
+		puts "CHILD: " + child_list.to_s
+		if not(children.is_a? String) 
+			children + child_list
 		end	
 		}
 	puts "Children" + children.to_s
