@@ -116,7 +116,9 @@ public class Registrierung implements Serializable {
 
     @Override
     public String toString() {
-        return "kindergarten.model.Registrierung[ registrierungPK=" + registrierungPK + " ]";
+        Kind k = this.getKind();
+        return k.getNachname() + "," + k.getVorname();
     }
+    
     
 }

@@ -82,9 +82,9 @@ public class DBhelpers {
             
         
     
-    public static DBJdbc  getDatabase(){
-        String workingDir = System.getProperty("user.dir");
-        String[] logIn = Files.readAll(workingDir+"\\pwd.txt").split(" ");
+    public static DBJdbc getDatabase(){
+        String workingDir = "/home/andy/workspace/studium/semester5/ai/kindergarten";
+        String[] logIn = Files.readAll(workingDir+"/pwd.txt").split(" ");
         DBJdbc db = new DBJdbc(logIn[0],logIn[1]);
         return db;
     }

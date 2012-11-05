@@ -15,7 +15,7 @@ import java.sql.Statement;
  * @author andy
  */
 public class DBJdbc {
-    Statement s;
+    Statement stmt;
 
 	String user;
 	String pw;
@@ -23,28 +23,32 @@ public class DBJdbc {
 	public DBJdbc(String user, String pw) {
 		this.user = user;
 		this.pw = pw;
+                String dbUrl = "jdbc:mysql://localhost:3306/HAWHamburg";
 		// jdbc
 		try {
-			String url = "jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:inf09";
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-			Connection c = DriverManager.getConnection(url, user, pw);
-			s = c.createStatement();
+                        System.out.println(user + ", " + pw);
+//			Class.forName("com.mysql.jdbc.Driver");
+//			Connection c = DriverManager.getConnection(url, user, pw);
+//			s = c.createStatement();
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection(dbUrl, user, pw);
+                        stmt = con.createStatement();
 		} catch (Exception e) {
+                        System.out.println("Exception mit User: "+user+" identified by: "+pw);
 			e.printStackTrace();
 		}
 	}
 
 	public ResultSet query(String sql) throws SQLException {
-		return s.executeQuery(sql);
+		return stmt.executeQuery(sql);
 	}
 
 	public int update(String sql) throws SQLException {
-		return s.executeUpdate(sql);
+		return stmt.executeUpdate(sql);
 	}
         
         public boolean delete(String sql) throws SQLException {
-            return s.execute(sql);
+            return stmt.execute(sql);
         }
     
 }

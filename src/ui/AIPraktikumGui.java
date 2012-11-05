@@ -14,6 +14,7 @@ import javax.swing.JList;
 import kindergarten.admin.Preisinfo;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.DBLogin;
 import kindergarten.helper.DBWarteliste;
 import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
@@ -31,6 +32,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
      * Creates new form AIPraktikumGui
      */
     public AIPraktikumGui() {
+        DBLogin loginhelp = new DBLogin();
+        LoginDialog login = new LoginDialog(loginhelp, this, true);
+        login.setVisible(true);
+        System.out.println("Database to use: "+loginhelp.getDatabase());
         initComponents();
         Gruppe gr;
         if(jComboBoxGruppe.getSelectedItem() != null){
