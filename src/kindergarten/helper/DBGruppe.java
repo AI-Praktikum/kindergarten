@@ -92,7 +92,7 @@ public class DBGruppe {
         return result;
     }
     
-    public static void deleteFromGroup(Kind child, Gruppe gruppe) {
+    public static void deleteFromGroup(DBLogin login, Kind child, Gruppe gruppe) {
         boolean valid = false;
         System.out.println(child);
         System.out.println(gruppe);
@@ -101,7 +101,7 @@ public class DBGruppe {
             break;
         }
         if(valid){
-            DBJdbc db = DBhelpers.getDatabase();
+            DBJdbc db = DBhelpers.getDatabase(login);
             String kind = child.getIdent().toString();
             String gr = gruppe.getIdent().toString();
             String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;

@@ -31,7 +31,7 @@ import kindergarten.model.Warteliste;
 public class DBKind {
    
     
-    public static void newKind(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups) throws ParseException{
+    public static void newKind(DBLogin login, String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups) throws ParseException{
         EntityManager em = DBhelpers.getEntityManager();
         
         Date geb = DBhelpers.stringToDate(gebDat);
@@ -68,12 +68,12 @@ public class DBKind {
         }       
         
         for(Gruppe g: gl){
-            insertInGroup(k,g);
+            insertInGroup(login,k,g);
         }
     }
     
-    public static void insertInGroup(Kind child, Gruppe gruppe){
-        DBJdbc db = DBhelpers.getDatabase();
+    public static void insertInGroup(DBLogin login, Kind child, Gruppe gruppe){
+        DBJdbc db = DBhelpers.getDatabase(login);
         String g = gruppe.getIdent().toString();
         String ch = child.getIdent().toString();
         String s = "Insert into kind_gruppe values("+g+","+ch+")";
@@ -111,26 +111,26 @@ public class DBKind {
         
     }
     
-    public static void shift(Kind k, Gruppe oldGroup, Gruppe newGroup){
-        DBGruppe.deleteFromGroup(k, oldGroup);
-        DBKind.insertInGroup(k, newGroup);   
+    public static void shift(DBLogin login, Kind k, Gruppe oldGroup, Gruppe newGroup){
+        DBGruppe.deleteFromGroup(login, k, oldGroup);
+        DBKind.insertInGroup(login, k, newGroup);   
     }
     
-    public static void shift(Kind child, Gruppe oldGroup, Warteliste wl){
-        DBGruppe.deleteFromGroup(child, oldGroup);
+    public static void shift(DBLogin login, Kind child, Gruppe oldGroup, Warteliste wl){
+        DBGruppe.deleteFromGroup(login, child, oldGroup);
         DBRegistrierung.insertNewReg(child, wl, new Date());
     }
     
-    public static void shift(Registrierung r, Warteliste source, Warteliste target){
+    public static void shift(DBLogin login, Registrierung r, Warteliste source, Warteliste target){
         Kind k = r.getKind();
-        DBRegistrierung.deleteReg(r);
+        DBRegistrierung.deleteReg(login, r);
         DBRegistrierung.insertNewReg(k, target,new Date());
     }
     
-    public static void shift(Registrierung r, Warteliste source, Gruppe target){
+    public static void shift(DBLogin login, Registrierung r, Warteliste source, Gruppe target){
         Kind k = r.getKind();
-        DBRegistrierung.deleteReg(r);
-        DBKind.insertInGroup(k, target);
+        DBRegistrierung.deleteReg(login, r);
+        DBKind.insertInGroup(login, k, target);
     }
     
     public static Kind getByIdent(BigDecimal ident){

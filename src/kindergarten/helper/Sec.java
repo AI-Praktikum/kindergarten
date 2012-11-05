@@ -19,7 +19,7 @@ import kindergarten.model.Warteliste;
 
 
 public class Sec {
-    public static void insertNewChild(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups){
+    public static void insertNewChild(DBLogin login, String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups){
         if(isValidDate(gebDat) && (validPreismodell(p)) && validGroups(groups) ){
 //                for(Object o : groups){
 //                    if(!isValidGroupSize((String)o)){
@@ -30,7 +30,7 @@ public class Sec {
 //                }
             try {
                 System.out.println("new child aufruf in sec");
-                DBKind.newKind(vorname, nachname, gebDat, eltern, p, groups);
+                DBKind.newKind(login, vorname, nachname, gebDat, eltern, p, groups);
             } catch (ParseException ex) {
                //error Message
             }

@@ -16,6 +16,7 @@ import javax.swing.JList;
 import kindergarten.helper.DBElternteil;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.DBLogin;
 import kindergarten.helper.DBhelpers;
 import kindergarten.helper.Sec;
 import kindergarten.model.Elternteil;
@@ -27,13 +28,14 @@ import kindergarten.model.Preismodell;
  * @author andy
  */
 public class NewKindDialog extends javax.swing.JDialog {
-    
+    private DBLogin login;
     boolean newElternteil = false;
     /**
      * Creates new form NewKindDialog
      */
-    public NewKindDialog(java.awt.Frame parent, boolean modal) {
+    public NewKindDialog(DBLogin login, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.login = login;
         initComponents();
         
         jList1.setModel(DBhelpers.lmFreeGroupsAndWartelisten());
@@ -397,7 +399,7 @@ public class NewKindDialog extends javax.swing.JDialog {
                 e = (Elternteil)jComboBox1.getSelectedItem();
             }
             
-            Sec.insertNewChild(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
+            Sec.insertNewChild(this.login, jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
         
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -440,7 +442,7 @@ public class NewKindDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewKindDialog dialog = new NewKindDialog(new javax.swing.JFrame(), true);
+                NewKindDialog dialog = new NewKindDialog(null, new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

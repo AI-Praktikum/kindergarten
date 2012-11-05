@@ -27,15 +27,15 @@ import kindergarten.model.Warteliste;
  * @author andy
  */
 public class AIPraktikumGui extends javax.swing.JFrame {
-
+    private DBLogin loginhelp;
     /**
      * Creates new form AIPraktikumGui
      */
     public AIPraktikumGui() {
-        DBLogin loginhelp = new DBLogin();
-        LoginDialog login = new LoginDialog(loginhelp, this, true);
+        this.loginhelp = new DBLogin();
+        LoginDialog login = new LoginDialog(this.loginhelp, this, true);
         login.setVisible(true);
-        System.out.println("Database to use: "+loginhelp.getDatabase());
+        System.out.println("Database to use: "+this.loginhelp.getDatabase());
         initComponents();
         Gruppe gr;
         if(jComboBoxGruppe.getSelectedItem() != null){
@@ -481,7 +481,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        NewKindDialog dia = new NewKindDialog(this, true);
+        NewKindDialog dia = new NewKindDialog(this.loginhelp,this, true);
         dia.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -580,9 +580,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         Gruppe oldGroup = (Gruppe)jComboBoxGruppe.getSelectedItem();
         if(jCverschieben.getSelectedItem() instanceof Gruppe){
             Gruppe newGroup = (Gruppe)jCverschieben.getSelectedItem(); 
-            DBKind.shift(kind,oldGroup,newGroup);
+            DBKind.shift(this.loginhelp, kind,oldGroup,newGroup);
         }else{
-            DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
+            DBKind.shift(this.loginhelp, kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
         }
       
     }//GEN-LAST:event_BTverschiebenActionPerformed
@@ -612,9 +612,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         if(!(r == null)){
             if(jCverschieben2.getSelectedItem() instanceof Gruppe){
                 Gruppe newGroup = (Gruppe)jCverschieben2.getSelectedItem(); 
-                DBKind.shift(r,source,newGroup);
+                DBKind.shift(this.loginhelp, r,source,newGroup);
             }else{
-                DBKind.shift(r,source,(Warteliste)jCverschieben2.getSelectedItem());
+                DBKind.shift(this.loginhelp, r,source,(Warteliste)jCverschieben2.getSelectedItem());
             }
         }
     }//GEN-LAST:event_BTverschieben2ActionPerformed
