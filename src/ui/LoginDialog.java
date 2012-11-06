@@ -118,7 +118,7 @@ public class LoginDialog extends javax.swing.JDialog {
         String user = this.jTextField1.getText();
         char password[] = this.jPasswordField1.getPassword();
         String pw = new String(password);
-        String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
+        String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/"+user;
         try {
             login.setUser(user);
             Class.forName("com.mysql.jdbc.Driver");
