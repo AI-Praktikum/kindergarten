@@ -4,9 +4,17 @@
  */
 package kindergarten.helper;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -136,6 +144,32 @@ public class DBhelpers {
         
         return d;
     }
+    
+    private static String readAll(Reader rd) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    int cp;
+    while ((cp = rd.read()) != -1) {
+      sb.append((char) cp);
+    }
+    return sb.toString();
+  }
+    
+    public static String getFacebookIdFromUrl(String url) {
+        InputStream is;
+        url = url.replaceAll("www","graph");
+        if(url.startsWith("graph")){
+            url = "http://" + url;
+        }
+        try {
+            is = new URL(url).openStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String text = readAll(rd);
+            String[] attributes = text.split(",");
+            return attributes[0].split(":")[1].replaceAll("\"", "");            
+        } catch (Exception e) {
+            return "";
+        } 
+    }
    
     
     public static List<Registrierung> getRegistrierungenByWarteliste(Warteliste w){
@@ -147,6 +181,10 @@ public class DBhelpers {
         queryk.setParameter("wartelisteId", w.getIdent());
         
         return queryk.getResultList();
+    }
+    
+    public static void main(String args[]){
+        System.out.println(getFacebookIdFromUrl("www.facebook.com/sebastian.krome"));
     }
    
 //    
