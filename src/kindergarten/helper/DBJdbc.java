@@ -17,11 +17,11 @@ import java.sql.Statement;
 public class DBJdbc {
     Statement stmt;
     private DBLogin login;
-    private String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/"; 
+    private String dbUrl; 
 
 	public DBJdbc(DBLogin logindata) {
 		this.login = logindata;
-                this.dbUrl = this.dbUrl + login.getDatabase();
+                this.dbUrl = login.getDatabase();
 	}
 
 	public ResultSet query(String sql) throws SQLException {

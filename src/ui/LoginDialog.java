@@ -127,7 +127,7 @@ public class LoginDialog extends javax.swing.JDialog {
             Connection con = DriverManager.getConnection(dbUrl, user, pw.toString());
             System.out.println("Connection established");
             login.setPassword(pw.toString());
-            login.setDatabase(user);
+            login.setDatabase(dbUrl);
             con.close();
             
             this.setVisible(false);
