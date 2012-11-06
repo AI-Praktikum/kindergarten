@@ -167,7 +167,7 @@ public class DBhelpers {
             String[] attributes = text.split(",");
             return attributes[0].split(":")[1].replaceAll("\"", "");            
         } catch (Exception e) {
-            return "";
+            return null;
         } 
     }
    

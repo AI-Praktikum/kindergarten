@@ -18,10 +18,12 @@ import kindergarten.model.Elternteil;
  * @author andy
  */
 public class DBElternteil {
-    public static Elternteil newElternteil(String name, Object famgr, Object n, String adr){
-        
+    public static Elternteil newElternteil(String name, Object famgr, Object n, String adr, String facebookUrl){
+        String facebookId;
         long gr = ((Number) famgr).intValue(); 
         long netto = ((Number) n).intValue(); 
+        
+        facebookId = DBhelpers.getFacebookIdFromUrl(facebookUrl);
         
         EntityManager em = DBhelpers.getEntityManager();
         
