@@ -15,36 +15,65 @@ import java.sql.Statement;
  * @author andy
  */
 public class DBJdbc {
-    Statement s;
+    Statement stmt;
+    private DBLogin login;
 
-	String user;
-	String pw;
-
-	public DBJdbc(String user, String pw) {
-		this.user = user;
-		this.pw = pw;
-		// jdbc
-		try {
-			String url = "jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:inf09";
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-			Connection c = DriverManager.getConnection(url, user, pw);
-			s = c.createStatement();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public DBJdbc(DBLogin logindata) {
+		this.login = logindata;
 	}
 
 	public ResultSet query(String sql) throws SQLException {
-		return s.executeQuery(sql);
+                String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
+		// jdbc
+		try {
+                        System.out.println(this.login.getUser() + ", " + this.login.getPassword());
+//			Class.forName("com.mysql.jdbc.Driver");
+//			Connection c = DriverManager.getConnection(url, user, pw);
+//			s = c.createStatement();
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection(dbUrl, this.login.getUser(), this.login.getPassword());
+                        stmt = con.createStatement();
+		} catch (Exception e) {
+                        System.out.println("Exception mit User: "+this.login.getUser()+" identified by: "+this.login.getPassword());
+			e.printStackTrace();
+		}
+		return stmt.executeQuery(sql);
 	}
 
 	public int update(String sql) throws SQLException {
-		return s.executeUpdate(sql);
+                String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
+		// jdbc
+		try {
+                        System.out.println(this.login.getUser() + ", " + this.login.getPassword());
+//			Class.forName("com.mysql.jdbc.Driver");
+//			Connection c = DriverManager.getConnection(url, user, pw);
+//			s = c.createStatement();
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection(dbUrl, this.login.getUser(), this.login.getPassword());
+                        stmt = con.createStatement();
+		} catch (Exception e) {
+                        System.out.println("Exception mit User: "+this.login.getUser()+" identified by: "+this.login.getPassword());
+			e.printStackTrace();
+		}
+		return stmt.executeUpdate(sql);
 	}
         
         public boolean delete(String sql) throws SQLException {
-            return s.execute(sql);
+            String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
+		// jdbc
+		try {
+                        System.out.println(this.login.getUser() + ", " + this.login.getPassword());
+//			Class.forName("com.mysql.jdbc.Driver");
+//			Connection c = DriverManager.getConnection(url, user, pw);
+//			s = c.createStatement();
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection(dbUrl, this.login.getUser(), this.login.getPassword());
+                        stmt = con.createStatement();
+		} catch (Exception e) {
+                        System.out.println("Exception mit User: "+this.login.getUser()+" identified by: "+this.login.getPassword());
+			e.printStackTrace();
+		}
+            return stmt.execute(sql);
         }
     
 }

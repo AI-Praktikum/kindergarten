@@ -30,7 +30,7 @@ public class ExampleQuery {
         TypedQuery<Kind> query = em.createNamedQuery("Kind.findAll", Kind.class);
         List<Kind> results = query.getResultList();
         for(Kind kind: results){
-            System.out.println(kind.getElternteilId());
+            System.out.println(kind.getElternteilid());
         }
         System.out.println(results.toString());
     }

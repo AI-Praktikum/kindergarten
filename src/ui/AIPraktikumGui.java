@@ -14,6 +14,7 @@ import javax.swing.JList;
 import kindergarten.admin.Preisinfo;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
+import kindergarten.helper.DBLogin;
 import kindergarten.helper.DBWarteliste;
 import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
@@ -26,11 +27,15 @@ import kindergarten.model.Warteliste;
  * @author andy
  */
 public class AIPraktikumGui extends javax.swing.JFrame {
-
+    private DBLogin loginhelp;
     /**
      * Creates new form AIPraktikumGui
      */
     public AIPraktikumGui() {
+        this.loginhelp = new DBLogin();
+        LoginDialog login = new LoginDialog(this.loginhelp, this, true);
+        login.setVisible(true);
+        System.out.println("Database to use: "+this.loginhelp.getDatabase());
         initComponents();
         Gruppe gr;
         if(jComboBoxGruppe.getSelectedItem() != null){
@@ -51,7 +56,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             DefaultListModel lm = new DefaultListModel();
 
             List<Registrierung> kinder = new ArrayList<Registrierung>();
-            kinder.addAll(wl.getRegistrierungCollection());
+            kinder.addAll(DBhelpers.getRegistrierungenByWarteliste(wl));
 
             for(Registrierung r : kinder){                
                 lm.addElement(r);
@@ -60,6 +65,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         }
         
         
+    }
+    
+    public void close(){
+        System.exit(0);
     }
 
     /**
@@ -79,10 +88,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         kindList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : kindQuery.getResultList();
         wartelisteQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT w FROM Warteliste w");
         wartelisteList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : wartelisteQuery.getResultList();
-        kindQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT k FROM Kind k");
-        kindList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : kindQuery1.getResultList();
-        kindQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT k FROM Kind k");
-        kindList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : kindQuery2.getResultList();
+        kindergartenPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU").createEntityManager();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -154,7 +160,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(jComboBox2, 0, 573, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton7)
-                        .addGap(0, 488, Short.MAX_VALUE)))
+                        .addGap(0, 516, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -168,7 +174,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118)
                 .addComponent(jButton7)
-                .addContainerGap(355, Short.MAX_VALUE))
+                .addContainerGap(391, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Kinder", jPanel1);
@@ -190,8 +196,6 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, gruppeList, jComboBoxGruppe, "");
         bindingGroup.addBinding(jComboBoxBinding);
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, gruppeList, org.jdesktop.beansbinding.ObjectProperty.create(), jComboBoxGruppe, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
 
         jComboBoxGruppe.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -357,9 +361,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jLabel8.setText("Warteliste:");
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedItem.registrierungCollection}");
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedItem.gruppeCollection}");
         jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jComboBox1, eLProperty, jList2);
-        jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${kind.nachname}"));
+        jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${kindCollection.nachname}"));
         bindingGroup.addBinding(jListBinding);
 
         jScrollPane2.setViewportView(jList2);
@@ -402,7 +406,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -435,7 +439,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addComponent(jCverschieben2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BTverschieben2)
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Wartelisten", jPanel4);
@@ -481,7 +485,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        NewKindDialog dia = new NewKindDialog(this, true);
+        NewKindDialog dia = new NewKindDialog(this.loginhelp,this, true);
         dia.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -509,8 +513,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             jList1.setModel(lm);
             
             
-            jLabel5.setText(gr.getGruppengroesse().toString());
-            jLabel7.setText(gr.getGruppengroesse().subtract(new BigInteger(String.valueOf(kind.size()))).toString());
+            jLabel5.setText(String.valueOf(gr.getGruppengroesse()));
+            jLabel7.setText(String.valueOf(gr.getGruppengroesse()-kind.size()));
         }
     }//GEN-LAST:event_jComboBoxGruppeItemStateChanged
 
@@ -519,8 +523,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             KindInfoDialog kid = new KindInfoDialog(this, true);
             Kind k = (Kind)jList1.getSelectedValue();
             // preis berechnen
-            int preis = Preisinfo.getPrice(k);
-            kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
+            long preis = Preisinfo.getPrice(k);
+            kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilid().getName(), k.getElternteilid().getAdresse(), (int)preis);
             kid.setVisible(true);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -533,7 +537,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 DefaultListModel lm = new DefaultListModel();
 
                 List<Registrierung> kinder = new ArrayList<Registrierung>();
-                kinder.addAll(wl.getRegistrierungCollection());
+                kinder.addAll(DBhelpers.getRegistrierungenByWarteliste(wl));
 
                 for(Registrierung k : kinder){
                     lm.addElement(k);
@@ -548,8 +552,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             KindInfoDialog kid = new KindInfoDialog(this, true);
             Kind k = ((Registrierung)jList2.getSelectedValue()).getKind();
             // preis berechnen
-            int preis = Preisinfo.getPrice(k);
-            kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilId().getName(), k.getElternteilId().getAdresse(), preis);
+            long preis = Preisinfo.getPrice(k);
+            kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilid().getName(), k.getElternteilid().getAdresse(), (int)preis);
             kid.setVisible(true);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -580,9 +584,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         Gruppe oldGroup = (Gruppe)jComboBoxGruppe.getSelectedItem();
         if(jCverschieben.getSelectedItem() instanceof Gruppe){
             Gruppe newGroup = (Gruppe)jCverschieben.getSelectedItem(); 
-            DBKind.shift(kind,oldGroup,newGroup);
+            DBKind.shift(this.loginhelp, kind,oldGroup,newGroup);
         }else{
-            DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
+            DBKind.shift(this.loginhelp, kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
         }
       
     }//GEN-LAST:event_BTverschiebenActionPerformed
@@ -612,9 +616,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         if(!(r == null)){
             if(jCverschieben2.getSelectedItem() instanceof Gruppe){
                 Gruppe newGroup = (Gruppe)jCverschieben2.getSelectedItem(); 
-                DBKind.shift(r,source,newGroup);
+                DBKind.shift(this.loginhelp, r,source,newGroup);
             }else{
-                DBKind.shift(r,source,(Warteliste)jCverschieben2.getSelectedItem());
+                DBKind.shift(this.loginhelp, r,source,(Warteliste)jCverschieben2.getSelectedItem());
             }
         }
     }//GEN-LAST:event_BTverschieben2ActionPerformed
@@ -697,11 +701,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane2;
     private java.util.List<kindergarten.model.Kind> kindList;
-    private java.util.List<kindergarten.model.Kind> kindList1;
-    private java.util.List<kindergarten.model.Kind> kindList2;
     private javax.persistence.Query kindQuery;
-    private javax.persistence.Query kindQuery1;
-    private javax.persistence.Query kindQuery2;
+    private javax.persistence.EntityManager kindergartenPUEntityManager;
     private java.util.List<kindergarten.model.Warteliste> wartelisteList;
     private javax.persistence.Query wartelisteQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

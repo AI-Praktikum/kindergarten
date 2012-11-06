@@ -5,9 +5,8 @@
 package kindergarten.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -19,14 +18,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import kindergarten.helper.DBKind;
 
 /**
  *
  * @author andy
  */
 @Entity
-@Table(name = "REGISTRIERUNG")
+@Table(name = "registrierung")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registrierung.findAll", query = "SELECT r FROM Registrierung r"),
@@ -37,13 +35,14 @@ public class Registrierung implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RegistrierungPK registrierungPK;
-    @Column(name = "DATUM_REGISTRIERUNG")
+    @Basic(optional = false)
+    @Column(name = "datum_registrierung")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datumRegistrierung;
-    @JoinColumn(name = "WARTELISTE_ID", referencedColumnName = "IDENT", insertable = false, updatable = false)
+    @JoinColumn(name = "warteliste_id", referencedColumnName = "ident", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Warteliste warteliste;
-    @JoinColumn(name = "KIND_ID", referencedColumnName = "IDENT", insertable = false, updatable = false)
+    private Gruppe gruppe;
+    @JoinColumn(name = "kind_id", referencedColumnName = "ident", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Kind kind;
 
@@ -54,7 +53,12 @@ public class Registrierung implements Serializable {
         this.registrierungPK = registrierungPK;
     }
 
-    public Registrierung(BigInteger kindId, BigInteger wartelisteId) {
+    public Registrierung(RegistrierungPK registrierungPK, Date datumRegistrierung) {
+        this.registrierungPK = registrierungPK;
+        this.datumRegistrierung = datumRegistrierung;
+    }
+
+    public Registrierung(long kindId, long wartelisteId) {
         this.registrierungPK = new RegistrierungPK(kindId, wartelisteId);
     }
 
@@ -74,12 +78,12 @@ public class Registrierung implements Serializable {
         this.datumRegistrierung = datumRegistrierung;
     }
 
-    public Warteliste getWarteliste() {
-        return warteliste;
+    public Gruppe getGruppe() {
+        return gruppe;
     }
 
-    public void setWarteliste(Warteliste warteliste) {
-        this.warteliste = warteliste;
+    public void setGruppe(Gruppe gruppe) {
+        this.gruppe = gruppe;
     }
 
     public Kind getKind() {
@@ -112,8 +116,9 @@ public class Registrierung implements Serializable {
 
     @Override
     public String toString() {
-        Kind k = this.kind;
-        return k.getNachname()+","+k.getVorname();
+        Kind k = this.getKind();
+        return k.getNachname() + "," + k.getVorname();
     }
+    
     
 }

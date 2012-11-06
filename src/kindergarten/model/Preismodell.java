@@ -4,23 +4,23 @@
  */
 package kindergarten.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,54 +29,55 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author andy
  */
 @Entity
-@Table(name = "PREISMODELL")
+@Table(name = "preismodell")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Preismodell.findAll", query = "SELECT p FROM Preismodell p"),
     @NamedQuery(name = "Preismodell.findByIdent", query = "SELECT p FROM Preismodell p WHERE p.ident = :ident"),
-    @NamedQuery(name = "Preismodell.findByBezeichnung", query = "SELECT p FROM Preismodell p WHERE p.bezeichnung = :bezeichnung"),
     @NamedQuery(name = "Preismodell.findByDauer", query = "SELECT p FROM Preismodell p WHERE p.dauer = :dauer")})
 public class Preismodell implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IDENT")
-    private BigDecimal ident;
-    @Column(name = "BEZEICHNUNG")
+    @Column(name = "ident")
+    private Long ident;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "bezeichnung")
     private String bezeichnung;
     @Basic(optional = false)
-    @Column(name = "DAUER")
-    private BigInteger dauer;
-    @ManyToMany(mappedBy = "preismodellCollection")
+    @Column(name = "dauer")
+    private long dauer;
+    @JoinTable(name = "kindergarten_preismodell", joinColumns = {
+        @JoinColumn(name = "preismodell_id", referencedColumnName = "ident")}, inverseJoinColumns = {
+        @JoinColumn(name = "kindergarten_id", referencedColumnName = "ident")})
+    @ManyToMany
     private Collection<Kindergarten> kindergartenCollection;
-    @OneToMany(mappedBy = "preismodellId")
-    private Collection<Kind> kindCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "preismodellId")
     private Collection<Preisliste> preislisteCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "preismodellId")
+    private Collection<Kind> kindCollection;
 
     public Preismodell() {
     }
 
-    public Preismodell(BigDecimal ident) {
+    public Preismodell(Long ident) {
         this.ident = ident;
     }
 
-    public Preismodell(BigDecimal ident, BigInteger dauer) {
+    public Preismodell(Long ident, String bezeichnung, long dauer) {
         this.ident = ident;
+        this.bezeichnung = bezeichnung;
         this.dauer = dauer;
     }
 
-    public BigDecimal getIdent() {
+    public Long getIdent() {
         return ident;
     }
 
-    public void setIdent(BigDecimal ident) {
-        BigDecimal oldIdent = this.ident;
+    public void setIdent(Long ident) {
         this.ident = ident;
-        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public String getBezeichnung() {
@@ -84,19 +85,15 @@ public class Preismodell implements Serializable {
     }
 
     public void setBezeichnung(String bezeichnung) {
-        String oldBezeichnung = this.bezeichnung;
         this.bezeichnung = bezeichnung;
-        changeSupport.firePropertyChange("bezeichnung", oldBezeichnung, bezeichnung);
     }
 
-    public BigInteger getDauer() {
+    public long getDauer() {
         return dauer;
     }
 
-    public void setDauer(BigInteger dauer) {
-        BigInteger oldDauer = this.dauer;
+    public void setDauer(long dauer) {
         this.dauer = dauer;
-        changeSupport.firePropertyChange("dauer", oldDauer, dauer);
     }
 
     @XmlTransient
@@ -109,21 +106,21 @@ public class Preismodell implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Kind> getKindCollection() {
-        return kindCollection;
-    }
-
-    public void setKindCollection(Collection<Kind> kindCollection) {
-        this.kindCollection = kindCollection;
-    }
-
-    @XmlTransient
     public Collection<Preisliste> getPreislisteCollection() {
         return preislisteCollection;
     }
 
     public void setPreislisteCollection(Collection<Preisliste> preislisteCollection) {
         this.preislisteCollection = preislisteCollection;
+    }
+
+    @XmlTransient
+    public Collection<Kind> getKindCollection() {
+        return kindCollection;
+    }
+
+    public void setKindCollection(Collection<Kind> kindCollection) {
+        this.kindCollection = kindCollection;
     }
 
     @Override
@@ -149,14 +146,6 @@ public class Preismodell implements Serializable {
     @Override
     public String toString() {
         return "kindergarten.model.Preismodell[ ident=" + ident + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

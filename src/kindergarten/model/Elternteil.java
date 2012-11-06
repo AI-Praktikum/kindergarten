@@ -4,65 +4,67 @@
  */
 package kindergarten.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author andy
  */
 @Entity
-@Table(name = "ELTERNTEIL")
+@Table(name = "elternteil")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Elternteil.findAll", query = "SELECT e FROM Elternteil e"),
     @NamedQuery(name = "Elternteil.findByIdent", query = "SELECT e FROM Elternteil e WHERE e.ident = :ident"),
-    @NamedQuery(name = "Elternteil.findByName", query = "SELECT e FROM Elternteil e WHERE e.name = :name"),
     @NamedQuery(name = "Elternteil.findByFamiliengroesse", query = "SELECT e FROM Elternteil e WHERE e.familiengroesse = :familiengroesse"),
     @NamedQuery(name = "Elternteil.findByAdresse", query = "SELECT e FROM Elternteil e WHERE e.adresse = :adresse"),
     @NamedQuery(name = "Elternteil.findByNettoeinkommen", query = "SELECT e FROM Elternteil e WHERE e.nettoeinkommen = :nettoeinkommen")})
 public class Elternteil implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IDENT")
-    private BigDecimal ident;
+    @Column(name = "ident")
+    private Long ident;
     @Basic(optional = false)
-    @Column(name = "NAME")
+    @Lob
+    @Column(name = "name")
     private String name;
     @Basic(optional = false)
-    @Column(name = "FAMILIENGROESSE")
-    private BigInteger familiengroesse;
+    @Column(name = "familiengroesse")
+    private long familiengroesse;
     @Basic(optional = false)
-    @Column(name = "ADRESSE")
+    @Column(name = "adresse")
     private String adresse;
     @Basic(optional = false)
-    @Column(name = "NETTOEINKOMMEN")
-    private BigInteger nettoeinkommen;
+    @Column(name = "nettoeinkommen")
+    private long nettoeinkommen;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "elternteilid")
+    private Collection<Kind> kindCollection;
 
     public Elternteil() {
     }
 
-    public Elternteil(BigDecimal ident) {
+    public Elternteil(Long ident) {
         this.ident = ident;
     }
 
-    public Elternteil(BigDecimal ident, String name, BigInteger familiengroesse, String adresse, BigInteger nettoeinkommen) {
+    public Elternteil(Long ident, String name, long familiengroesse, String adresse, long nettoeinkommen) {
         this.ident = ident;
         this.name = name;
         this.familiengroesse = familiengroesse;
@@ -70,14 +72,12 @@ public class Elternteil implements Serializable {
         this.nettoeinkommen = nettoeinkommen;
     }
 
-    public BigDecimal getIdent() {
+    public Long getIdent() {
         return ident;
     }
 
-    public void setIdent(BigDecimal ident) {
-        BigDecimal oldIdent = this.ident;
+    public void setIdent(Long ident) {
         this.ident = ident;
-        changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
 
     public String getName() {
@@ -85,19 +85,15 @@ public class Elternteil implements Serializable {
     }
 
     public void setName(String name) {
-        String oldName = this.name;
         this.name = name;
-        changeSupport.firePropertyChange("name", oldName, name);
     }
 
-    public BigInteger getFamiliengroesse() {
+    public long getFamiliengroesse() {
         return familiengroesse;
     }
 
-    public void setFamiliengroesse(BigInteger familiengroesse) {
-        BigInteger oldFamiliengroesse = this.familiengroesse;
+    public void setFamiliengroesse(long familiengroesse) {
         this.familiengroesse = familiengroesse;
-        changeSupport.firePropertyChange("familiengroesse", oldFamiliengroesse, familiengroesse);
     }
 
     public String getAdresse() {
@@ -105,19 +101,24 @@ public class Elternteil implements Serializable {
     }
 
     public void setAdresse(String adresse) {
-        String oldAdresse = this.adresse;
         this.adresse = adresse;
-        changeSupport.firePropertyChange("adresse", oldAdresse, adresse);
     }
 
-    public BigInteger getNettoeinkommen() {
+    public long getNettoeinkommen() {
         return nettoeinkommen;
     }
 
-    public void setNettoeinkommen(BigInteger nettoeinkommen) {
-        BigInteger oldNettoeinkommen = this.nettoeinkommen;
+    public void setNettoeinkommen(long nettoeinkommen) {
         this.nettoeinkommen = nettoeinkommen;
-        changeSupport.firePropertyChange("nettoeinkommen", oldNettoeinkommen, nettoeinkommen);
+    }
+
+    @XmlTransient
+    public Collection<Kind> getKindCollection() {
+        return kindCollection;
+    }
+
+    public void setKindCollection(Collection<Kind> kindCollection) {
+        this.kindCollection = kindCollection;
     }
 
     @Override
@@ -142,15 +143,7 @@ public class Elternteil implements Serializable {
 
     @Override
     public String toString() {
-        return "kindergarten.model.Elternteil[ ident=" + ident + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
+        return this.getName();
     }
     
 }

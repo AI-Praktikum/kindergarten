@@ -7,13 +7,15 @@ package kindergarten.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,47 +29,45 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author andy
  */
 @Entity
-@Table(name = "WARTELISTE")
+@Table(name = "warteliste")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Warteliste.findAll", query = "SELECT w FROM Warteliste w"),
-    @NamedQuery(name = "Warteliste.findByIdent", query = "SELECT w FROM Warteliste w WHERE w.ident = :ident"),
-    @NamedQuery(name = "Warteliste.findByWartelistentyp", query = "SELECT w FROM Warteliste w WHERE w.wartelistentyp = :wartelistentyp")})
+    @NamedQuery(name = "Warteliste.findByIdent", query = "SELECT w FROM Warteliste w WHERE w.ident = :ident")})
 public class Warteliste implements Serializable {
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IDENT")
-    private BigDecimal ident;
+    @Column(name = "ident")
+    private Long ident;
     @Basic(optional = false)
-    @Column(name = "WARTELISTENTYP")
+    @Lob
+    @Column(name = "wartelistentyp")
     private String wartelistentyp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wartelisteId")
     private Collection<Gruppe> gruppeCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "warteliste")
-    private Collection<Registrierung> registrierungCollection;
 
     public Warteliste() {
     }
 
-    public Warteliste(BigDecimal ident) {
+    public Warteliste(Long ident) {
         this.ident = ident;
     }
 
-    public Warteliste(BigDecimal ident, String wartelistentyp) {
+    public Warteliste(Long ident, String wartelistentyp) {
         this.ident = ident;
         this.wartelistentyp = wartelistentyp;
     }
 
-    public BigDecimal getIdent() {
+    public Long getIdent() {
         return ident;
     }
 
-    public void setIdent(BigDecimal ident) {
-        BigDecimal oldIdent = this.ident;
+    public void setIdent(Long ident) {
+        Long oldIdent = this.ident;
         this.ident = ident;
         changeSupport.firePropertyChange("ident", oldIdent, ident);
     }
@@ -89,15 +89,6 @@ public class Warteliste implements Serializable {
 
     public void setGruppeCollection(Collection<Gruppe> gruppeCollection) {
         this.gruppeCollection = gruppeCollection;
-    }
-
-    @XmlTransient
-    public Collection<Registrierung> getRegistrierungCollection() {
-        return registrierungCollection;
-    }
-
-    public void setRegistrierungCollection(Collection<Registrierung> registrierungCollection) {
-        this.registrierungCollection = registrierungCollection;
     }
 
     @Override
@@ -122,7 +113,7 @@ public class Warteliste implements Serializable {
 
     @Override
     public String toString() {
-        return this.getWartelistentyp()+"gruppen";
+        return this.getWartelistentyp();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
