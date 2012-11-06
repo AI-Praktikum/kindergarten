@@ -17,13 +17,15 @@ import java.sql.Statement;
 public class DBJdbc {
     Statement stmt;
     private DBLogin login;
+    private String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/"; 
 
 	public DBJdbc(DBLogin logindata) {
 		this.login = logindata;
+                this.dbUrl = this.dbUrl + login.getDatabase();
 	}
 
 	public ResultSet query(String sql) throws SQLException {
-                String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
+ 
 		// jdbc
 		try {
                         System.out.println(this.login.getUser() + ", " + this.login.getPassword());
@@ -41,7 +43,6 @@ public class DBJdbc {
 	}
 
 	public int update(String sql) throws SQLException {
-                String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
 		// jdbc
 		try {
                         System.out.println(this.login.getUser() + ", " + this.login.getPassword());
@@ -59,7 +60,6 @@ public class DBJdbc {
 	}
         
         public boolean delete(String sql) throws SQLException {
-            String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/andreas";
 		// jdbc
 		try {
                         System.out.println(this.login.getUser() + ", " + this.login.getPassword());
