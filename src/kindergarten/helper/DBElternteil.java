@@ -34,6 +34,7 @@ public class DBElternteil {
         long nextId = DBhelpers.nextElternteilIdent();
         Elternteil e = new Elternteil();
         e.setIdent(nextId);
+        e.setFacebookId(facebookId);
         e.setAdresse(adr);
         e.setFamiliengroesse(gr);
         e.setName(name);
