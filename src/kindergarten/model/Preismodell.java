@@ -55,8 +55,6 @@ public class Preismodell implements Serializable {
     @ManyToMany
     private Collection<Kindergarten> kindergartenCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "preismodellId")
-    private Collection<Preisliste> preislisteCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "preismodellId")
     private Collection<Kind> kindCollection;
 
     public Preismodell() {
@@ -103,15 +101,6 @@ public class Preismodell implements Serializable {
 
     public void setKindergartenCollection(Collection<Kindergarten> kindergartenCollection) {
         this.kindergartenCollection = kindergartenCollection;
-    }
-
-    @XmlTransient
-    public Collection<Preisliste> getPreislisteCollection() {
-        return preislisteCollection;
-    }
-
-    public void setPreislisteCollection(Collection<Preisliste> preislisteCollection) {
-        this.preislisteCollection = preislisteCollection;
     }
 
     @XmlTransient

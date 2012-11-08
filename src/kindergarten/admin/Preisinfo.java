@@ -166,7 +166,6 @@ public class Preisinfo {
         long kind_netto = kind_eltern.getNettoeinkommen();
         
         long[][] preisliste = readPriceList(preismodell);
-        System.out.println(preisliste.length);
         for (int  i = 0; i < preisliste.length && preisliste[i][0] < kind_netto; i++){
             preis = preisliste[i][kind_fg-1]; // familiengröße 2 -> feld nr 2 -> 0-basiert 1
         }
