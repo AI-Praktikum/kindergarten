@@ -5,12 +5,12 @@
 package ui;
 
 import java.awt.Component;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import kindergarten.admin.Preisinfo;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
@@ -552,7 +552,12 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             KindInfoDialog kid = new KindInfoDialog(this, true);
             Kind k = ((Registrierung)jList2.getSelectedValue()).getKind();
             // preis berechnen
-            long preis = Preisinfo.getPrice(k);
+            long preis = 0;
+            try{
+                preis = Preisinfo.getPrice(k);
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(this, "Fehler in der Preisliste");
+            }
             kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilid().getName(), k.getElternteilid().getAdresse(), (int)preis);
             kid.setVisible(true);
         }
