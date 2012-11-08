@@ -9,13 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -26,10 +19,9 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import kindergarten.helper.Files;
 import kindergarten.model.Elternteil;
 import kindergarten.model.Kind;
-import kindergarten.model.Preisliste;
-import kindergarten.model.Preismodell;
 
 /**
  *
@@ -166,29 +158,34 @@ public class Preisinfo {
     }
     
     public static long getPrice(Kind k){
-        // über k an alle daten kommen und berechnen
         long preis = 0;
-        List<Integer> einkommen = new ArrayList<Integer>();
-        Map<Integer, Preisliste> map = new HashMap<Integer, Preisliste>();
         
-        Elternteil eltern = k.getElternteilid();
-        long fg = eltern.getFamiliengroesse();
-        long netto = eltern.getNettoeinkommen();
-        Preismodell preismodell = k.getPreismodellId();
-        Collection<Preisliste> preisColl = preismodell.getPreislisteCollection();
-        for(Preisliste p : preisColl){
-            if (p.getNettoeinkommen() <= netto){
-                 map.put((int)p.getNettoeinkommen(), p);
-            }
+        Elternteil kind_eltern = k.getElternteilid();
+        String preismodell = k.getPreismodellId().getBezeichnung();
+        int kind_fg = (int)kind_eltern.getFamiliengroesse();
+        long kind_netto = kind_eltern.getNettoeinkommen();
+        
+        long[][] preisliste = readPriceList(preismodell);
+        System.out.println(preisliste.length);
+        for (int  i = 0; i < preisliste.length && preisliste[i][0] < kind_netto; i++){
+            preis = preisliste[i][kind_fg-1]; // familiengröße 2 -> feld nr 2 -> 0-basiert 1
         }
-        Preisliste preisliste = map.get(Collections.max(map.keySet()));
-
-        if(fg >= 6){preis = preisliste.getPreis6pers();}
-        else if(fg >= 5){preis = preisliste.getPreis5pers();}
-        else if(fg >= 4){preis = preisliste.getPreis4pers();}
-        else if(fg >= 3){preis = preisliste.getPreis3pers();}
-        else if(fg <= 2){preis = preisliste.getPreis2pers();}
         
         return preis;
+    }
+    
+    private static long[][] readPriceList(String list){
+        String preislisteString = Files.readAll("Preislisten"+System.getProperty("file.separator")+list+".csv");
+        String[] stringZeilen = preislisteString.split(System.getProperty("line.separator"));
+        long[][] preisliste = new long[stringZeilen.length - 1][6];
+        // durch zeilen iterieren
+        for (int i = 1; i < stringZeilen.length; i++){
+            String[] stringZeile = stringZeilen[i].split(","); // hier ändern falls kommawerte in csv und trennzeichen ein anderes zeichen
+            // durch spalten iterieren
+            for (int j = 0; j < stringZeile.length; j++){
+                preisliste[i-1][j] = Long.valueOf(stringZeile[j]);
+            }
+        }
+        return preisliste;
     }
 }
