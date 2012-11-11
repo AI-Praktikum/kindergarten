@@ -21,6 +21,7 @@ import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
 import kindergarten.model.Registrierung;
 import kindergarten.model.Warteliste;
+import org.jdesktop.beansbinding.ELProperty;
 
 /**
  *
@@ -65,6 +66,17 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         }
         
         
+    }
+    
+    private void update(){
+        kindList.clear();
+        kindList.addAll(kindQuery.getResultList());
+        
+        gruppeList.clear();
+        gruppeList.addAll(gruppeQuery.getResultList());
+        
+        wartelisteList.clear();
+        wartelisteList.addAll(wartelisteQuery.getResultList());
     }
     
     public void close(){
@@ -134,10 +146,22 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jInternalFrame1.setVisible(true);
 
+        jTabbedPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTabbedPane2MousePressed(evt);
+            }
+        });
+
         jLabel2.setText("Kind:");
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, kindList, jComboBox2);
         bindingGroup.addBinding(jComboBoxBinding);
+
+        jComboBox2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jComboBox2MousePressed(evt);
+            }
+        });
 
         jButton7.setText("Kind hinzufuegen...");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -627,6 +651,15 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_BTverschieben2ActionPerformed
+
+    private void jTabbedPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MousePressed
+        update();
+    }//GEN-LAST:event_jTabbedPane2MousePressed
+
+    private void jComboBox2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MousePressed
+        kindList.clear();
+        kindList.addAll(kindQuery.getResultList());
+    }//GEN-LAST:event_jComboBox2MousePressed
 
     /**
      * @param args the command line arguments
