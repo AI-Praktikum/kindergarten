@@ -92,6 +92,7 @@ public class DBGruppe {
         return result;
     }
     
+    
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
         boolean valid = false;
         System.out.println(child);
@@ -111,12 +112,9 @@ public class DBGruppe {
                 Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
-        
-        
     }
-    
+        
+
     public static List<Gruppe> getFreeGroups(){
         
         List<Gruppe> all = getAllGroups();
@@ -181,6 +179,10 @@ public class DBGruppe {
 //        }
 //        
 //    }
+
+    static List<Gruppe> getGroupsByKind(Kind k) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
   
     

@@ -111,6 +111,7 @@ public class DBKind {
         
     }
     
+
     public static void shift(Kind k, Gruppe oldGroup, Gruppe newGroup){
         DBGruppe.deleteFromGroup(k, oldGroup);
         DBKind.insertInGroup(k, newGroup);   
@@ -120,6 +121,28 @@ public class DBKind {
         DBGruppe.deleteFromGroup(child, oldGroup);
         DBRegistrierung.insertNewReg(child, wl, new Date());
     }
+
+    public static void deleteFromGroup(Kind child, Gruppe gruppe) {
+        boolean valid = false;
+        System.out.println(child);
+        System.out.println(gruppe);
+        for(Gruppe g : child.getGruppeCollection()){
+            if(g.equals(gruppe))valid = true;
+            break;
+        }
+        if(valid){
+            DBJdbc db = DBhelpers.getDatabase();
+            String kind = child.getIdent().toString();
+            String gr = gruppe.getIdent().toString();
+            String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
+            try {
+                db.delete(s);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     
     public static void shift(Registrierung r, Warteliste source, Warteliste target){
         Kind k = r.getKind();
@@ -143,5 +166,17 @@ public class DBKind {
         
         result = queryk.getSingleResult();
         return result;
+    }
+
+    public static void completeDeletion(Kind k) {
+        List<Registrierung> registrierungen = DBRegistrierung.getWartelistenByKind(k);
+        List<Gruppe> gruppen = DBGruppe.getGroupsByKind(k);
+        
+        for(Registrierung r : registrierungen){
+            DBRegistrierung.deleteReg(r);
+        }
+        for(Gruppe g : gruppen){
+            DBKind.deleteFromGroup(k, g);
+        }
     }
 }
