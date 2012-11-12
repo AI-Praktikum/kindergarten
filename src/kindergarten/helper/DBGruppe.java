@@ -92,30 +92,12 @@ public class DBGruppe {
         return result;
     }
     
-    public static void deleteFromGroup(DBLogin login, Kind child, Gruppe gruppe) {
-        boolean valid = false;
-        System.out.println(child);
-        System.out.println(gruppe);
-        for(Gruppe g : child.getGruppeCollection()){
-            if(g.equals(gruppe))valid = true;
-            break;
-        }
-        if(valid){
-            DBJdbc db = DBhelpers.getDatabase(login);
-            String kind = child.getIdent().toString();
-            String gr = gruppe.getIdent().toString();
-            String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
-            try {
-                db.delete(s);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    
         
         
         
         
-    }
+    
     
     public static List<Gruppe> getFreeGroups(){
         
@@ -181,6 +163,10 @@ public class DBGruppe {
 //        }
 //        
 //    }
+
+    static List<Gruppe> getGroupsByKind(Kind k) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
   
     

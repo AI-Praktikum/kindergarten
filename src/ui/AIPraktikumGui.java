@@ -15,6 +15,7 @@ import kindergarten.admin.Preisinfo;
 import kindergarten.helper.DBGruppe;
 import kindergarten.helper.DBKind;
 import kindergarten.helper.DBLogin;
+import kindergarten.helper.DBRegistrierung;
 import kindergarten.helper.DBWarteliste;
 import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
@@ -108,6 +109,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jSeparator3 = new javax.swing.JSeparator();
         jButton7 = new javax.swing.JButton();
+        jButtonCompleteChildDeletion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jComboBoxGruppe = new javax.swing.JComboBox();
@@ -124,6 +126,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         RBverschieben = new javax.swing.JRadioButton();
         jCverschieben = new javax.swing.JComboBox();
         BTverschieben = new javax.swing.JButton();
+        jButtonKindAusGruppeEntfernen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -137,6 +140,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         BTverschieben2 = new javax.swing.JButton();
         RBverschieben2 = new javax.swing.JRadioButton();
         jCverschieben2 = new javax.swing.JComboBox();
+        jButtonKindAusWartelisteEntfernen = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -170,6 +174,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
         });
 
+        jButtonCompleteChildDeletion.setText("Kind löschen");
+        jButtonCompleteChildDeletion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCompleteChildDeletionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -181,10 +192,12 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, 0, 573, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 641, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton7)
-                        .addGap(0, 538, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonCompleteChildDeletion)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -197,7 +210,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118)
-                .addComponent(jButton7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButtonCompleteChildDeletion))
                 .addContainerGap(391, Short.MAX_VALUE))
         );
 
@@ -278,6 +293,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
         });
 
+        jButtonKindAusGruppeEntfernen.setText("Kind entfernen");
+        jButtonKindAusGruppeEntfernen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonKindAusGruppeEntfernenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -286,7 +308,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jButton8)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonKindAusGruppeEntfernen))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -299,7 +324,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                             .addComponent(RBverschieben, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jCverschieben, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(BTverschieben, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +349,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(BTverschieben))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton8)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
+                    .addComponent(jButtonKindAusGruppeEntfernen))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -418,6 +445,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jCverschieben2.setEnabled(false);
 
+        jButtonKindAusWartelisteEntfernen.setText("Kind entfernen");
+        jButtonKindAusWartelisteEntfernen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonKindAusWartelisteEntfernenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -430,15 +464,18 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(jButton9)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jCverschieben2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(RBverschieben2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(BTverschieben2))
+                            .addComponent(BTverschieben2)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jButton9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonKindAusWartelisteEntfernen)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -456,7 +493,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton9)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton9)
+                    .addComponent(jButtonKindAusWartelisteEntfernen))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(RBverschieben2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -661,6 +700,25 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         kindList.addAll(kindQuery.getResultList());
     }//GEN-LAST:event_jComboBox2MousePressed
 
+    private void jButtonKindAusGruppeEntfernenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKindAusGruppeEntfernenActionPerformed
+        // TODO add your handling code here:
+        Gruppe g = (Gruppe)jComboBoxGruppe.getSelectedItem();
+        Kind kind = (Kind)jList1.getSelectedValue();
+        DBKind.deleteFromGroup(loginhelp, kind, g);
+    }//GEN-LAST:event_jButtonKindAusGruppeEntfernenActionPerformed
+
+    private void jButtonKindAusWartelisteEntfernenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKindAusWartelisteEntfernenActionPerformed
+        // TODO add your handling code here:
+        Registrierung r = (Registrierung)jList2.getSelectedValue();
+        DBRegistrierung.deleteReg(loginhelp, r);
+    }//GEN-LAST:event_jButtonKindAusWartelisteEntfernenActionPerformed
+
+    private void jButtonCompleteChildDeletionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompleteChildDeletionActionPerformed
+        // TODO add your handling code here:
+        Kind k = (Kind)jComboBox2.getSelectedItem();
+        DBKind.completeDeletion(k); 
+    }//GEN-LAST:event_jButtonCompleteChildDeletionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -707,6 +765,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButtonCompleteChildDeletion;
+    private javax.swing.JButton jButtonKindAusGruppeEntfernen;
+    private javax.swing.JButton jButtonKindAusWartelisteEntfernen;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBoxGruppe;

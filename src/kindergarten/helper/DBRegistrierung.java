@@ -86,4 +86,8 @@ public class DBRegistrierung {
                 Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+
+    static List<Registrierung> getWartelistenByKind(Kind k) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
