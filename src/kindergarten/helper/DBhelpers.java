@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -42,8 +43,7 @@ public class DBhelpers {
     
     public static long nextKindIdent(){
         
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findAll", Kind.class);
         
@@ -57,8 +57,7 @@ public class DBhelpers {
     }
     public static long nextGruppeIdent(){
         
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         TypedQuery<Gruppe> queryk = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
         
@@ -83,15 +82,16 @@ public class DBhelpers {
     }
     
     public static EntityManager getEntityManager(){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
+        Map<String, String> propMap = DBLogin.getPropMap();
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", propMap);
         EntityManager em = emf.createEntityManager();
         return em;
     }
             
         
     
-    public static DBJdbc getDatabase(DBLogin login){
-        DBJdbc db = new DBJdbc(login);
+    public static DBJdbc getDatabase(){
+        DBJdbc db = new DBJdbc();
         return db;
     }
     
@@ -107,8 +107,7 @@ public class DBhelpers {
     }
     public static long nextWartelisteIdent(){
         
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         TypedQuery<Warteliste> queryk = em.createNamedQuery("Warteliste.findAll", Warteliste.class);
         
@@ -122,8 +121,7 @@ public class DBhelpers {
     }
     public static long nextElternteilIdent(){
         
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         TypedQuery<Elternteil> queryk = em.createNamedQuery("Elternteil.findAll", Elternteil.class);
         
@@ -173,8 +171,7 @@ public class DBhelpers {
    
     
     public static List<Registrierung> getRegistrierungenByWarteliste(Warteliste w){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         
         TypedQuery<Registrierung> queryk = em.createNamedQuery("Registrierung.findByWartelisteId", Registrierung.class);
         

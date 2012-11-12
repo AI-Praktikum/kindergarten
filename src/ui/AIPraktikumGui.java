@@ -93,14 +93,14 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU").createEntityManager();
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", DBLogin.getPropMap()).createEntityManager();
         gruppeQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT g FROM Gruppe g");
         gruppeList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : gruppeQuery.getResultList();
         kindQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT k FROM Kind k");
         kindList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : kindQuery.getResultList();
         wartelisteQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT w FROM Warteliste w");
         wartelisteList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : wartelisteQuery.getResultList();
-        kindergartenPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU").createEntityManager();
+        kindergartenPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", DBLogin.getPropMap()).createEntityManager();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -613,9 +613,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         Gruppe oldGroup = (Gruppe)jComboBoxGruppe.getSelectedItem();
         if(jCverschieben.getSelectedItem() instanceof Gruppe){
             Gruppe newGroup = (Gruppe)jCverschieben.getSelectedItem(); 
-            DBKind.shift(this.loginhelp, kind,oldGroup,newGroup);
+            DBKind.shift(kind,oldGroup,newGroup);
         }else{
-            DBKind.shift(this.loginhelp, kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
+            DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
         }
       
     }//GEN-LAST:event_BTverschiebenActionPerformed
@@ -645,9 +645,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         if(!(r == null)){
             if(jCverschieben2.getSelectedItem() instanceof Gruppe){
                 Gruppe newGroup = (Gruppe)jCverschieben2.getSelectedItem(); 
-                DBKind.shift(this.loginhelp, r,source,newGroup);
+                DBKind.shift(r,source,newGroup);
             }else{
-                DBKind.shift(this.loginhelp, r,source,(Warteliste)jCverschieben2.getSelectedItem());
+                DBKind.shift(r,source,(Warteliste)jCverschieben2.getSelectedItem());
             }
         }
     }//GEN-LAST:event_BTverschieben2ActionPerformed

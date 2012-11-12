@@ -11,10 +11,10 @@
     <class>kindergarten.model.Elternteil</class>
     <class>kindergarten.model.Preismodell</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/sebastian"/>
-      <property name="javax.persistence.jdbc.password" value="*********"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.user" value="sebastian"/>
+      <property name="javax.persistence.jdbc.url" value="PU"/>
+      <property name="javax.persistence.jdbc.password" value="pw"/>
+      <property name="javax.persistence.jdbc.driver" value="driver"/>
+      <property name="javax.persistence.jdbc.user" value="user"/>
     </properties>
   </persistence-unit>
 </persistence>

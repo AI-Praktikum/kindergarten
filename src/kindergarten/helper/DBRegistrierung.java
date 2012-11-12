@@ -67,7 +67,7 @@ public class DBRegistrierung {
         return result;
     }
     
-    public static void deleteReg(DBLogin login, Registrierung r){
+    public static void deleteReg(Registrierung r){
         EntityManager em = DBhelpers.getEntityManager();
         TypedQuery<Warteliste> queryg = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
         
@@ -76,7 +76,7 @@ public class DBRegistrierung {
         Warteliste w = queryg.getSingleResult();
         
         Kind k = r.getKind();
-        DBJdbc db = DBhelpers.getDatabase(login);
+        DBJdbc db = DBhelpers.getDatabase();
         String kind = k.getIdent().toString();
         String gr = w.getIdent().toString();
         String s = "Delete from registrierung where kind_id = " + kind + " and warteliste_id = " + gr;

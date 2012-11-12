@@ -118,16 +118,17 @@ public class LoginDialog extends javax.swing.JDialog {
         String user = this.jTextField1.getText();
         char password[] = this.jPasswordField1.getPassword();
         String pw = new String(password);
-        String dbUrl = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/"+user;
+        String dbUrl = DBLogin.getUrl();
         try {
             login.setUser(user);
-            Class.forName("com.mysql.jdbc.Driver");
+            login.setPassword(pw.toString());
+            login.setDatabase(user);
+            Class.forName(DBLogin.getDriver());
             System.out.println("Driver loaded\n");
             System.out.println("User: "+user+" --- Password: "+pw+"\n");
-            Connection con = DriverManager.getConnection(dbUrl, user, pw.toString());
+            Connection con = DriverManager.getConnection(dbUrl+user, user, pw.toString());
             System.out.println("Connection established");
-            login.setPassword(pw.toString());
-            login.setDatabase(dbUrl);
+ //           login.initPropertyMap();
             con.close();
             
             this.setVisible(false);

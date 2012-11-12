@@ -16,27 +16,25 @@ import java.sql.Statement;
  */
 public class DBJdbc {
     Statement stmt;
-    private DBLogin login;
     private String dbUrl; 
 
-	public DBJdbc(DBLogin logindata) {
-		this.login = logindata;
-                this.dbUrl = login.getDatabase();
+	public DBJdbc() {
+                this.dbUrl = DBLogin.getUrl()+DBLogin.getDatabase();
 	}
 
 	public ResultSet query(String sql) throws SQLException {
  
 		// jdbc
 		try {
-                        System.out.println(this.login.getUser() + ", " + this.login.getPassword());
+                        System.out.println(DBLogin.getUser() + ", " + DBLogin.getPassword());
 //			Class.forName("com.mysql.jdbc.Driver");
 //			Connection c = DriverManager.getConnection(url, user, pw);
 //			s = c.createStatement();
-                        Class.forName("com.mysql.jdbc.Driver");
-                        Connection con = DriverManager.getConnection(dbUrl, this.login.getUser(), this.login.getPassword());
+                        Class.forName(DBLogin.getDriver());
+                        Connection con = DriverManager.getConnection(dbUrl, DBLogin.getUser(), DBLogin.getPassword());
                         stmt = con.createStatement();
 		} catch (Exception e) {
-                        System.out.println("Exception mit User: "+this.login.getUser()+" identified by: "+this.login.getPassword());
+                        System.out.println("Exception mit User: "+DBLogin.getUser()+" identified by: "+DBLogin.getPassword());
 			e.printStackTrace();
 		}
 		return stmt.executeQuery(sql);
@@ -45,15 +43,15 @@ public class DBJdbc {
 	public int update(String sql) throws SQLException {
 		// jdbc
 		try {
-                        System.out.println(this.login.getUser() + ", " + this.login.getPassword());
+                        System.out.println(DBLogin.getUser() + ", " + DBLogin.getPassword());
 //			Class.forName("com.mysql.jdbc.Driver");
 //			Connection c = DriverManager.getConnection(url, user, pw);
 //			s = c.createStatement();
-                        Class.forName("com.mysql.jdbc.Driver");
-                        Connection con = DriverManager.getConnection(dbUrl, this.login.getUser(), this.login.getPassword());
+                        Class.forName(DBLogin.getDriver());
+                        Connection con = DriverManager.getConnection(dbUrl, DBLogin.getUser(), DBLogin.getPassword());
                         stmt = con.createStatement();
 		} catch (Exception e) {
-                        System.out.println("Exception mit User: "+this.login.getUser()+" identified by: "+this.login.getPassword());
+                        System.out.println("Exception mit User: "+DBLogin.getUser()+" identified by: "+DBLogin.getPassword());
 			e.printStackTrace();
 		}
 		return stmt.executeUpdate(sql);
@@ -62,15 +60,15 @@ public class DBJdbc {
         public boolean delete(String sql) throws SQLException {
 		// jdbc
 		try {
-                        System.out.println(this.login.getUser() + ", " + this.login.getPassword());
+                        System.out.println(DBLogin.getUser() + ", " + DBLogin.getPassword());
 //			Class.forName("com.mysql.jdbc.Driver");
 //			Connection c = DriverManager.getConnection(url, user, pw);
 //			s = c.createStatement();
-                        Class.forName("com.mysql.jdbc.Driver");
-                        Connection con = DriverManager.getConnection(dbUrl, this.login.getUser(), this.login.getPassword());
+                        Class.forName(DBLogin.getDriver());
+                        Connection con = DriverManager.getConnection(dbUrl, DBLogin.getUser(), DBLogin.getPassword());
                         stmt = con.createStatement();
 		} catch (Exception e) {
-                        System.out.println("Exception mit User: "+this.login.getUser()+" identified by: "+this.login.getPassword());
+                        System.out.println("Exception mit User: "+DBLogin.getUser()+" identified by: "+DBLogin.getPassword());
 			e.printStackTrace();
 		}
             return stmt.execute(sql);

@@ -42,7 +42,7 @@ public class NewKindDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU").createEntityManager();
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", DBLogin.getPropMap()).createEntityManager();
         elternteilQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Elternteil e");
         elternteilList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : elternteilQuery.getResultList();
         elternteilQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Elternteil e");
@@ -406,7 +406,7 @@ public class NewKindDialog extends javax.swing.JDialog {
                 e = (Elternteil)jComboBox1.getSelectedItem();
             }
             
-            Sec.insertNewChild(this.login, jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
+            Sec.insertNewChild(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
         
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
