@@ -70,15 +70,19 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }
     
     private void update(){
+        System.out.println("update...");
         kindList.clear();
         kindList.addAll(kindQuery.getResultList());
+        
+        eLProperty = eLProperty.create("${selectedItem.kindCollection}");
         
         gruppeList.clear();
         gruppeList.addAll(gruppeQuery.getResultList());
         
         wartelisteList.clear();
         wartelisteList.addAll(wartelisteQuery.getResultList());
-    }
+        System.out.println("update ende");
+                }
     
     public void close(){
         System.exit(0);
@@ -236,6 +240,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, gruppeList, jComboBoxGruppe, "");
         bindingGroup.addBinding(jComboBoxBinding);
 
+        jComboBoxGruppe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jComboBoxGruppeMousePressed(evt);
+            }
+        });
         jComboBoxGruppe.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBoxGruppeItemStateChanged(evt);
@@ -254,7 +263,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
         jLabel1.setText("Kind:");
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedItem.kindCollection}");
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedItem.kindCollection}");
         org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jComboBoxGruppe, eLProperty, jList1);
         jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${nachname}"));
         bindingGroup.addBinding(jListBinding);
@@ -719,6 +728,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         DBKind.completeDeletion(k); 
     }//GEN-LAST:event_jButtonCompleteChildDeletionActionPerformed
 
+    private void jComboBoxGruppeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxGruppeMousePressed
+        gruppeList.clear();
+        gruppeList.addAll(gruppeQuery.getResultList());
+    }//GEN-LAST:event_jComboBoxGruppeMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -805,5 +819,6 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private java.util.List<kindergarten.model.Warteliste> wartelisteList;
     private javax.persistence.Query wartelisteQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+	private org.jdesktop.beansbinding.ELProperty eLProperty;
     // End of variables declaration//GEN-END:variables
 }
