@@ -180,9 +180,7 @@ public class DBGruppe {
 //        
 //    }
 
-    static List<Gruppe> getGroupsByKind(Kind k) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+    
     
   
     

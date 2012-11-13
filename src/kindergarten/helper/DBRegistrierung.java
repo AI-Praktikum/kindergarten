@@ -87,7 +87,5 @@ public class DBRegistrierung {
             }
     }
 
-    static List<Registrierung> getWartelistenByKind(Kind k) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+    
 }

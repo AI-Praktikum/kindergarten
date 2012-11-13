@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,6 +71,17 @@ public class DBKind {
         for(Gruppe g: gl){
             insertInGroup(k,g);
         }
+    }
+    
+    private static void deleteFromDB(Kind k){
+        DBJdbc db = DBhelpers.getDatabase();
+        String ident = k.getIdent().toString();
+        String sql = "Delete from kind where ident = " + ident;
+        try {
+                db.delete(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     public static void insertInGroup(Kind child, Gruppe gruppe){
@@ -169,14 +181,34 @@ public class DBKind {
     }
 
     public static void completeDeletion(Kind k) {
-        List<Registrierung> registrierungen = DBRegistrierung.getWartelistenByKind(k);
-        List<Gruppe> gruppen = DBGruppe.getGroupsByKind(k);
+        Collection<Registrierung> registrierungen;
+        Collection<Gruppe> gruppen;
+        try{
+            registrierungen = k.getRegistrierungCollection();
+        }catch(Exception e){
+            registrierungen = null;
+        }
         
-        for(Registrierung r : registrierungen){
-            DBRegistrierung.deleteReg(r);
+        if(registrierungen != null){
+            for(Registrierung r : registrierungen){
+                DBRegistrierung.deleteReg(r);
+            }
         }
-        for(Gruppe g : gruppen){
-            DBKind.deleteFromGroup(k, g);
+        
+        try{
+            gruppen = k.getGruppeCollection();
+        }catch(Exception e){
+            gruppen = null;
         }
+        
+        if(gruppen != null){
+           for(Gruppe g : gruppen){
+                DBKind.deleteFromGroup(k, g);
+            }
+        }
+        deleteFromDB(k);
+        
+        
+        
     }
 }
