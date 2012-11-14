@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 require "cgi"
 require "cgi/session"
+require "model_mysql"
+require "view"
  
 client_id    = "429415353772776"  # set your facebook application client_id
 redirect_uri = CGI.escape("http://kindergarten.hopto.org/display.rbx") # set your application url
