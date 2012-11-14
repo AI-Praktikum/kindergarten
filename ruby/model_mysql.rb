@@ -46,7 +46,7 @@ class MysqlModel
           rescue Mysql::Error => e
             return false
           ensure
-            pst_hash.close if pst_hash
+            db_selected.close if db_selected
             con.close if con
           end
         end
