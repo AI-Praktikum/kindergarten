@@ -135,24 +135,26 @@ public class DBKind {
     }
 
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
-        boolean valid = false;
+      //  boolean valid = false;
         System.out.println(child);
         System.out.println(gruppe);
-        for(Gruppe g : child.getGruppeCollection()){
-            if(g.equals(gruppe))valid = true;
-            break;
-        }
-        if(valid){
+        //for(Gruppe g : child.getGruppeCollection()){
+          //  if(g.equals(gruppe))valid = true;
+            //break;
+        //}
+       // if(valid){
             DBJdbc db = DBhelpers.getDatabase();
             String kind = child.getIdent().toString();
             String gr = gruppe.getIdent().toString();
             String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
+            System.out.println("Vorm ausführn:" +s);
             try {
                 db.delete(s);
+                System.out.println("Ausgeführt: "+s);
             } catch (SQLException ex) {
                 Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        //}
     }
     
     
@@ -189,6 +191,8 @@ public class DBKind {
             registrierungen = null;
         }
         
+        System.out.println("Registrierungen: "+registrierungen);
+        System.out.println("Rize:"+ registrierungen.size());
         if(registrierungen != null){
             for(Registrierung r : registrierungen){
                 DBRegistrierung.deleteReg(r);
@@ -201,6 +205,7 @@ public class DBKind {
             gruppen = null;
         }
         
+        System.out.println("Gruppen: "+ gruppen.size());
         if(gruppen != null){
            for(Gruppe g : gruppen){
                 DBKind.deleteFromGroup(k, g);
