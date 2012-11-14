@@ -73,10 +73,6 @@ class MysqlModel
 				pst_hash.close if pst_hash
                         	con.close if con
 			end
-                     
-		     if(hashes.empty?) 
-			return "Keine Hashes gefunden"
-		     end
 		  return hashes
 		end
  	end	

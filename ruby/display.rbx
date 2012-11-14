@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# -*- coding: utf-8 -*-
 require 'rubygems'
 require "model_mysql"
 require "view"
@@ -74,7 +75,7 @@ if (not(hashes.empty?))
 		end	
 		}
 else 
-	puts "no child found"
+	children="Sorry, unsere Datenbank hat keine Anmeldung für Kinder von Ihnen vorliegen."
 end
 
 view= View.new("Kindergarten Wartelisten&uuml;berblick")
