@@ -35,6 +35,7 @@ else
     print cgi.header({ 'status' => 'REDIRECT', 'Location' => url })    
   else
     view.display("Unser Datenbanksystem hat keinen Kindergarten mit dem Namen " ++ kindergarten)
+  end
 end
 
 
