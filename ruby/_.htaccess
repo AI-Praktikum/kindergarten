@@ -1,5 +1,0 @@
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-s
-RewriteRule ^([^/]+)/([^/]+)(/?) /index.rbx?kindergarten=$1&hash=$2 [L,QSA]
-RewriteCond %{REQUEST_FILENAME} !-s
-RewriteRule ^([^/]+)(/?) /index.rbx?kindergarten=$1 [L,QSA]
