@@ -37,7 +37,20 @@ class MysqlModel
 		  return children
 		end	
   	end
-
+        
+        def databaseExists(db_name)
+          begin
+            con = Mysql.new(host,username, password)
+            db_selected=con.select_db(db_name)
+            return db_selected.nil? ? false : true
+          rescue Mysql::Error => e
+            return false
+          ensure
+            pst_hash.close if pst_hash
+            con.close if con
+          end
+        end
+        
 	#GetChildHashes
 	#Kindergarten,Facebook_id -> List(Child_Hashes)
 	def getChildHashes(kindergarten, facebook_id)
