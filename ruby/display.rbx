@@ -75,7 +75,7 @@ if (not(hashes.empty?))
 		end	
 		}
 else 
-	children="Sorry, unsere Datenbank hat keine Anmeldung für Kinder von Ihnen vorliegen."
+	children="Sorry, unsere Datenbank hat keine Anmeldung f&uuml;r Kinder von Ihnen vorliegen."
 end
 
 view= View.new("Kindergarten Wartelisten&uuml;berblick")
