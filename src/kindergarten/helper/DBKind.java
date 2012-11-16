@@ -72,11 +72,13 @@ public class DBKind {
     }
     
     private static void deleteFromDB(Kind k){
+        Elternteil e = k.getElternteilid();
         DBJdbc db = DBhelpers.getDatabase();
         String ident = k.getIdent().toString();
         String sql = "Delete from kind where ident = " + ident;
         try {
                 db.delete(sql);
+                e.getKindCollection().remove(k);
             } catch (SQLException ex) {
                 Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -89,6 +91,8 @@ public class DBKind {
         String s = "Insert into kind_gruppe values("+g+","+ch+")";
         try{
             db.update(s);
+            child.getGruppeCollection().add(gruppe);
+            gruppe.getKindCollection().add(child);
         }catch(SQLException ex){
             Logger.getLogger(DBKind.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -133,16 +137,14 @@ public class DBKind {
     }
 
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
-        System.out.println(child);
-        System.out.println(gruppe);
         DBJdbc db = DBhelpers.getDatabase();
         String kind = child.getIdent().toString();
         String gr = gruppe.getIdent().toString();
         String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
-        System.out.println("Vorm ausführn:" +s);
         try {
            db.delete(s);
-           System.out.println("Ausgeführt: "+s);
+           child.getGruppeCollection().remove(gruppe);
+           gruppe.getKindCollection().remove(child);
         } catch (SQLException ex) {
            Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,9 +199,6 @@ public class DBKind {
         }catch(Exception e){
             registrierungen = null;
         }
-        
-        System.out.println("Registrierungen: "+registrierungen);
-        System.out.println("Rize:"+ registrierungen.size());
         if(registrierungen != null){
             for(Registrierung r : registrierungen){
                 DBRegistrierung.deleteReg(r);
@@ -218,7 +217,11 @@ public class DBKind {
                 DBKind.deleteFromGroup(k, g);
             }
         }
+        Elternteil e = k.getElternteilid();
         deleteFromDB(k);
+        DBElternteil.deleteElternteil(e);
+       
+       
         
         
         

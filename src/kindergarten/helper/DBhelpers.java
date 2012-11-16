@@ -120,7 +120,7 @@ public class DBhelpers {
     
     
     public static void main(String args[]){
-        System.out.println(getFacebookIdFromUrl("www.facebook.com/sebastian.krome"));
+        
     }
    
 //    
