@@ -9,30 +9,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 import javax.swing.DefaultListModel;
-import kindergarten.model.Elternteil;
 import kindergarten.model.Gruppe;
-import kindergarten.model.Kind;
-import kindergarten.model.Registrierung;
 import kindergarten.model.Warteliste;
 
 /**
@@ -40,7 +28,13 @@ import kindergarten.model.Warteliste;
  * @author andy
  */
 public class DBhelpers {
+    public static EntityManager em;
     
+    static{
+        Map<String, String> propMap = DBLogin.getPropMap();
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", propMap);
+        em = emf.createEntityManager();
+    }
     
     
     
@@ -56,9 +50,7 @@ public class DBhelpers {
     }
     
     public static EntityManager getEntityManager(){
-        Map<String, String> propMap = DBLogin.getPropMap();
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", propMap);
-        EntityManager em = emf.createEntityManager();
+        
         return em;
     }
             

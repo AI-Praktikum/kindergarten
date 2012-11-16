@@ -85,17 +85,15 @@ public class DBKind {
     }
     
     public static void insertInGroup(Kind child, Gruppe gruppe){
-        DBJdbc db = DBhelpers.getDatabase();
-        String g = gruppe.getIdent().toString();
-        String ch = child.getIdent().toString();
-        String s = "Insert into kind_gruppe values("+g+","+ch+")";
-        try{
-            db.update(s);
-            child.getGruppeCollection().add(gruppe);
-            gruppe.getKindCollection().add(child);
-        }catch(SQLException ex){
-            Logger.getLogger(DBKind.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Collection<Gruppe> gruppen = child.getGruppeCollection();
+        gruppen.add(gruppe);
+        Collection<Kind> kinder  = gruppe.getKindCollection();
+        kinder.add(child);
+        EntityManager em = DBhelpers.getEntityManager();
+        em.getTransaction().begin();
+        child.setGruppeCollection(gruppen);
+        gruppe.setKindCollection(kinder);
+        em.getTransaction().commit();        
     }
     
     private static long hashV(Elternteil e, String n, String v, Date g, long id){
@@ -136,19 +134,23 @@ public class DBKind {
         DBRegistrierung.insertNewReg(child, wl, new Date());
     }
 
+    
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
-        DBJdbc db = DBhelpers.getDatabase();
-        String kind = child.getIdent().toString();
-        String gr = gruppe.getIdent().toString();
-        String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
-        try {
-           db.delete(s);
-           child.getGruppeCollection().remove(gruppe);
-           gruppe.getKindCollection().remove(child);
-        } catch (SQLException ex) {
-           Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     
+        EntityManager em = DBhelpers.getEntityManager();
+        
+        Collection<Gruppe> gruppen = child.getGruppeCollection();
+        gruppen.remove(gruppe);
+        
+        Collection<Kind> kinder = gruppe.getKindCollection();
+        kinder.remove(child);
+
+        
+        em.getTransaction().begin();
+        child.setGruppeCollection(gruppen);
+        em.merge(child);
+        gruppe.setKindCollection(kinder);
+        em.merge(gruppe);
+        em.getTransaction().commit(); 
     }
     
     private static long nextKindIdent(){
