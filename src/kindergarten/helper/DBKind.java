@@ -5,7 +5,6 @@
 package kindergarten.helper;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import kindergarten.model.Elternteil;
@@ -37,7 +35,7 @@ public class DBKind {
         
         Date geb = DBhelpers.stringToDate(gebDat);
         
-        long nextId = DBhelpers.nextKindIdent();
+        long nextId = nextKindIdent();
         
         EntityTransaction entr = em.getTransaction();
         entr.begin();
@@ -135,26 +133,35 @@ public class DBKind {
     }
 
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
-      //  boolean valid = false;
         System.out.println(child);
         System.out.println(gruppe);
-        //for(Gruppe g : child.getGruppeCollection()){
-          //  if(g.equals(gruppe))valid = true;
-            //break;
-        //}
-       // if(valid){
-            DBJdbc db = DBhelpers.getDatabase();
-            String kind = child.getIdent().toString();
-            String gr = gruppe.getIdent().toString();
-            String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
-            System.out.println("Vorm ausführn:" +s);
-            try {
-                db.delete(s);
-                System.out.println("Ausgeführt: "+s);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        //}
+        DBJdbc db = DBhelpers.getDatabase();
+        String kind = child.getIdent().toString();
+        String gr = gruppe.getIdent().toString();
+        String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
+        System.out.println("Vorm ausführn:" +s);
+        try {
+           db.delete(s);
+           System.out.println("Ausgeführt: "+s);
+        } catch (SQLException ex) {
+           Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
+    }
+    
+    private static long nextKindIdent(){
+        
+        EntityManager em = DBhelpers.getEntityManager();
+        
+        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findAll", Kind.class);
+        
+        List<Kind> kinder = queryk.getResultList();
+        long maxID = 0;
+        for(Kind elem : kinder){
+            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
+        }
+        
+        return maxID+1;
     }
     
     

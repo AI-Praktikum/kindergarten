@@ -33,9 +33,8 @@ public class DBJdbc {
                         Class.forName(DBLogin.getDriver());
                         Connection con = DriverManager.getConnection(dbUrl, DBLogin.getUser(), DBLogin.getPassword());
                         stmt = con.createStatement();
-		} catch (Exception e) {
+		} catch (ClassNotFoundException | SQLException e) {
                         System.out.println("Exception mit User: "+DBLogin.getUser()+" identified by: "+DBLogin.getPassword());
-			e.printStackTrace();
 		}
 		return stmt.executeQuery(sql);
 	}
@@ -50,9 +49,8 @@ public class DBJdbc {
                         Class.forName(DBLogin.getDriver());
                         Connection con = DriverManager.getConnection(dbUrl, DBLogin.getUser(), DBLogin.getPassword());
                         stmt = con.createStatement();
-		} catch (Exception e) {
+		} catch (ClassNotFoundException | SQLException e) {
                         System.out.println("Exception mit User: "+DBLogin.getUser()+" identified by: "+DBLogin.getPassword());
-			e.printStackTrace();
 		}
 		return stmt.executeUpdate(sql);
 	}
@@ -67,9 +65,8 @@ public class DBJdbc {
                         Class.forName(DBLogin.getDriver());
                         Connection con = DriverManager.getConnection(dbUrl, DBLogin.getUser(), DBLogin.getPassword());
                         stmt = con.createStatement();
-		} catch (Exception e) {
+		} catch (ClassNotFoundException | SQLException e) {
                         System.out.println("Exception mit User: "+DBLogin.getUser()+" identified by: "+DBLogin.getPassword());
-			e.printStackTrace();
 		}
             return stmt.execute(sql);
         }

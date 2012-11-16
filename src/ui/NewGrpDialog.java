@@ -5,7 +5,6 @@
 package ui;
 
 import kindergarten.helper.DBGruppe;
-import kindergarten.helper.DBQuery;
 /**
  *
  * @author andy

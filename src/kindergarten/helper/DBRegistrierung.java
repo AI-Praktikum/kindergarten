@@ -4,20 +4,15 @@
  */
 package kindergarten.helper;
 
-import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
-import kindergarten.model.Kindergarten;
 import kindergarten.model.Registrierung;
 import kindergarten.model.RegistrierungPK;
 import kindergarten.model.Warteliste;
@@ -45,27 +40,17 @@ public class DBRegistrierung {
         return r;
     }
     
-//    public static void deleteReg(Registrierung r){
-//        EntityManager em = getEntityManager();
-//  try{
-//    em.getTransaction().begin();
-//    Users userx = em.find(Users.class, user.getUserId());
-//    em.remove(userx); 
-//    em.getTransaction().commit();
-//  } finally {
-//    em.close();
-//    return false;
-//  }
-//    }
-    
-    public static List<Gruppe> getAllGroups(){
+    public static List<Registrierung> getRegistrierungenByWarteliste(Warteliste w){
         EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
         
-        List<Gruppe> result = queryg.getResultList();
+        TypedQuery<Registrierung> queryk = em.createNamedQuery("Registrierung.findByWartelisteId", Registrierung.class);
         
-        return result;
+        queryk.setParameter("wartelisteId", w.getIdent());
+        
+        return queryk.getResultList();
     }
+    
+  
     
     public static void deleteReg(Registrierung r){
         EntityManager em = DBhelpers.getEntityManager();
@@ -86,6 +71,8 @@ public class DBRegistrierung {
                 Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    
+    
 
     
 }

@@ -41,34 +41,8 @@ import kindergarten.model.Warteliste;
  */
 public class DBhelpers {
     
-    public static long nextKindIdent(){
-        
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findAll", Kind.class);
-        
-        List<Kind> kinder = queryk.getResultList();
-        long maxID = 0;
-        for(Kind elem : kinder){
-            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-        }
-        
-        return maxID+1;
-    }
-    public static long nextGruppeIdent(){
-        
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Gruppe> queryk = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
-        
-        List<Gruppe> kinder = queryk.getResultList();
-        long maxID = 0;
-        for(Gruppe elem : kinder){
-            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-        }
-        
-        return maxID+1;
-    }
+    
+    
     
     public static DefaultListModel lmFreeGroupsAndWartelisten(){
         DefaultListModel lm = new DefaultListModel();
@@ -105,34 +79,7 @@ public class DBhelpers {
         
         return result;
     }
-    public static long nextWartelisteIdent(){
-        
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Warteliste> queryk = em.createNamedQuery("Warteliste.findAll", Warteliste.class);
-        
-        List<Warteliste> kinder = queryk.getResultList();
-        long maxID = 0;
-        for(Warteliste elem : kinder){
-            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-        }
-        
-        return maxID+1;
-    }
-    public static long nextElternteilIdent(){
-        
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Elternteil> queryk = em.createNamedQuery("Elternteil.findAll", Elternteil.class);
-        
-        List<Elternteil> kinder = queryk.getResultList();
-        long maxID = 0;
-        for(Elternteil elem : kinder){
-            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-        }
-        
-        return maxID+1;
-    }
+    
     
     public static Date stringToDate(String geb) throws ParseException{
         
@@ -170,15 +117,7 @@ public class DBhelpers {
     }
    
     
-    public static List<Registrierung> getRegistrierungenByWarteliste(Warteliste w){
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Registrierung> queryk = em.createNamedQuery("Registrierung.findByWartelisteId", Registrierung.class);
-        
-        queryk.setParameter("wartelisteId", w.getIdent());
-        
-        return queryk.getResultList();
-    }
+    
     
     public static void main(String args[]){
         System.out.println(getFacebookIdFromUrl("www.facebook.com/sebastian.krome"));

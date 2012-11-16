@@ -4,7 +4,6 @@
  */
 package kindergarten.helper;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -31,6 +30,7 @@ public class DBWarteliste {
         }
         return result;
     }
+    
     
     public static List<Warteliste> getAll(){
         EntityManager em = DBhelpers.getEntityManager();

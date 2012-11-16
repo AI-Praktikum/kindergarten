@@ -4,7 +4,6 @@
  */
 package kindergarten.helper;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,10 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import javax.swing.DefaultListModel;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
 import kindergarten.model.Kindergarten;
@@ -74,7 +71,7 @@ public class DBGruppe {
 
             Gruppe g = new Gruppe();
             g.setGruppengroesse(gr);
-            g.setIdent(DBhelpers.nextGruppeIdent());
+            g.setIdent(nextGruppeIdent());
             g.setKindergartenId(kresult);
             g.setWartelisteId(wresult);
             g.setBezeichnung(bezeichnung);
@@ -167,19 +164,20 @@ public class DBGruppe {
         return result;
     }
     
-//    private boolean checkGroupSize(BigInteger typ, BigInteger gr){
-//        BigInteger cnt = new BigInteger("0");
-//        BigInteger kindergarten = new BigInteger(kindergartensize);
-//        if(typ.equals(DBGruppe.frueh)){
-//            List<Gruppe> fg = getGroupByType(DBGruppe.frueh);
-//            for(Gruppe g : fg){
-//                cnt = cnt.add(g.getGruppengroesse());
-//            }
-//            if()
-//        }
-//        
-//    }
+    public static long nextGruppeIdent(){
 
+            EntityManager em = DBhelpers.getEntityManager();
+
+            TypedQuery<Gruppe> queryk = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
+
+            List<Gruppe> kinder = queryk.getResultList();
+            long maxID = 0;
+            for(Gruppe elem : kinder){
+                if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
+            }
+
+            return maxID+1;
+        }
     
     
   

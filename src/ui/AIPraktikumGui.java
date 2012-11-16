@@ -17,12 +17,10 @@ import kindergarten.helper.DBKind;
 import kindergarten.helper.DBLogin;
 import kindergarten.helper.DBRegistrierung;
 import kindergarten.helper.DBWarteliste;
-import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
 import kindergarten.model.Registrierung;
 import kindergarten.model.Warteliste;
-import org.jdesktop.beansbinding.ELProperty;
 
 /**
  *
@@ -58,7 +56,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             DefaultListModel lm = new DefaultListModel();
 
             List<Registrierung> kinder = new ArrayList<Registrierung>();
-            kinder.addAll(DBhelpers.getRegistrierungenByWarteliste(wl));
+            kinder.addAll(DBRegistrierung.getRegistrierungenByWarteliste(wl));
 
             for(Registrierung r : kinder){                
                 lm.addElement(r);
@@ -609,7 +607,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 DefaultListModel lm = new DefaultListModel();
 
                 List<Registrierung> kinder = new ArrayList<Registrierung>();
-                kinder.addAll(DBhelpers.getRegistrierungenByWarteliste(wl));
+                kinder.addAll(DBRegistrierung.getRegistrierungenByWarteliste(wl));
 
                 for(Registrierung k : kinder){
                     lm.addElement(k);
