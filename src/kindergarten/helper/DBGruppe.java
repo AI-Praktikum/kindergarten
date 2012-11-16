@@ -5,11 +5,8 @@
 package kindergarten.helper;
 
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -89,29 +86,6 @@ public class DBGruppe {
         return result;
     }
     
-    
-    public static void deleteFromGroup(Kind child, Gruppe gruppe) {
-        boolean valid = false;
-        System.out.println(child);
-        System.out.println(gruppe);
-        for(Gruppe g : child.getGruppeCollection()){
-            if(g.equals(gruppe))valid = true;
-            break;
-        }
-        if(valid){
-            DBJdbc db = DBhelpers.getDatabase();
-            String kind = child.getIdent().toString();
-            String gr = gruppe.getIdent().toString();
-            String s = "Delete from kind_gruppe where kind_id = " + kind + " and gruppe_id = " + gr;
-            try {
-                db.delete(s);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-        
-
     public static List<Gruppe> getFreeGroups(){
         
         List<Gruppe> all = getAllGroups();

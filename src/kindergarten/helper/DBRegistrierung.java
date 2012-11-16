@@ -4,11 +4,8 @@
  */
 package kindergarten.helper;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -52,25 +49,34 @@ public class DBRegistrierung {
     
   
     
-    public static void deleteReg(Registrierung r){
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Warteliste> queryg = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
-        
-        long id = r.getRegistrierungPK().getWartelisteId();
-        queryg.setParameter("ident", id);
-        Warteliste w = queryg.getSingleResult();
-        
-        Kind k = r.getKind();
-        DBJdbc db = DBhelpers.getDatabase();
-        String kind = k.getIdent().toString();
-        String gr = w.getIdent().toString();
-        String s = "Delete from registrierung where kind_id = " + kind + " and warteliste_id = " + gr;
-            try {
-                db.delete(s);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    }
+//    public static void deleteReg(Registrierung r){
+//        EntityManager em = DBhelpers.getEntityManager();
+//        TypedQuery<Warteliste> queryg = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
+//        
+//        long id = r.getRegistrierungPK().getWartelisteId();
+//        queryg.setParameter("ident", id);
+//        Warteliste w = queryg.getSingleResult();
+//        
+//        Kind k = r.getKind();
+//        DBJdbc db = DBhelpers.getDatabase();
+//        String kind = k.getIdent().toString();
+//        String gr = w.getIdent().toString();
+//        String s = "Delete from registrierung where kind_id = " + kind + " and warteliste_id = " + gr;
+//            try {
+//                db.delete(s);
+//            } catch (SQLException ex) {
+//                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//    }
+    
+     public static void deleteReg(Registrierung r){
+         EntityManager em = DBhelpers.getEntityManager();
+         em.merge(r);
+         em.getTransaction().begin();
+         em.remove(r);
+         em.getTransaction().commit();
+     }
+
     
     
 

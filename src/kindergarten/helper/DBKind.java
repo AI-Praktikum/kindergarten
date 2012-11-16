@@ -5,14 +5,11 @@
 package kindergarten.helper;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -71,17 +68,26 @@ public class DBKind {
         }
     }
     
+//    private static void deleteFromDB(Kind k){
+//        Elternteil e = k.getElternteilid();
+//        DBJdbc db = DBhelpers.getDatabase();
+//        String ident = k.getIdent().toString();
+//        String sql = "Delete from kind where ident = " + ident;
+//        try {
+//                db.delete(sql);
+//                e.getKindCollection().remove(k);
+//            } catch (SQLException ex) {
+//                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//    }
+    
     private static void deleteFromDB(Kind k){
-        Elternteil e = k.getElternteilid();
-        DBJdbc db = DBhelpers.getDatabase();
-        String ident = k.getIdent().toString();
-        String sql = "Delete from kind where ident = " + ident;
-        try {
-                db.delete(sql);
-                e.getKindCollection().remove(k);
-            } catch (SQLException ex) {
-                Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        EntityManager em = DBhelpers.getEntityManager();
+        em.getTransaction().begin();
+        k = em.merge(k);
+        em.remove(k);
+        em.getTransaction().commit(); 
+        
     }
     
     public static void insertInGroup(Kind child, Gruppe gruppe){
@@ -92,7 +98,9 @@ public class DBKind {
         EntityManager em = DBhelpers.getEntityManager();
         em.getTransaction().begin();
         child.setGruppeCollection(gruppen);
+        em.merge(child);
         gruppe.setKindCollection(kinder);
+        em.merge(child);
         em.getTransaction().commit();        
     }
     
@@ -125,15 +133,14 @@ public class DBKind {
     
 
     public static void shift(Kind k, Gruppe oldGroup, Gruppe newGroup){
-        DBGruppe.deleteFromGroup(k, oldGroup);
+        deleteFromGroup(k, oldGroup);
         DBKind.insertInGroup(k, newGroup);   
     }
     
     public static void shift(Kind child, Gruppe oldGroup, Warteliste wl){
-        DBGruppe.deleteFromGroup(child, oldGroup);
+        deleteFromGroup(child, oldGroup);
         DBRegistrierung.insertNewReg(child, wl, new Date());
     }
-
     
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
         EntityManager em = DBhelpers.getEntityManager();
@@ -193,39 +200,19 @@ public class DBKind {
         return result;
     }
 
-    public static void completeDeletion(Kind k) {
-        Collection<Registrierung> registrierungen;
-        Collection<Gruppe> gruppen;
-        try{
-            registrierungen = k.getRegistrierungCollection();
-        }catch(Exception e){
-            registrierungen = null;
-        }
-        if(registrierungen != null){
-            for(Registrierung r : registrierungen){
-                DBRegistrierung.deleteReg(r);
-            }
+    public static void completeDeletion(Kind k) throws IllegalArgumentException{
+        if(k.getGruppeCollection().isEmpty() && k.getRegistrierungCollection().isEmpty()){
+            deleteFromDB(k);
+        }else{
+            throw new IllegalArgumentException("Kind darf nicht mehr in Gruppe oder Warteliste sein");
         }
         
-        try{
-            gruppen = k.getGruppeCollection();
-        }catch(Exception e){
-            gruppen = null;
-        }
-        
-        System.out.println("Gruppen: "+ gruppen.size());
-        if(gruppen != null){
-           for(Gruppe g : gruppen){
-                DBKind.deleteFromGroup(k, g);
-            }
-        }
-        Elternteil e = k.getElternteilid();
-        deleteFromDB(k);
-        DBElternteil.deleteElternteil(e);
        
        
         
         
         
     }
+
+    
 }

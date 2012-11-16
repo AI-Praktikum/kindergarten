@@ -723,7 +723,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private void jButtonCompleteChildDeletionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompleteChildDeletionActionPerformed
         // TODO add your handling code here:
         Kind k = (Kind)jComboBox2.getSelectedItem();
-        DBKind.completeDeletion(k); 
+        try{
+            DBKind.completeDeletion(k); 
+        }catch(IllegalArgumentException e){
+            JOptionPane.showMessageDialog(this, "Kind darf keinen Gruppen/Wartelisten mehr zugeordnet sein");
+        }
     }//GEN-LAST:event_jButtonCompleteChildDeletionActionPerformed
 
     private void jComboBoxGruppeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxGruppeMousePressed

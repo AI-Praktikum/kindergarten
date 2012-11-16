@@ -4,16 +4,11 @@
  */
 package kindergarten.helper;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import kindergarten.model.Elternteil;
-import kindergarten.model.Gruppe;
 
 
 /**
@@ -49,21 +44,26 @@ public class DBElternteil {
         return e;
     }
     
+//    public static void deleteElternteil(Elternteil e){
+//        if(e.getKindCollection().isEmpty()){
+//            DBJdbc db = DBhelpers.getDatabase();
+//            String elternteil = e.getIdent().toString();
+//            String s = "Delete from elternteil where ident = " + elternteil;
+//            try {
+//              db.delete(s);
+//              System.out.println("Ausgeführt: "+s);
+//            } catch (SQLException ex) {
+//               Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
     public static void deleteElternteil(Elternteil e){
-        if(e.getKindCollection().isEmpty()){
-            DBJdbc db = DBhelpers.getDatabase();
-            String elternteil = e.getIdent().toString();
-            String s = "Delete from elternteil where ident = " + elternteil;
-            try {
-              db.delete(s);
-              System.out.println("Ausgeführt: "+s);
-            } catch (SQLException ex) {
-               Logger.getLogger(DBGruppe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-       
-        
-       }
+        EntityManager em = DBhelpers.getEntityManager();
+        em.merge(e);
+        em.getTransaction().begin();
+        em.remove(e);
+        em.getTransaction().commit();
+    }
        
     
     private static long nextElternteilIdent(){

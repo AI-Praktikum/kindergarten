@@ -56,10 +56,10 @@ public class DBhelpers {
             
         
     
-    public static DBJdbc getDatabase(){
-        DBJdbc db = new DBJdbc();
-        return db;
-    }
+//    public static DBJdbc getDatabase(){
+//        DBJdbc db = new DBJdbc();
+//        return db;
+//    }
     
     public static List<Object> freeGroupsAndWartelisten_String(){
         List<Object> result = new ArrayList<Object>();
