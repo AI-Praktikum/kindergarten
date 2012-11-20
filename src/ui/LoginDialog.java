@@ -6,9 +6,7 @@ package ui;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import kindergarten.helper.DBLogin;
@@ -18,13 +16,11 @@ import kindergarten.helper.DBLogin;
  * @author andy
  */
 public class LoginDialog extends javax.swing.JDialog {
-    DBLogin login;
     /**
      * Creates new form LoginDialog
      */
-    public LoginDialog(DBLogin login, java.awt.Frame parent, boolean modal) {
+    public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.login = login;
         initComponents();
     }
 
@@ -120,14 +116,14 @@ public class LoginDialog extends javax.swing.JDialog {
         String pw = new String(password);
         String dbUrl = DBLogin.getUrl();
         try {
-            login.setUser(user);
-            login.setPassword(pw.toString());
-            login.setDatabase(user);
+            DBLogin.setUser(user);
+            DBLogin.setPassword(pw.toString());
+            DBLogin.setDatabase(user);
             Class.forName(DBLogin.getDriver());
-            System.out.println("Driver loaded\n");
-            System.out.println("User: "+user+" --- Password: "+pw+"\n");
+            //System.out.println("Driver loaded\n");
+            //System.out.println("User: "+user+" --- Password: "+pw+"\n");
             Connection con = DriverManager.getConnection(dbUrl+user, user, pw.toString());
-            System.out.println("Connection established");
+            //System.out.println("Connection established");
  //           login.initPropertyMap();
             con.close();
             
@@ -178,7 +174,7 @@ public class LoginDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                LoginDialog dialog = new LoginDialog(null, new javax.swing.JFrame(), true);
+                LoginDialog dialog = new LoginDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

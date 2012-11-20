@@ -5,10 +5,13 @@
 package ui;
 
 import java.awt.Component;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import kindergarten.helper.DBElternteil;
-import kindergarten.helper.DBLogin;
+import kindergarten.helper.DBKind;
 import kindergarten.helper.DBhelpers;
 import kindergarten.helper.Sec;
 import kindergarten.model.Elternteil;
@@ -19,14 +22,12 @@ import kindergarten.model.Preismodell;
  * @author andy
  */
 public class NewKindDialog extends javax.swing.JDialog {
-    private DBLogin login;
     boolean newElternteil = false;
     /**
      * Creates new form NewKindDialog
      */
-    public NewKindDialog(DBLogin login, java.awt.Frame parent, boolean modal) {
+    public NewKindDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.login = login;
         initComponents();
         
         jList1.setModel(DBhelpers.lmFreeGroupsAndWartelisten());
@@ -42,7 +43,7 @@ public class NewKindDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", DBLogin.getPropMap()).createEntityManager();
+        entityManager = java.beans.Beans.isDesignTime() ? null : DBhelpers.getEntityManager();
         elternteilQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Elternteil e");
         elternteilList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : elternteilQuery.getResultList();
         elternteilQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Elternteil e");
@@ -406,9 +407,18 @@ public class NewKindDialog extends javax.swing.JDialog {
                 e = (Elternteil)jComboBox1.getSelectedItem();
             }
             
-            Sec.insertNewChild(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
-        
-        this.setVisible(false);
+            if (Sec.isValidDate(jTextField5.getText()) && jList1.getSelectedValue() != null){
+                try {
+                    DBKind.newKind(jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), e, jComboBox2.getSelectedItem(), jList1.getSelectedValues());
+                } catch (ParseException ex) {
+                    Logger.getLogger(NewKindDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
+            }
+            else{
+                Sec.showMsgBox("Invalid Date or no group selected");
+            }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -449,7 +459,7 @@ public class NewKindDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewKindDialog dialog = new NewKindDialog(null, new javax.swing.JFrame(), true);
+                NewKindDialog dialog = new NewKindDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

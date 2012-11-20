@@ -18,9 +18,6 @@ public class DBLogin {
     private final static String url = "jdbc:mysql://ec2-176-34-76-54.eu-west-1.compute.amazonaws.com:3306/";
     private final static String driver = "com.mysql.jdbc.Driver";
     
-    public DBLogin(){
-        
-    }
     
     public static String getUser(){
         return user;
@@ -42,16 +39,16 @@ public class DBLogin {
         return driver;
     }
     
-    public void setUser(String user){
-        this.user = user;
+    public static void setUser(String user){
+        DBLogin.user = user;
     }
     
-    public void setPassword(String password){
-        this.password = password;
+    public static void setPassword(String password){
+        DBLogin.password = password;
     }
     
-    public void setDatabase(String database){
-        this.database = database;
+    public static void setDatabase(String database){
+        DBLogin.database = database;
     }
     
     public static Map<String, String> getPropMap(){

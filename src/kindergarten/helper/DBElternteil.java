@@ -4,10 +4,8 @@
  */
 package kindergarten.helper;
 
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import kindergarten.model.Elternteil;
 
 
@@ -29,9 +27,7 @@ public class DBElternteil {
         EntityTransaction entr = em.getTransaction();
         entr.begin();
         
-        long nextId = nextElternteilIdent();
         Elternteil e = new Elternteil();
-        e.setIdent(nextId);
         e.setFacebookId(facebookId);
         e.setAdresse(adr);
         e.setFamiliengroesse(gr);
@@ -64,22 +60,5 @@ public class DBElternteil {
         em.remove(e);
         em.getTransaction().commit();
     }
-       
-    
-    private static long nextElternteilIdent(){
-        
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Elternteil> queryk = em.createNamedQuery("Elternteil.findAll", Elternteil.class);
-        
-        List<Elternteil> kinder = queryk.getResultList();
-        long maxID = 0;
-        for(Elternteil elem : kinder){
-            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-        }
-        
-        return maxID+1;
-    }
-
     
 }

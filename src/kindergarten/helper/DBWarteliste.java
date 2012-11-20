@@ -6,7 +6,6 @@ package kindergarten.helper;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import kindergarten.model.Warteliste;
 
@@ -17,8 +16,7 @@ import kindergarten.model.Warteliste;
 public class DBWarteliste {
     
     public static Warteliste getWartelisteByName(String typ){
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DBhelpers.getEntityManager();
         TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByWartelistentyp", Warteliste.class);
         
         queryw.setParameter("wartelistentyp", typ);

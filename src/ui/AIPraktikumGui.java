@@ -27,15 +27,13 @@ import kindergarten.model.Warteliste;
  * @author andy
  */
 public class AIPraktikumGui extends javax.swing.JFrame {
-    private DBLogin loginhelp;
     /**
      * Creates new form AIPraktikumGui
      */
     public AIPraktikumGui() {
-        this.loginhelp = new DBLogin();
-        LoginDialog login = new LoginDialog(this.loginhelp, this, true);
+        LoginDialog login = new LoginDialog(this, true);
         login.setVisible(true);
-        System.out.println("Database to use: "+this.loginhelp.getDatabase());
+        //System.out.println("Database to use: "+this.loginhelp.getDatabase());
         initComponents();
         Gruppe gr;
         if(jComboBoxGruppe.getSelectedItem() != null){
@@ -555,7 +553,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        NewKindDialog dia = new NewKindDialog(this.loginhelp,this, true);
+        NewKindDialog dia = new NewKindDialog(this, true);
         dia.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 

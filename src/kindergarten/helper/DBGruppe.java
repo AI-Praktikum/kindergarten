@@ -26,8 +26,6 @@ public class DBGruppe {
     public static BigInteger spaet = new BigInteger("4");
     public static BigInteger ganztags = new BigInteger("5");
     
-    private static String kindergartensize = "20";
-    
     public static void insertNewGrp(Object groesse, Object inserttyp, String bezeichnung){
         
         String typ = (String) inserttyp;
@@ -68,7 +66,6 @@ public class DBGruppe {
 
             Gruppe g = new Gruppe();
             g.setGruppengroesse(gr);
-            g.setIdent(nextGruppeIdent());
             g.setKindergartenId(kresult);
             g.setWartelisteId(wresult);
             g.setBezeichnung(bezeichnung);
@@ -137,23 +134,6 @@ public class DBGruppe {
         result.addAll(g.getKindCollection());
         return result;
     }
-    
-    public static long nextGruppeIdent(){
-
-            EntityManager em = DBhelpers.getEntityManager();
-
-            TypedQuery<Gruppe> queryk = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
-
-            List<Gruppe> kinder = queryk.getResultList();
-            long maxID = 0;
-            for(Gruppe elem : kinder){
-                if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-            }
-
-            return maxID+1;
-        }
-    
-    
   
     
 }

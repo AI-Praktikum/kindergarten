@@ -31,33 +31,28 @@ public class DBKind {
         EntityManager em = DBhelpers.getEntityManager();
         
         Date geb = DBhelpers.stringToDate(gebDat);
-        
-        long nextId = nextKindIdent();
-        
+                
         EntityTransaction entr = em.getTransaction();
         entr.begin();
         
         Kind k = new Kind();
         
-        List<Gruppe> gl = new ArrayList<Gruppe>();
-        Date now = new Date();
-        
+        List<Gruppe> gl = new ArrayList<Gruppe>();      
         
         
         k.setElternteilid(eltern);
         k.setVorname(vorname);
         k.setNachname(nachname);
         k.setGeburtsdatum(geb);
-        k.setIdent(nextId);
         k.setPreismodellId((Preismodell)p);
-        long hashv = hashV(eltern, nachname, vorname, geb, nextId);
+        long hashv = hashV(eltern, nachname, vorname, geb);
         k.setHashValue(hashv);
         em.persist(k);
         entr.commit();
         
         for(Object o : groups){            
             if(o instanceof Warteliste){
-                DBRegistrierung.insertNewReg(k, (Warteliste)o, now);
+                DBRegistrierung.insertNewReg(k, (Warteliste)o, new Date());
             }else{
                 gl.add((Gruppe)o);
             }            
@@ -104,13 +99,12 @@ public class DBKind {
         em.getTransaction().commit();        
     }
     
-    private static long hashV(Elternteil e, String n, String v, Date g, long id){
+    private static long hashV(Elternteil e, String n, String v, Date g){
         long hash = 1;
         hash = hash * 17 + e.hashCode();
         hash = hash * 31 + n.hashCode();
         hash = hash * 13 + v.hashCode();
         hash = hash * 17 + g.hashCode();
-        hash = hash * 31 + id;
         return hash;
     }
     
@@ -125,7 +119,9 @@ public class DBKind {
         kl = queryk.getResultList();
         
         for(Kind k : kl){
-            if(k.getVorname().equals(vorname)) return k;
+            if(k.getVorname().equals(vorname)) {
+                return k;
+            }
         }
         return null;
         
@@ -158,21 +154,6 @@ public class DBKind {
         gruppe.setKindCollection(kinder);
         em.merge(gruppe);
         em.getTransaction().commit(); 
-    }
-    
-    private static long nextKindIdent(){
-        
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findAll", Kind.class);
-        
-        List<Kind> kinder = queryk.getResultList();
-        long maxID = 0;
-        for(Kind elem : kinder){
-            if(elem.getIdent().compareTo(maxID) == 1)maxID = elem.getIdent();
-        }
-        
-        return maxID+1;
     }
     
     
