@@ -110,7 +110,7 @@ CREATE TABLE `registrierung` (
   `warteliste_id` bigint(20) NOT NULL,
   `datum_registrierung` TIMESTAMP NOT NULL default now(),
   FOREIGN KEY (`kind_id`) REFERENCES `kind`(ident),
-  FOREIGN KEY (`warteliste_id`) REFERENCES `gruppe`(ident),
+  FOREIGN KEY (`warteliste_id`) REFERENCES `warteliste`(ident),
   PRIMARY KEY (`kind_id`, `warteliste_id`)
 )ENGINE=InnoDB;
 
