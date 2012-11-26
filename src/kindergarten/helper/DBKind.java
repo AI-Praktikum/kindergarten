@@ -192,12 +192,6 @@ public class DBKind {
             throw new IllegalArgumentException("Kind darf nicht mehr in Gruppe oder Warteliste sein");
         }
         
-       
-       
-        
-        
-        
     }
-
     
 }

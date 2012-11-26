@@ -134,6 +134,7 @@ public class DBGruppe {
         result.addAll(g.getKindCollection());
         return result;
     }
+
   
     
 }

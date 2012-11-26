@@ -5,6 +5,8 @@
 package ui;
 
 import java.awt.Component;
+import java.awt.Event;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
@@ -17,10 +19,12 @@ import kindergarten.helper.DBKind;
 import kindergarten.helper.DBLogin;
 import kindergarten.helper.DBRegistrierung;
 import kindergarten.helper.DBWarteliste;
+import kindergarten.helper.DBhelpers;
 import kindergarten.model.Gruppe;
 import kindergarten.model.Kind;
 import kindergarten.model.Registrierung;
 import kindergarten.model.Warteliste;
+import org.jdesktop.beansbinding.ELProperty;
 
 /**
  *
@@ -65,20 +69,55 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         
     }
     
-    private void update(){
-        System.out.println("update...");
-        kindList.clear();
-        kindList.addAll(kindQuery.getResultList());
+    public void updateGList(){
+        Gruppe gr;
+        gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
+
+        DefaultListModel lm = new DefaultListModel();
         
-        eLProperty = eLProperty.create("${selectedItem.kindCollection}");
+        List<Kind> kind = new ArrayList<Kind>();
+        kind.addAll(gr.getKindCollection());
         
-        gruppeList.clear();
-        gruppeList.addAll(gruppeQuery.getResultList());
+        for(Kind k : kind){
+            lm.addElement(k);
+        }
+        jList1.setModel(lm);
         
-        wartelisteList.clear();
-        wartelisteList.addAll(wartelisteQuery.getResultList());
-        System.out.println("update ende");
+        jLabel5.setText(String.valueOf(gr.getGruppengroesse()));
+        jLabel7.setText(String.valueOf(gr.getGruppengroesse()-kind.size()));
+    }
+    
+    public void updateWList(){
+        Warteliste wl;
+            if(jComboBox1.getSelectedItem() != null){
+                wl = (Warteliste)jComboBox1.getSelectedItem();
+                DefaultListModel lm = new DefaultListModel();
+
+                List<Registrierung> kinder = new ArrayList<Registrierung>();
+                kinder.addAll(DBRegistrierung.getRegistrierungenByWarteliste(wl));
+
+                for(Registrierung k : kinder){
+                    lm.addElement(k);
                 }
+                jList2.setModel(lm);
+            }
+    }
+    
+//    private void update(){
+//        System.out.println("update...");
+//
+//        kindList.clear();
+//        kindList.addAll(kindQuery.getResultList());
+//        
+//        eLProperty = ELProperty.create("${selectedItem.kindCollection}");
+//        
+//        gruppeList.clear();
+//        gruppeList.addAll(gruppeQuery.getResultList());
+//        
+//        wartelisteList.clear();
+//        wartelisteList.addAll(wartelisteQuery.getResultList());
+//        System.out.println("update ende");
+//                }
     
     public void close(){
         System.exit(0);
@@ -94,14 +133,14 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", DBLogin.getPropMap()).createEntityManager();
+        entityManager = java.beans.Beans.isDesignTime() ? null : DBhelpers.getEntityManager();
         gruppeQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT g FROM Gruppe g");
         gruppeList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : gruppeQuery.getResultList();
         kindQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT k FROM Kind k");
         kindList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : kindQuery.getResultList();
         wartelisteQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT w FROM Warteliste w");
         wartelisteList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : wartelisteQuery.getResultList();
-        kindergartenPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:oracle:thin:@oracle.informatik.haw-hamburg.de:1521:Inf09PU", DBLogin.getPropMap()).createEntityManager();
+        kindergartenPUEntityManager = java.beans.Beans.isDesignTime() ? null : DBhelpers.getEntityManager();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -566,16 +605,18 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxGruppePropertyChange
 
     private void jComboBoxGruppeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxGruppeItemStateChanged
-        if (evt.getStateChange() == evt.SELECTED){
+
+        if (evt.getStateChange() == ItemEvent.SELECTED){
+            
             Gruppe gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
 
             DefaultListModel lm = new DefaultListModel();
         
             List<Kind> kind = new ArrayList<Kind>();
             kind.addAll(gr.getKindCollection());
-            System.out.println(kind.size());
         
             for(Kind k : kind){
+//                System.out.println(k.toString());
                 lm.addElement(k);
             }
             jList1.setModel(lm);
@@ -661,6 +702,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         }else{
             DBKind.shift(kind,oldGroup,(Warteliste)jCverschieben.getSelectedItem());
         }
+        updateGList();
+        updateWList();
       
     }//GEN-LAST:event_BTverschiebenActionPerformed
 
@@ -694,10 +737,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
                 DBKind.shift(r,source,(Warteliste)jCverschieben2.getSelectedItem());
             }
         }
+        updateGList();
+        updateWList();
     }//GEN-LAST:event_BTverschieben2ActionPerformed
 
     private void jTabbedPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MousePressed
-        update();
+        //update();
+        
     }//GEN-LAST:event_jTabbedPane2MousePressed
 
     private void jComboBox2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MousePressed
@@ -710,12 +756,14 @@ public class AIPraktikumGui extends javax.swing.JFrame {
         Gruppe g = (Gruppe)jComboBoxGruppe.getSelectedItem();
         Kind kind = (Kind)jList1.getSelectedValue();
         DBKind.deleteFromGroup(kind, g);
+        updateGList();
     }//GEN-LAST:event_jButtonKindAusGruppeEntfernenActionPerformed
 
     private void jButtonKindAusWartelisteEntfernenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKindAusWartelisteEntfernenActionPerformed
         // TODO add your handling code here:
         Registrierung r = (Registrierung)jList2.getSelectedValue();
         DBRegistrierung.deleteReg(r);
+        updateWList();
     }//GEN-LAST:event_jButtonKindAusWartelisteEntfernenActionPerformed
 
     private void jButtonCompleteChildDeletionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompleteChildDeletionActionPerformed

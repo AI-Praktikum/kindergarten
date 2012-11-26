@@ -50,8 +50,12 @@ public class DBhelpers {
     }
     
     public static EntityManager getEntityManager(){
-        
+        em.getEntityManagerFactory().getCache().evictAll();
         return em;
+    }
+    
+    public static void refreshEM(){
+        em.getEntityManagerFactory().getCache().evictAll();
     }
             
         
