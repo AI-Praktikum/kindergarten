@@ -77,11 +77,15 @@ public class DBKind {
 //    }
     
     private static void deleteFromDB(Kind k){
+        Elternteil e = k.getElternteilid();
         EntityManager em = DBhelpers.getEntityManager();
         em.getTransaction().begin();
         k = em.merge(k);
         em.remove(k);
         em.getTransaction().commit(); 
+//        if(e.getKindCollection().isEmpty()){
+//            DBElternteil.deleteElternteil(e);
+//        }
         
     }
     
