@@ -639,7 +639,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        if (evt.getStateChange() == evt.SELECTED){
+        if (evt.getStateChange() == ItemEvent.SELECTED){
             Warteliste wl;
             if(jComboBox1.getSelectedItem() != null){
                 wl = (Warteliste)jComboBox1.getSelectedItem();
