@@ -55,8 +55,8 @@ public class DBElternteil {
 //    }
     public static void deleteElternteil(Elternteil e){
         EntityManager em = DBhelpers.getEntityManager();
-        em.merge(e);
         em.getTransaction().begin();
+        e = em.merge(e);
         em.remove(e);
         em.getTransaction().commit();
     }
