@@ -9,6 +9,7 @@ import java.awt.Event;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -70,9 +71,10 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }
     
     public void updateGList(){
+        EntityManager em = DBhelpers.getEntityManager();
         Gruppe gr;
         gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
-
+        em.refresh(gr);
         DefaultListModel lm = new DefaultListModel();
         
         List<Kind> kind = new ArrayList<Kind>();
@@ -88,9 +90,14 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }
     
     public void updateWList(){
+        EntityManager em = DBhelpers.getEntityManager();
         Warteliste wl;
             if(jComboBox1.getSelectedItem() != null){
+                
                 wl = (Warteliste)jComboBox1.getSelectedItem();
+                
+                em.refresh(wl);
+                
                 DefaultListModel lm = new DefaultListModel();
 
                 List<Registrierung> kinder = new ArrayList<Registrierung>();
@@ -607,23 +614,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     private void jComboBoxGruppeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxGruppeItemStateChanged
 
         if (evt.getStateChange() == ItemEvent.SELECTED){
-            
-            Gruppe gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
-
-            DefaultListModel lm = new DefaultListModel();
-        
-            List<Kind> kind = new ArrayList<Kind>();
-            kind.addAll(gr.getKindCollection());
-        
-            for(Kind k : kind){
-//                System.out.println(k.toString());
-                lm.addElement(k);
-            }
-            jList1.setModel(lm);
-            
-            
-            jLabel5.setText(String.valueOf(gr.getGruppengroesse()));
-            jLabel7.setText(String.valueOf(gr.getGruppengroesse()-kind.size()));
+            this.updateGList();
         }
     }//GEN-LAST:event_jComboBoxGruppeItemStateChanged
 
@@ -640,19 +631,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED){
-            Warteliste wl;
-            if(jComboBox1.getSelectedItem() != null){
-                wl = (Warteliste)jComboBox1.getSelectedItem();
-                DefaultListModel lm = new DefaultListModel();
-
-                List<Registrierung> kinder = new ArrayList<Registrierung>();
-                kinder.addAll(DBRegistrierung.getRegistrierungenByWarteliste(wl));
-
-                for(Registrierung k : kinder){
-                    lm.addElement(k);
-                }
-                jList2.setModel(lm);
-            }
+            this.updateWList();
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
