@@ -28,11 +28,10 @@ public class DBKind {
    
     
     public static void newKind(String vorname, String nachname, String gebDat, Elternteil eltern, Object p, Object[] groups) throws ParseException{
-        EntityManager em = DBhelpers.getEntityManager();
         
         Date geb = DBhelpers.stringToDate(gebDat);
                 
-        EntityTransaction entr = em.getTransaction();
+        EntityTransaction entr = DBhelpers.em.getTransaction();
         entr.begin();
         
         Kind k = new Kind();
@@ -47,7 +46,7 @@ public class DBKind {
         k.setPreismodellId((Preismodell)p);
         long hashv = hashV(eltern, nachname, vorname, geb);
         k.setHashValue(hashv);
-        em.persist(k);
+        DBhelpers.em.persist(k);
         entr.commit();
         
         for(Object o : groups){            
@@ -78,11 +77,10 @@ public class DBKind {
     
     private static void deleteFromDB(Kind k){
         Elternteil e = k.getElternteilid();
-        EntityManager em = DBhelpers.getEntityManager();
-        em.getTransaction().begin();
-        k = em.merge(k);
-        em.remove(k);
-        em.getTransaction().commit(); 
+        DBhelpers.em.getTransaction().begin();
+        k = DBhelpers.em.merge(k);
+        DBhelpers.em.remove(k);
+        DBhelpers.em.getTransaction().commit(); 
 //        if(e.getKindCollection().isEmpty()){
 //            DBElternteil.deleteElternteil(e);
 //        }
@@ -94,13 +92,12 @@ public class DBKind {
         gruppen.add(gruppe);
         Collection<Kind> kinder  = gruppe.getKindCollection();
         kinder.add(child);
-        EntityManager em = DBhelpers.getEntityManager();
-        em.getTransaction().begin();
+        DBhelpers.em.getTransaction().begin();
         child.setGruppeCollection(gruppen);
-        em.merge(child);
+        DBhelpers.em.merge(child);
         gruppe.setKindCollection(kinder);
-        em.merge(child);
-        em.getTransaction().commit();        
+        DBhelpers.em.merge(child);
+        DBhelpers.em.getTransaction().commit();        
     }
     
     private static long hashV(Elternteil e, String n, String v, Date g){
@@ -115,8 +112,7 @@ public class DBKind {
     public static Kind getByVorNachname(String nachname, String vorname){
         List<Kind> kl;
         
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findByNachname", Kind.class);
+        TypedQuery<Kind> queryk = DBhelpers.em.createNamedQuery("Kind.findByNachname", Kind.class);
         
         queryk.setParameter("nachname", nachname);
         
@@ -143,7 +139,6 @@ public class DBKind {
     }
     
     public static void deleteFromGroup(Kind child, Gruppe gruppe) {
-        EntityManager em = DBhelpers.getEntityManager();
         
         Collection<Gruppe> gruppen = child.getGruppeCollection();
         gruppen.remove(gruppe);
@@ -152,12 +147,12 @@ public class DBKind {
         kinder.remove(child);
 
         
-        em.getTransaction().begin();
+        DBhelpers.em.getTransaction().begin();
         child.setGruppeCollection(gruppen);
-        em.merge(child);
+        DBhelpers.em.merge(child);
         gruppe.setKindCollection(kinder);
-        em.merge(gruppe);
-        em.getTransaction().commit(); 
+        DBhelpers.em.merge(gruppe);
+        DBhelpers.em.getTransaction().commit(); 
     }
     
     
@@ -176,8 +171,7 @@ public class DBKind {
     public static Kind getByIdent(BigDecimal ident){
         Kind result;
         
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Kind> queryk = em.createNamedQuery("Kind.findByIdent", Kind.class);
+        TypedQuery<Kind> queryk = DBhelpers.em.createNamedQuery("Kind.findByIdent", Kind.class);
         
         queryk.setParameter("ident", ident);
         

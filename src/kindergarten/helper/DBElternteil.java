@@ -21,10 +21,7 @@ public class DBElternteil {
         
         facebookId = DBhelpers.getFacebookIdFromUrl(facebookUrl);
         
-        EntityManager em = DBhelpers.getEntityManager();
-        
-        
-        EntityTransaction entr = em.getTransaction();
+        EntityTransaction entr = DBhelpers.em.getTransaction();
         entr.begin();
         
         Elternteil e = new Elternteil();
@@ -34,7 +31,7 @@ public class DBElternteil {
         e.setName(name);
         e.setNettoeinkommen(netto);
         e.setFamiliengroesse(netto);
-        em.persist(e);
+        DBhelpers.em.persist(e);
         entr.commit();
         
         return e;
@@ -54,11 +51,10 @@ public class DBElternteil {
 //        }
 //    }
     public static void deleteElternteil(Elternteil e){
-        EntityManager em = DBhelpers.getEntityManager();
-        em.getTransaction().begin();
-        e = em.merge(e);
-        em.remove(e);
-        em.getTransaction().commit();
+        DBhelpers.em.getTransaction().begin();
+        e = DBhelpers.em.merge(e);
+        DBhelpers.em.remove(e);
+        DBhelpers.em.getTransaction().commit();
     }
     
 }

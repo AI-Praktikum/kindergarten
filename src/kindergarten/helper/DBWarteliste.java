@@ -16,8 +16,7 @@ import kindergarten.model.Warteliste;
 public class DBWarteliste {
     
     public static Warteliste getWartelisteByName(String typ){
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByWartelistentyp", Warteliste.class);
+        TypedQuery<Warteliste> queryw = DBhelpers.em.createNamedQuery("Warteliste.findByWartelistentyp", Warteliste.class);
         
         queryw.setParameter("wartelistentyp", typ);
         Warteliste result;
@@ -31,8 +30,7 @@ public class DBWarteliste {
     
     
     public static List<Warteliste> getAll(){
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findAll", Warteliste.class);
+        TypedQuery<Warteliste> queryw = DBhelpers.em.createNamedQuery("Warteliste.findAll", Warteliste.class);
         return queryw.getResultList();
         
     }

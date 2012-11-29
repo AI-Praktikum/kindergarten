@@ -51,9 +51,8 @@ public class DBGruppe {
         
         //if(checkGroupSize(bigtyp, biggroesse)){
 
-            EntityManager em = DBhelpers.getEntityManager();
-            TypedQuery<Kindergarten> queryk = em.createNamedQuery("Kindergarten.findByIdent", Kindergarten.class);
-            TypedQuery<Warteliste> queryw = em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
+            TypedQuery<Kindergarten> queryk = DBhelpers.em.createNamedQuery("Kindergarten.findByIdent", Kindergarten.class);
+            TypedQuery<Warteliste> queryw = DBhelpers.em.createNamedQuery("Warteliste.findByIdent", Warteliste.class);
 
 
             queryw.setParameter("ident", bigtyp);
@@ -61,7 +60,7 @@ public class DBGruppe {
             Kindergarten kresult = queryk.getSingleResult();
             Warteliste wresult = queryw.getSingleResult();
 
-            EntityTransaction entr = em.getTransaction();
+            EntityTransaction entr = DBhelpers.em.getTransaction();
             entr.begin();
 
             Gruppe g = new Gruppe();
@@ -69,14 +68,13 @@ public class DBGruppe {
             g.setKindergartenId(kresult);
             g.setWartelisteId(wresult);
             g.setBezeichnung(bezeichnung);
-            em.persist(g);
+            DBhelpers.em.persist(g);
             entr.commit();
         //}
     }
     
     public static List<Gruppe> getAllGroups(){
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findAll", Gruppe.class);
+        TypedQuery<Gruppe> queryg = DBhelpers.em.createNamedQuery("Gruppe.findAll", Gruppe.class);
         
         List<Gruppe> result = queryg.getResultList();
         
@@ -102,8 +100,7 @@ public class DBGruppe {
     }
     
     public static Gruppe getGroupByName(String name){
-        EntityManager em = DBhelpers.getEntityManager();
-        TypedQuery<Gruppe> queryg = em.createNamedQuery("Gruppe.findByBezeichnung", Gruppe.class);
+        TypedQuery<Gruppe> queryg = DBhelpers.em.createNamedQuery("Gruppe.findByBezeichnung", Gruppe.class);
         
         queryg.setParameter("bezeichnung", name);
         try{

@@ -382,11 +382,6 @@
                               <StringArray count="0"/>
                             </Property>
                           </Properties>
-                          <BindingProperties>
-                            <BindingProperty name="elements" source="jComboBoxGruppe" sourcePath="${selectedItem.kindCollection}" target="jList1" targetPath="elements" updateStrategy="0" immediately="false">
-                              <BindingParameter name="DISPLAY" value="${nachname}"/>
-                            </BindingProperty>
-                          </BindingProperties>
                         </Component>
                       </SubComponents>
                     </Container>

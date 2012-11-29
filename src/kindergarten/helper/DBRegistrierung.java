@@ -20,9 +20,8 @@ import kindergarten.model.Warteliste;
  */
 public class DBRegistrierung {
     public static Registrierung insertNewReg(Kind k, Warteliste w, Date d){
-        EntityManager em = DBhelpers.getEntityManager();
         
-        EntityTransaction entr = em.getTransaction();
+        EntityTransaction entr = DBhelpers.em.getTransaction();
         entr.begin();
         
         Registrierung r = new Registrierung();
@@ -31,16 +30,15 @@ public class DBRegistrierung {
         //r.setWarteliste(w);
         r.setRegistrierungPK(new RegistrierungPK(k.getIdent(),w.getIdent()));
         
-        em.persist(r);
+        DBhelpers.em.persist(r);
         entr.commit();
         
         return r;
     }
     
     public static List<Registrierung> getRegistrierungenByWarteliste(Warteliste w){
-        EntityManager em = DBhelpers.getEntityManager();
         
-        TypedQuery<Registrierung> queryk = em.createNamedQuery("Registrierung.findByWartelisteId", Registrierung.class);
+        TypedQuery<Registrierung> queryk = DBhelpers.em.createNamedQuery("Registrierung.findByWartelisteId", Registrierung.class);
         
         queryk.setParameter("wartelisteId", w.getIdent());
         
@@ -70,11 +68,10 @@ public class DBRegistrierung {
 //    }
     
      public static void deleteReg(Registrierung r){
-         EntityManager em = DBhelpers.getEntityManager();
-         em.merge(r);
-         em.getTransaction().begin();
-         em.remove(r);
-         em.getTransaction().commit();
+         DBhelpers.em.merge(r);
+         DBhelpers.em.getTransaction().begin();
+         DBhelpers.em.remove(r);
+         DBhelpers.em.getTransaction().commit();
      }
 
     
