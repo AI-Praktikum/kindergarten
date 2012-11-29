@@ -71,10 +71,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }
     
     public void updateGList(){
-        //EntityManager em = DBhelpers.getEntityManager();
         Gruppe gr;
         gr = (Gruppe)jComboBoxGruppe.getSelectedItem();
-        //em.refresh(gr);
+        //DBhelpers.em.refresh(gr);
         DefaultListModel lm = new DefaultListModel();
         
         List<Kind> kind = new ArrayList<Kind>();
@@ -90,13 +89,12 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }
     
     public void updateWList(){
-        //EntityManager em = DBhelpers.getEntityManager();
         Warteliste wl;
             if(jComboBox1.getSelectedItem() != null){
                 
                 wl = (Warteliste)jComboBox1.getSelectedItem();
                 
-                //em.refresh(wl);
+                //DBhelpers.em.refresh(wl);
                 
                 DefaultListModel lm = new DefaultListModel();
 
