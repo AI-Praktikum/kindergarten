@@ -110,6 +110,11 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
     }
     
+    public void updateKCombo(){
+        kindList.clear();
+        kindList.addAll(kindQuery.getResultList());
+    }
+    
 //    private void update(){
 //        System.out.println("update...");
 //
@@ -721,7 +726,7 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane2MousePressed
 
     private void jComboBox2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MousePressed
-
+        this.updateKCombo();
     }//GEN-LAST:event_jComboBox2MousePressed
 
     private void jButtonKindAusGruppeEntfernenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKindAusGruppeEntfernenActionPerformed
