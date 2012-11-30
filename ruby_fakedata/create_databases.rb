@@ -22,8 +22,10 @@ create_db_stmts=["CREATE TABLE `preismodell` (`ident` bigint(20) NOT NULL AUTO_I
 
 starttime=Time.now
 puts starttime
+x=0
 File.open("kindergarten.csv","r"){|file|
 	file.each_line { |kindergarten|
+		x=x+1
 		begin
 			con = Mysql.new(host,username, password)
 			puts "Kindergarten: " + kindergarten
@@ -94,9 +96,15 @@ File.open("kindergarten.csv","r"){|file|
 			}
 		rescue Mysql::Error => e
             		puts "could not create database " + kindergarten + " because of " + e.to_s
+			puts "Waiting 5 seconds"
+			sleep 5
 	        ensure
 	            con.close if con
         	end
+		if (x%100) ==0
+			puts "Waiting 5 seconds"
+			sleep 5
+		end
 	}
 }
 stoptime=Time.now
