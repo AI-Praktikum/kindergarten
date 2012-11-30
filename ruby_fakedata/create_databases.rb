@@ -100,4 +100,4 @@ File.open("kindergarten.csv","r"){|file|
 	}
 }
 stoptime=Time.now
-puts "Creating the databases took me " + ((starttime-stoptime)/60).to_s + " minutes"
+puts "Creating the databases took me " + ((stoptime-starttime)/60).to_s + " minutes"
