@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -30,8 +32,7 @@ import kindergarten.model.Kind;
  * schreibt datei ins verzeichnis der ausgeführten jar.
  * 
  */
-public class Preisinfo {
-    
+public class Preisinfo {    
     /**
      * creates file with info
      * 
@@ -157,7 +158,7 @@ public class Preisinfo {
         return success;
     }
     
-    public static long getPrice(Kind k){
+    public static long getPrice(Kind k, Map<String, long[][]> preisListen){
         long preis = 0;
         
         Elternteil kind_eltern = k.getElternteilid();
@@ -165,7 +166,7 @@ public class Preisinfo {
         int kind_fg = (int)kind_eltern.getFamiliengroesse();
         long kind_netto = kind_eltern.getNettoeinkommen();
         
-        long[][] preisliste = readPriceList(preismodell);
+        long[][] preisliste = preisListen.get(preismodell); //readPriceList(preismodell);
         for (int  i = 0; i < preisliste.length && preisliste[i][0] < kind_netto; i++){
             preis = preisliste[i][kind_fg-1]; // familiengröße 2 -> feld nr 2 -> 0-basiert 1
         }
@@ -186,5 +187,18 @@ public class Preisinfo {
             }
         }
         return preisliste;
+    }
+    public static Map<String, long[][]> getPriceLists(){
+        File[] files = new File( "Preislisten" ).listFiles();
+        Map<String, long[][]> preisListen = new HashMap<>();
+        String filename;
+        for( File file : files ){
+            filename = file.getName();
+            if(filename.contains(".csv")){
+                filename = filename.replace(".csv", "");
+                preisListen.put(filename, readPriceList(filename));
+            }
+        }
+        return preisListen;
     }
 }
