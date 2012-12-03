@@ -9,6 +9,7 @@ import java.awt.Event;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -38,6 +39,9 @@ public class AIPraktikumGui extends javax.swing.JFrame {
     public AIPraktikumGui() {
         LoginDialog login = new LoginDialog(this, true);
         login.setVisible(true);
+        
+        
+        
         //System.out.println("Database to use: "+this.loginhelp.getDatabase());
         initComponents();
         Gruppe gr;
@@ -621,7 +625,12 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             KindInfoDialog kid = new KindInfoDialog(this, true);
             Kind k = (Kind)jList1.getSelectedValue();
             // preis berechnen
-            long preis = Preisinfo.getPrice(k);
+            
+            if(preisListen == null){
+                preisListen = Preisinfo.getPriceLists();
+            }
+            
+            long preis = Preisinfo.getPrice(k, preisListen);
             kid.setTextFields(k.getNachname(), k.getVorname(), k.getGeburtsdatum(), k.getElternteilid().getName(), k.getElternteilid().getAdresse(), (int)preis);
             kid.setVisible(true);
         }
@@ -639,8 +648,13 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             Kind k = ((Registrierung)jList2.getSelectedValue()).getKind();
             // preis berechnen
             long preis = 0;
+            
+            if(preisListen == null){
+                preisListen = Preisinfo.getPriceLists();
+            }
+            
             try{
-                preis = Preisinfo.getPrice(k);
+                preis = Preisinfo.getPrice(k, preisListen);
             } catch (Exception ex){
                 JOptionPane.showMessageDialog(this, "Fehler in der Preisliste");
             }
@@ -790,6 +804,8 @@ public class AIPraktikumGui extends javax.swing.JFrame {
             }
         });
     }
+    Map<String, long[][]> preisListen;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTverschieben;
     private javax.swing.JButton BTverschieben2;
