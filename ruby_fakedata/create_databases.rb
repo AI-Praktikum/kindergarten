@@ -5,10 +5,10 @@ require 'rubygems'
 require 'mysql'
 require 'faker'
 
-children_in_queue=10
+children_in_queue=1
 max_children_per_group=50
-children_per_group=3
-groups=2
+children_per_group=1
+groups=1
 
 create_db_stmts=["CREATE TABLE `preismodell` (`ident` bigint(20) NOT NULL AUTO_INCREMENT,`bezeichnung` text NOT NULL,`dauer` bigint(20) NOT NULL,PRIMARY KEY (`ident`))",
 		"CREATE TABLE `elternteil` (`ident` bigint(20) NOT NULL AUTO_INCREMENT,	`name` text NOT NULL,	`familiengroesse` bigint(20) NOT NULL,	`adresse` text(200) NOT NULL,`nettoeinkommen` bigint(20) NOT NULL,`facebook_id` text(20),PRIMARY KEY (`ident`))",
@@ -25,6 +25,7 @@ puts starttime
 x=0
 File.open("kindergarten.csv","r"){|file|
 	file.each_line { |kindergarten|
+		kindergarten=kindergarten.strip
 		x=x+1
 		begin
 			con = Mysql.new(host,username, password)

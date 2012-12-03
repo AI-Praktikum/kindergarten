@@ -7,6 +7,7 @@ require 'mysql'
 con = Mysql.new(host,username, password)
 File.open(ARGV[0],"r"){|file|
 	file.each_line { |kindergarten|
+		kindergarten=kindergarten.strip
 		puts "Kindergarten: " + kindergarten 
 		sql_db = "drop database if exists #{kindergarten}"
 		pst_db = con.prepare(sql_db)
